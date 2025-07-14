@@ -12,6 +12,11 @@ async function getProducts() {
     return products;
 }
 
+async function filterRoles(role) {
+    const users = await User.find({ role: role }).lean();
+    return users;
+}
+
 module.exports = {
     getUsers,
     getProducts

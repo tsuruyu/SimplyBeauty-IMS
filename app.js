@@ -25,6 +25,11 @@ function initializeHandlebars(){
                 if (typeof a === 'string') a = a.trim();
                 if (typeof b === 'string') b = b.trim();
                 return a === b;
+            },
+            isActive: function (path, currentPath, options) {
+                if (typeof path === 'string') path = path.trim();
+                if (typeof currentPath === 'string') currentPath = currentPath.trim();
+                return path === currentPath ? options.fn(this) : options.inverse(this);
             }
         }
     }));

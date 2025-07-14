@@ -20,7 +20,8 @@ async function getUserDashboard(req, res) {
     printDebug(user);
 
     res.render('user/product_table', {
-        u: user
+        u: user,
+        currentPath: tokenizePath(req.path)
     });
 }
 
@@ -37,7 +38,8 @@ async function getVendorDashboard(req, res) {
         printDebug(user, products);
         res.render('vendor/product_dashboard', {
             u: user,
-            p: products
+            p: products,
+            currentPath: tokenizePath(req.path)
         });
     } catch (error) {
         console.error("Failed to load vendor dashboard:", error);
@@ -60,7 +62,8 @@ async function getAdminDashboard(req, res) {
         res.render('admin/users', {
             u: user,
             users: users,
-            p: products
+            p: products,
+            currentPath: tokenizePath(req.path)
         });
     } catch (error) {
         console.error("Failed to load vendor dashboard:", error);
@@ -92,6 +95,10 @@ async function printDebug(user, product) {
     else {
         console.log("Product is empty.");
     }
+}
+
+function tokenizePath(path) {
+    return path.split('/')[2] || '';
 }
 
 module.exports = {
