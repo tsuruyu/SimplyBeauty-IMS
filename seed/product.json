@@ -1,0 +1,112 @@
+[
+  {
+    "product_id": "prod_1",
+    "category_id": "cat_1",
+    "brand_name": "Urban Decay",
+    "name": "MAC Foundation",
+    "description": "Also director seven be find visit environment. A end significant strong.",
+    "sku": "8213367688701",
+    "category": "Foundation",
+    "price": 33.23,
+    "stock_qty": 161
+  },
+  {
+    "product_id": "prod_2",
+    "category_id": "cat_2",
+    "brand_name": "Maybelline",
+    "name": "Fenty Beauty Highlighter",
+    "description": "Now marriage least identify. Home heavy bill someone according recent job.",
+    "sku": "9015040607899",
+    "category": "Lipstick",
+    "price": 17.19,
+    "stock_qty": 149
+  },
+  {
+    "product_id": "prod_3",
+    "category_id": "cat_3",
+    "brand_name": "L'Or\u00e9al",
+    "name": "NARS Highlighter",
+    "description": "Start school term hand.",
+    "sku": "7684332198814",
+    "category": "Mascara",
+    "price": 79.5,
+    "stock_qty": 198
+  },
+  {
+    "product_id": "prod_4",
+    "category_id": "cat_4",
+    "brand_name": "Fenty Beauty",
+    "name": "NYX Concealer",
+    "description": "Stuff fact oil kid theory per. Hotel sort ask run. Art sort thing outside TV finally could.",
+    "sku": "2926242369348",
+    "category": "Eyeliner",
+    "price": 5.51,
+    "stock_qty": 42
+  },
+  {
+    "product_id": "prod_5",
+    "category_id": "cat_5",
+    "brand_name": "NARS",
+    "name": "Maybelline Highlighter",
+    "description": "Nice hair difficult. Between for political. Require nothing else different.",
+    "sku": "9336841676816",
+    "category": "Blush",
+    "price": 32.13,
+    "stock_qty": 17
+  },
+  {
+    "product_id": "prod_6",
+    "category_id": "cat_6",
+    "brand_name": "Est\u00e9e Lauder",
+    "name": "NYX Blush",
+    "description": "Nothing board simply example use. Four practice both risk case great reflect.",
+    "sku": "7300170237552",
+    "category": "Concealer",
+    "price": 41.59,
+    "stock_qty": 110
+  },
+  {
+    "product_id": "prod_7",
+    "category_id": "cat_7",
+    "brand_name": "NARS",
+    "name": "NARS Foundation",
+    "description": "Yes argue buy school shake strong sell agent.",
+    "sku": "6607276849216",
+    "category": "Eyeshadow",
+    "price": 84.57,
+    "stock_qty": 28
+  },
+  {
+    "product_id": "prod_8",
+    "category_id": "cat_8",
+    "brand_name": "NARS",
+    "name": "NARS Mascara",
+    "description": "Director half key. Development protect next fund. Support into star realize.",
+    "sku": "8122994392311",
+    "category": "Highlighter",
+    "price": 76.74,
+    "stock_qty": 35
+  },
+  {
+    "product_id": "prod_9",
+    "category_id": "cat_9",
+    "brand_name": "Urban Decay",
+    "name": "L'Or\u00e9al Primer",
+    "description": "Ago accept table that better economy. Between around sense enjoy determine perform.",
+    "sku": "3664023423504",
+    "category": "Primer",
+    "price": 64.59,
+    "stock_qty": 20
+  },
+  {
+    "product_id": "prod_10",
+    "category_id": "cat_10",
+    "brand_name": "NYX",
+    "name": "Revlon Mascara",
+    "description": "Soon set see decade. Police maybe some theory ago early. Street staff choice trip dream.",
+    "sku": "2722213493414",
+    "category": "Setting Spray",
+    "price": 53.54,
+    "stock_qty": 15
+  }
+]

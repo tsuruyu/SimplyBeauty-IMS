@@ -1,0 +1,53 @@
+.table-container {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    /* Custom scroll controls */
+    .scroll-controls {
+        pointer-events: none; /* Allows clicking through to the table */
+    }
+
+    .scroll-controls button {
+        pointer-events: auto; /* Buttons should be clickable */
+        margin-top: -1.5rem; /* Position above the table */
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+
+    .scroll-controls button:hover {
+        opacity: 1;
+    }
+
+    /* Hide controls when at scroll boundaries */
+    .scroll-controls button.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    /* Touch-friendly scroll snapping on mobile */
+    @media (max-width: 768px) {
+        #table-scroller {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+        }
+        
+        table {
+            scroll-snap-align: start;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .table-container {
+        max-height: calc(100vh - 300px);
+    }
+}

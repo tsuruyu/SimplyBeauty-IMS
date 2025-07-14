@@ -1,0 +1,49 @@
+<div class="flex-1 p-8">
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-4 sm:mb-0">
+            {{#if (eq role "employee") }}
+                Welcome, {{ full_name }}!
+            {{else if (eq role "vendor") }}
+                {{ brand_name }}
+            {{else }}
+                Who are you?
+            {{/if}}
+        </h1>
+        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+            <button class="bg-gray-200 text-gray-800 px-6 py-2 rounded-xl font-medium flex items-center justify-center shadow-sm hover:bg-gray-300 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                ADD ITEM
+            </button>
+        </div>
+    </header>
+
+    <section class="bg-white p-6 rounded-2xl shadow-md mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 space-y-4 md:space-y-0"> <!-- search section -->
+            <div class="relative flex-grow mr-0 md:mr-4">
+                <input type="text" placeholder="Search All Items" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6E5F61]">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27C14.1 12.59 14.5 11.11 14.5 9.5 14.5 6.04 11.46 3 8 3S1.5 6.04 1.5 9.5c0 3.46 3.04 6.5 6.5 6.5 1.61 0 3.09-.39 4.33-1.07l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </div>
+            <div class="flex items-center space-x-2 text-gray-700">
+                <span class="mr-2">Sort by:</span>
+                <select class="px-3 py-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6E5F61]">
+                    <option>Name ↑</option>
+                    <option>Name ↓</option>
+                    <option>Stock ↑</option>
+                    <option>Stock ↓</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-gray-600 text-sm mb-4">
+            <p><strong>Items:</strong> 7</p>
+            <p><strong>Total Stock:</strong> 92200 units</p>
+            <p><strong>Pending Requests:</strong> 0</p>
+        </div>
+    </section>
+</section>
+
+<p id="no-results" class="text-gray-500 text-center hidden">No items found.</p>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ u.brand_name }} Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../styles/dashboard.css" rel="stylesheet">
+</head>
+<body class="flex min-h-screen">
+   {{> dashboard_sidebar u }}
+   
+    <main class="flex-1 p-8">
+        {{> search_header u }}
+
+        <section id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
+            
+            {{#each p }}
+            <div class="product-card relative bg-white p-4 rounded-2xl shadow-md flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300" onclick="toggleProductDetails(this)"
+            data-name="{{ name }}">
+                <!-- might have to add some kind of functionality to accept in-server assets or assets taken from a link/CDNs -->
+                <img src="{{image_url}}" alt="{{name}}" class="rounded-xl mb-3 object-cover w-full h-36">
+                <div class="low-stock-message bg-yellow-400 text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm text-center w-full max-w-[200px]">
+                    Low Stock!
+                </div>
+                <div class="product-info w-full">
+                    <h3 class="font-semibold text-gray-800 text-lg mb-1">{{ name }}</h3>
+                    <p class="text-gray-600 text-sm mb-2 product-stock">Stock: {{ stock_qty }}</p>
+                    <div class="product-details">
+                        <p class="text-gray-700 text-sm mb-3">
+                            {{ description }}
+                        </p>
+                        <div class="product-details-grid">
+                            <p><span class="detail-label">Brand:</span> <span class="detail-value">{{ brand_name }}</span></p>
+                            <p><span class="detail-label">Category:</span> <span class="detail-value">{{ category }}</span></p>
+                            <p><span class="detail-label">SKU:</span> <span class="detail-value">{{ sku }}</span></p>
+                            <p><span class="detail-label">Price:</span> <span class="detail-value">₱{{ price }}</span></p>
+                            <p><span class="detail-label">Stock:</span> <span class="detail-value">{{ stock_qty }} units</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-icon absolute top-2 right-2 bg-yellow-400 p-1.5 rounded-full shadow-lg hidden" title="Warning: Low Stock!">
+                    <svg class="w-5 h-5 text-yellow-800" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+                <div class="close-button hidden" onclick="console.log('Clicked', this); toggleProductDetails(this.closest('.product-card'))">
+                    <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </div>
+            </div>
+            {{/each}}
+        </section>
+
+        <section class="flex justify-end items-center mb-6">
+            <span class="text-gray-600 text-sm mr-2">Show</span>
+            <select class="px-3 py-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6E5F61]">
+                <option>10</option>
+                <option>50</option>
+                <option>100</option>
+                <option>All</option>
+            </select>
+            <span class="text-gray-600 text-sm ml-2">per page</span>
+        </section>
+
+    </main>
+
+    {{> help_button }}
+
+    <script src="../scripts/card_anim.js" defer></script>
+    <script src="../scripts/vendor_search.js"></script>
+</body>
+</html>

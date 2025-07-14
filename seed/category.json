@@ -1,0 +1,42 @@
+[
+  {
+    "category_id": "cat_1",
+    "name": "Foundation"
+  },
+  {
+    "category_id": "cat_2",
+    "name": "Lipstick"
+  },
+  {
+    "category_id": "cat_3",
+    "name": "Mascara"
+  },
+  {
+    "category_id": "cat_4",
+    "name": "Eyeliner"
+  },
+  {
+    "category_id": "cat_5",
+    "name": "Blush"
+  },
+  {
+    "category_id": "cat_6",
+    "name": "Concealer"
+  },
+  {
+    "category_id": "cat_7",
+    "name": "Eyeshadow"
+  },
+  {
+    "category_id": "cat_8",
+    "name": "Highlighter"
+  },
+  {
+    "category_id": "cat_9",
+    "name": "Primer"
+  },
+  {
+    "category_id": "cat_10",
+    "name": "Setting Spray"
+  }
+]

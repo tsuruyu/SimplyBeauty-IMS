@@ -1,0 +1,52 @@
+[
+  {
+    "storage_id": "store_1",
+    "name": "Warehouse 1",
+    "location": "008 Fred Skyway Apt. 724\nLake Keithland, NY 48647"
+  },
+  {
+    "storage_id": "store_2",
+    "name": "Warehouse 2",
+    "location": "PSC 3976, Box 0968\nAPO AP 28720"
+  },
+  {
+    "storage_id": "store_3",
+    "name": "Warehouse 3",
+    "location": "49904 Cook Mall\nSouth Devin, WV 19894"
+  },
+  {
+    "storage_id": "store_4",
+    "name": "Warehouse 4",
+    "location": "055 Mary Gateway Apt. 560\nPort Lancemouth, WA 45930"
+  },
+  {
+    "storage_id": "store_5",
+    "name": "Warehouse 5",
+    "location": "2842 Mills Crossing\nSouth Kevinborough, ND 25703"
+  },
+  {
+    "storage_id": "store_6",
+    "name": "Warehouse 6",
+    "location": "22493 Rachel Cliff Apt. 266\nDanielshire, AR 14927"
+  },
+  {
+    "storage_id": "store_7",
+    "name": "Warehouse 7",
+    "location": "01880 Mcclure Island Apt. 253\nMartinmouth, SD 91878"
+  },
+  {
+    "storage_id": "store_8",
+    "name": "Warehouse 8",
+    "location": "2836 Davis Parkway Suite 540\nPenaberg, LA 42208"
+  },
+  {
+    "storage_id": "store_9",
+    "name": "Warehouse 9",
+    "location": "34507 Mcdowell Heights Suite 515\nSandovalton, AR 75727"
+  },
+  {
+    "storage_id": "store_10",
+    "name": "Warehouse 10",
+    "location": "671 Cummings Club Suite 414\nJohnview, IA 25365"
+  }
+]
