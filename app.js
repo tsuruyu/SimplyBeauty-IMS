@@ -30,6 +30,15 @@ function initializeHandlebars(){
                 if (typeof path === 'string') path = path.trim();
                 if (typeof currentPath === 'string') currentPath = currentPath.trim();
                 return path === currentPath ? options.fn(this) : options.inverse(this);
+            },
+            formatDate: function (dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                });
             }
         }
     }));

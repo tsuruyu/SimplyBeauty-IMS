@@ -80,7 +80,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{#each users}}
+                            {{#each users}}                     
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[100px] md:max-w-none">
                                     {{this._id}}
@@ -99,13 +99,18 @@
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">
                                     {{this.brand_name}}
                                 </td>
+                                <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">
+                                    {{formatDate this.created_at}}
+                                </td>
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm font-medium">
-                                    <button onclick="openEditModal('{{this._id}}')" class="text-indigo-600 hover:text-indigo-900 mr-2">
-                                        <i class="fas fa-edit text-sm md:text-base"></i>
-                                    </button>
-                                    <button onclick="confirmDelete('{{this._id}}')" class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash text-sm md:text-base"></i>
-                                    </button>
+                                    <div class="flex space-x-3">
+                                        <button onclick="openEditModal('{{this._id}}')" class="text-indigo-600 hover:text-indigo-900">
+                                            <i class="fas fa-edit text-sm md:text-base"></i>
+                                        </button>
+                                        <button onclick="confirmDelete('{{this._id}}')" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-trash text-sm md:text-base"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             {{else}}
