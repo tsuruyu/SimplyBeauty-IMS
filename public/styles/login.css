@@ -19,9 +19,12 @@ h2 {
 }
 
 #data-pane {
+    width: 100%;
+    max-width: 250px;
     margin: auto;
     font-family: 'Dosis';
 }
+
 
 #submit {
     background-color: #6A5555;
@@ -54,4 +57,12 @@ h2 {
     border-radius: 4px;
     margin-bottom: 15px;
     border: 1px solid #ffcdd2;
+}
+
+#user-entry input,
+#password-entry input {
+    width: 100%;
+    padding: 2px;
+    box-sizing: border-box;
+    font-family: 'Dosis';
 }
