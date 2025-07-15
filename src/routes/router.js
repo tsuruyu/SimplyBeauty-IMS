@@ -5,7 +5,12 @@ const router = express.Router();
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
 const { requireLogin, getUserDashboard, getVendorDashboard, getAdminDashboard } = require('../controllers/userController');
 
-router.get('/', getLoginPage);
+
+router.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+router.get('/login', getLoginPage);
 router.post('/login', handleLoginRequest);
 
 // router.get('/user/profile', requireLogin, getUserDashboard);
