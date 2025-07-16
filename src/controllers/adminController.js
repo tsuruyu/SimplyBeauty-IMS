@@ -17,7 +17,57 @@ async function filterRoles(role) {
     return users;
 }
 
+async function updateUser(req, res) {
+    try {
+        const userId = req.params.id;
+        const { full_name, email, role, brand_name } = req.body;
+
+        // Prepare update object dynamically
+        const updateData = {
+            full_name,
+            email,
+            role,
+        };
+
+        if (role === 'vendor') {
+            if (!brand_name || brand_name.trim() === '') {
+                return res.status(400).json({ message: 'Brand name is required for vendors' });
+            }
+            updateData.brand_name = brand_name;
+        } else {
+            updateData.brand_name = undefined; // Clear it explicitly if not vendor
+        }
+
+        await User.findByIdAndUpdate(userId, updateData, { runValidators: true });
+
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        console.error('Update error:', error);
+        res.status(500).json({ message: 'Failed to update user' });
+    }
+}
+
+async function deleteUserById(req, res) {
+    try {
+        const userId = req.params.id;
+        const sessionUserId = req.session.user?.id;
+
+        if (userId === sessionUserId) {
+            return res.status(403).json({ message: 'Admins cannot delete themselves' });
+        }
+
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Delete error:', error);
+        res.status(500).json({ message: 'Failed to delete user' });
+    }
+}
+
+
 module.exports = {
     getUsers,
-    getProducts
+    getProducts,
+    updateUser,
+    deleteUserById
 };

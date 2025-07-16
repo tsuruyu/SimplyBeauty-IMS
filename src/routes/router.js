@@ -4,8 +4,13 @@ const router = express.Router();
 
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
 const { requireLogin, getUserDashboard, getVendorDashboard, getAdminDashboard } = require('../controllers/userController');
+const { updateUser, deleteUserById } = require('../controllers/adminController'); 
 
-router.get('/', getLoginPage);
+router.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+router.get('/login', getLoginPage);
 router.post('/login', handleLoginRequest);
 
 // router.get('/user/profile', requireLogin, getUserDashboard);
@@ -17,6 +22,8 @@ router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
 
 router.get('/admin/manage_users', requireLogin, getAdminDashboard);
+router.put('/admin/users/:id', requireLogin, updateUser);
+router.delete('/admin/users/:id', requireLogin, deleteUserById);
 // router.get('/admin/manage_products', requireLogin, getProductDashboard);
 
 module.exports = router;
