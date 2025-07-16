@@ -11,11 +11,11 @@
   },
   {
     "user_id": "user_2",
-    "email": "vendor@edwards-newman.com",
+    "email": "caravan@vendor.com",
     "password_hash": "17f5d89bd0ee70b879ee129f2cf5a3ebd834c997a092648ea60a9c4b4003a481",
     "role": "vendor",
-    "full_name": "Vendor",
-    "brand_name": "Urban Decay",
+    "full_name": "Vendori Caravan",
+    "brand_name": "Caravan",
     "phone": "147.030.7124",
     "created_at": "2022-12-19 02:47:04"
   },
@@ -31,11 +31,11 @@
   },
   {
     "user_id": "user_4",
-    "email": "myerscharlene@gmail.com",
+    "email": "brandiose@vendor.comm",
     "password_hash": "b7ee70894d70fbf7d762f1f51258392e446318c19f8579a97c9b3e1dcd66000d",
     "role": "vendor",
-    "full_name": "Charles Shelton",
-    "brand_name": "Makeup Beauty",
+    "full_name": "Vendora Brandiose",
+    "brand_name": "Brandiose",
     "phone": "244-239-6240x967",
     "created_at": "2021-11-05 01:48:20"
   },

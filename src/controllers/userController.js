@@ -1,4 +1,5 @@
-const { getVendorProducts } = require('./productController');
+const { getVendorProducts, getTotalStock, 
+        getTotalStockByBrand, getProductCount } = require('./productController');
 const { getUsers, getProducts } = require('./adminController');
 
 // Middleware: require user to be logged in
@@ -39,6 +40,8 @@ async function getVendorDashboard(req, res) {
         res.render('vendor/product_dashboard', {
             u: user,
             p: products,
+            count: await getProductCount(user.brand_name),
+            stock: await getTotalStockByBrand(user.brand_name),
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {

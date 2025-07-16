@@ -1,22 +1,8 @@
 let expandedCard = null; // To keep track of the currently expanded card
 const LOW_STOCK_THRESHOLD = 20; // Define your low stock threshold here
 
-function toggleProductDetails(cardElement) {
-    const productDetails = cardElement.querySelector('.product-details');
-    const productStockElement = cardElement.querySelector('.product-stock');
-    const warningIcon = cardElement.querySelector('.warning-icon');
-    const closeButton = cardElement.querySelector('.close-button');
-    const productGrid = document.getElementById('product-grid');
+function updateLowStockWarnings() {
     const allProductCards = document.querySelectorAll('.product-card');
-    const lowStockMessage = cardElement.querySelector('.low-stock-message');
-
-    // Safely get the stock value, assuming format "Stock: X"
-    const stockText = productStockElement ? productStockElement.textContent : '';
-    const stockMatch = stockText.match(/Stock:\s*(\d+)/);
-    const stockValue = stockMatch ? parseInt(stockMatch[1], 10) : 0;
-    const isLowStock = stockValue <= LOW_STOCK_THRESHOLD;
-
-    // This will render the warning icon immediately if stock is low
     allProductCards.forEach(card => {
         const stockElement = card.querySelector(".product-stock");
         const warningIcon = card.querySelector(".warning-icon");
@@ -29,8 +15,26 @@ function toggleProductDetails(cardElement) {
 
         if (stockValue <= LOW_STOCK_THRESHOLD) {
             warningIcon.classList.remove("hidden");
+        } else {
+            warningIcon.classList.add("hidden");
         }
     });
+}
+
+function toggleProductDetails(cardElement) {
+    const productDetails = cardElement.querySelector('.product-details');
+    const productStockElement = cardElement.querySelector('.product-stock');
+    const closeButton = cardElement.querySelector('.close-button');
+    const allProductCards = document.querySelectorAll('.product-card');
+    const warningIcon = cardElement.querySelector(".warning-icon");
+    const productGrid = document.getElementById('product-grid');
+    const lowStockMessage = cardElement.querySelector('.low-stock-message');
+
+    // Safely get the stock value, assuming format "Stock: X"
+    const stockText = productStockElement ? productStockElement.textContent : '';
+    const stockMatch = stockText.match(/Stock:\s*(\d+)/);
+    const stockValue = stockMatch ? parseInt(stockMatch[1], 10) : 0;
+    const isLowStock = stockValue <= LOW_STOCK_THRESHOLD;
 
     if (cardElement.classList.contains('expanded')) {
         // Card is currently expanded, so collapse it
@@ -107,7 +111,6 @@ function toggleProductDetails(cardElement) {
             }
         }
 
-
         // Show low stock message if applicable
         if (isLowStock) {
             setTimeout(() => {
@@ -133,3 +136,5 @@ function toggleProductDetails(cardElement) {
         expandedCard = cardElement; // Set the currently expanded card
     }
 }
+
+document.addEventListener('DOMContentLoaded', updateLowStockWarnings);
