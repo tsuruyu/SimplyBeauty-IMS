@@ -15,6 +15,8 @@ function openEditModal(userId) {
     document.getElementById('edit-role').value = row.dataset.role;
     document.getElementById('edit-brand_name').value = row.dataset.brand || '';
     document.getElementById('edit-email').value = row.dataset.email;
+    document.getElementById('edit-password').value = ''; // Clear password field
+    document.getElementById('edit-user_id_display').value = row.dataset.userIdDisplay || userId; // Display user ID
 
     toggleBrandNameField('edit-role', 'edit-brand-name-container');
     document.getElementById('edit-user-modal').classList.remove('hidden');
@@ -62,8 +64,15 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         full_name: document.getElementById('edit-full_name').value,
         email: document.getElementById('edit-email').value,
         role: document.getElementById('edit-role').value,
-        brand_name: document.getElementById('edit-brand_name').value
+        brand_name: document.getElementById('edit-brand_name').value,
+        user_id: document.getElementById('edit-user_id_display').value
     };
+
+    // Add password only if it's not empty
+    const password = document.getElementById('edit-password').value;
+    if (password.trim() !== '') {
+        payload.password = password;
+    }
 
     // Optional: remove brand_name if not vendor
     if (payload.role !== 'vendor') {
@@ -184,6 +193,7 @@ function updateUserTable(users) {
         tr.setAttribute('data-email', user.email);
         tr.setAttribute('data-role', user.role);
         tr.setAttribute('data-brand', user.brand_name || '');
+        tr.setAttribute('data-user-id-display', user.user_id || '');
         tr.innerHTML = `
             <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[100px] md:max-w-none">${user._id}</td>
             <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">

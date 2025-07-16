@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
 const ProductStorage = require('../models/ProductStorage');
+const bcrypt = require('bcrypt');
 
 async function getUsers() {
     const users = await User.find().lean();
@@ -20,14 +21,37 @@ async function filterRoles(role) {
 async function updateUser(req, res) {
     try {
         const userId = req.params.id;
-        const { full_name, email, role, brand_name } = req.body;
+        const { full_name, email, role, brand_name, password, user_id } = req.body;
 
         // Prepare update object dynamically
         const updateData = {
             full_name,
             email,
             role,
+            user_id,
         };
+
+        // Handle password update if provided
+        if (password && password.trim() !== '') {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updateData.password_hash = hashedPassword;
+        }
+
+        // Check if user_id is unique (excluding current user)
+        if (user_id) {
+            const existingUser = await User.findOne({ user_id: user_id, _id: { $ne: userId } });
+            if (existingUser) {
+                return res.status(400).json({ message: 'User ID already exists' });
+            }
+        }
+
+        // Check if email is unique (excluding current user)
+        if (email) {
+            const existingUser = await User.findOne({ email: email.toLowerCase(), _id: { $ne: userId } });
+            if (existingUser) {
+                return res.status(400).json({ message: 'Email is already in use' });
+            }
+        }
 
         if (role === 'vendor') {
             if (!brand_name || brand_name.trim() === '') {

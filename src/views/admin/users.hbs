@@ -83,7 +83,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             {{#each users}}                     
                             <tr class="hover:bg-gray-50" data-user-id="{{this._id}}"
-                                data-fullname="{{this.full_name}}" data-email="{{this.email}}" data-role="{{this.role}}" data-brand="{{this.brand_name}}">
+                                data-fullname="{{this.full_name}}" data-email="{{this.email}}" data-role="{{this.role}}" data-brand="{{this.brand_name}}" data-user-id-display="{{this.user_id}}">
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[100px] md:max-w-none">
                                     {{this._id}}
                                 </td>
@@ -182,6 +182,14 @@
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Edit User</h3>
                     <form id="edit-user-form" class="mt-2 px-7 py-3">
                         <input type="hidden" id="edit-user_id" name="_id">
+                        <div class="mb-4">
+                            <label for="edit-user_id_display" class="block text-sm font-medium text-gray-700 text-left">Username</label>
+                            <input type="text" id="edit-user_id_display" name="user_id_display" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit-password" class="block text-sm font-medium text-gray-700 text-left">Password (leave blank to keep current)</label>
+                            <input type="password" id="edit-password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
                         <div class="mb-4">
                             <label for="edit-full_name" class="block text-sm font-medium text-gray-700 text-left">Full Name</label>
                             <input type="text" id="edit-full_name" name="full_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
