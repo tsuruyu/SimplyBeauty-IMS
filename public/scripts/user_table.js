@@ -136,15 +136,75 @@ function toggleBrandNameField(roleSelectId, containerId) {
     }
 }
 
-document.getElementById('filter-btn').addEventListener('click', function() {
+document.getElementById('filter-btn').addEventListener('click', async function() {
     const roleFilter = document.getElementById('role-filter').value;
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    
-    // In a real app, you would send these filters to your backend
-    // For now, we'll just log them
-    console.log('Filtering by role:', roleFilter, 'and search term:', searchTerm);
 
-// Add this to your existing script section
+    // If 'all' is selected, reload the page to show all users
+    if (roleFilter === 'all') {
+        location.reload();
+        return;
+    }
+
+    try {
+        const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
+        if (!response.ok) throw new Error('Failed to fetch users');
+        let users = await response.json();
+
+        // Optionally filter by search term on the client
+        if (searchTerm) {
+            users = users.filter(user =>
+                user.full_name.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        updateUserTable(users);
+    } catch (err) {
+        console.error(err);
+        showInfoMessage('Failed to filter users.', 'error');
+    }
+});
+
+function updateUserTable(users) {
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = '';
+    if (!users.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-4 text-center text-sm text-gray-500">No users found.</td></tr>`;
+        return;
+    }
+    users.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50';
+        tr.setAttribute('data-user-id', user._id);
+        tr.setAttribute('data-fullname', user.full_name);
+        tr.setAttribute('data-email', user.email);
+        tr.setAttribute('data-role', user.role);
+        tr.setAttribute('data-brand', user.brand_name || '');
+        tr.innerHTML = `
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[100px] md:max-w-none">${user._id}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
+                <div class="text-xs md:text-sm font-medium text-gray-900 truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">${user.full_name}</div>
+            </td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : user.role === 'vendor' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${user.role}</span>
+            </td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">${user.brand_name || ''}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">${user.created_at ? new Date(user.created_at).toLocaleDateString() : ''}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm font-medium">
+                <div class="flex space-x-3">
+                    <button onclick="openEditModal('${user._id}')" class="text-indigo-600 hover:text-indigo-900">
+                        <i class="fas fa-edit text-sm md:text-base"></i>
+                    </button>
+                    ${window.currentUserId !== user._id ? `<button onclick="confirmDelete('${user._id}')" class="text-red-600 hover:text-red-900"><i class="fas fa-trash text-sm md:text-base"></i></button>` : ''}
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const tableScroller = document.getElementById('table-scroller');
     const scrollLeftBtn = document.getElementById('scroll-left');
@@ -203,6 +263,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
-
 });

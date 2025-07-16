@@ -64,10 +64,25 @@ async function deleteUserById(req, res) {
     }
 }
 
+async function filterUsersByRole(req, res) {
+    try {
+        const { role } = req.query;
+        if (!role) {
+            return res.status(400).json({ message: 'Role query parameter is required' });
+        }
+        const users = await filterRoles(role);
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Filter users by role error:', error);
+        res.status(500).json({ message: 'Failed to filter users by role' });
+    }
+}
+
 
 module.exports = {
     getUsers,
     getProducts,
     updateUser,
-    deleteUserById
+    deleteUserById,
+    filterUsersByRole
 };
