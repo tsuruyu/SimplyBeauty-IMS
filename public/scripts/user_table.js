@@ -7,19 +7,17 @@ function closeAddModal() {
 }
 
 function openEditModal(userId) {
-    const user = users.find(u => u._id === userId);
-    if (user) {
-        document.getElementById('edit-user_id').value = user._id;
-        document.getElementById('edit-full_name').value = user.full_name;
-        document.getElementById('edit-role').value = user.role;
-        document.getElementById('edit-brand_name').value = user.brand_name || '';
-        document.getElementById('edit-email').value = user.email;
+    const row = document.querySelector(`[data-user-id="${userId}"]`);
+    if (!row) return;
 
-        // Show/hide brand name field based on role
-        toggleBrandNameField('edit-role', 'edit-brand-name-container');
+    document.getElementById('edit-user_id').value = userId;
+    document.getElementById('edit-full_name').value = row.dataset.fullname;
+    document.getElementById('edit-role').value = row.dataset.role;
+    document.getElementById('edit-brand_name').value = row.dataset.brand || '';
+    document.getElementById('edit-email').value = row.dataset.email;
 
-        document.getElementById('edit-user-modal').classList.remove('hidden');
-    }
+    toggleBrandNameField('edit-role', 'edit-brand-name-container');
+    document.getElementById('edit-user-modal').classList.remove('hidden');
 }
 
 function closeEditModal() {
@@ -44,18 +42,69 @@ document.getElementById('add-user-form').addEventListener('submit', function(e) 
     closeAddModal();
 });
 
-document.getElementById('edit-user-form').addEventListener('submit', function(e) {
+document.getElementById('edit-user-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    alert('User updated successfully!');
-    closeEditModal();
+
+    const userId = document.getElementById('edit-user_id').value;
+
+    const payload = {
+        full_name: document.getElementById('edit-full_name').value,
+        email: document.getElementById('edit-email').value,
+        role: document.getElementById('edit-role').value,
+        brand_name: document.getElementById('edit-brand_name').value
+    };
+
+    // Optional: remove brand_name if not vendor
+    if (payload.role !== 'vendor') {
+        delete payload.brand_name;
+    }
+
+    try {
+        const response = await fetch(`/admin/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert('User updated successfully!');
+            closeEditModal();
+            location.reload(); // Or you could dynamically update the row
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to update user.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('An error occurred while updating user.');
+    }
 });
 
-function deleteUser() {
-    if (userToDelete) {
-        alert(`User with ID ${userToDelete} deleted successfully!`);
-        closeDeleteModal();
+
+async function deleteUser() {
+    if (!userToDelete) return;
+
+    try {
+        const response = await fetch(`/admin/users/${userToDelete}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            alert('User deleted successfully!');
+            closeDeleteModal();
+            location.reload(); // Or dynamically remove the row
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to delete user.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('An error occurred while deleting user.');
     }
 }
+
 
 document.getElementById('add-role').addEventListener('change', function() {
     toggleBrandNameField('add-role', 'brand-name-container');
