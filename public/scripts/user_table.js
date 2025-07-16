@@ -36,9 +36,20 @@ function closeDeleteModal() {
     document.getElementById('delete-confirm-modal').classList.add('hidden');
 }
 
+function showInfoMessage(message, type = 'success') {
+    const container = document.getElementById('info-message-container');
+    if (!container) return;
+    container.innerHTML = `<div class="rounded-lg px-4 py-3 shadow-md text-white font-semibold text-center ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}">${message}</div>`;
+    container.style.display = 'block';
+    setTimeout(() => {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }, 3000);
+}
+
 document.getElementById('add-user-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    alert('User added successfully!');
+    showInfoMessage('User added successfully!', 'success');
     closeAddModal();
 });
 
@@ -69,16 +80,16 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         });
 
         if (response.ok) {
-            alert('User updated successfully!');
+            showInfoMessage('User updated successfully!', 'success');
             closeEditModal();
-            location.reload(); // Or you could dynamically update the row
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to update user.');
+            showInfoMessage(error.message || 'Failed to update user.', 'error');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while updating user.');
+        showInfoMessage('An error occurred while updating user.', 'error');
     }
 });
 
@@ -92,16 +103,16 @@ async function deleteUser() {
         });
 
         if (response.ok) {
-            alert('User deleted successfully!');
+            showInfoMessage('User deleted successfully!', 'success');
             closeDeleteModal();
-            location.reload(); // Or dynamically remove the row
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to delete user.');
+            showInfoMessage(error.message || 'Failed to delete user.', 'error');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while deleting user.');
+        showInfoMessage('An error occurred while deleting user.', 'error');
     }
 }
 
