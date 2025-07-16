@@ -14,6 +14,7 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 // router.get('/vendor/profile', requireLogin, getVendorDashboard);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
 // router.get('/vendor/product_table', requireLogin, getVendorDashboard);
+// router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
 
 router.get('/admin/manage_users', requireLogin, getAdminDashboard);
 // router.get('/admin/manage_products', requireLogin, getProductDashboard);

@@ -12,7 +12,7 @@
    {{> vendor_sidebar u currentPath=currentPath}}
    
     <main class="flex-1 p-8">
-        {{> search_header u }}
+        {{> search_header u stock=stock count=count}}
 
         <section id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
             
@@ -69,7 +69,7 @@
 
     {{> help_button }}
 
-    <script src="../scripts/card_anim.js" defer></script>
+    <script src="../scripts/card_anim.js"></script>
     <script src="../scripts/vendor_search.js"></script>
 </body>
 </html>
