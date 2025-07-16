@@ -49,10 +49,52 @@ function showInfoMessage(message, type = 'success') {
     }, 3000);
 }
 
-document.getElementById('add-user-form').addEventListener('submit', function(e) {
+document.getElementById('add-user-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    showInfoMessage('User added successfully!', 'success');
-    closeAddModal();
+
+    const payload = {
+        user_id: document.getElementById('add-user_id').value,
+        full_name: document.getElementById('add-full_name').value,
+        email: document.getElementById('add-email').value,
+        role: document.getElementById('add-role').value,
+        password: document.getElementById('add-password').value
+    };
+
+    // Add brand_name only if role is vendor
+    if (payload.role === 'vendor') {
+        const brandName = document.getElementById('add-brand_name').value;
+        if (!brandName || brandName.trim() === '') {
+            showInfoMessage('Brand name is required for vendors.', 'error');
+            return;
+        }
+        payload.brand_name = brandName;
+    }
+
+    try {
+        const response = await fetch('/admin/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            showInfoMessage('User added successfully!', 'success');
+            closeAddModal();
+            // Clear form
+            document.getElementById('add-user-form').reset();
+            // Hide brand name field if it was shown
+            document.getElementById('brand-name-container').style.display = 'none';
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
+        } else {
+            const error = await response.json();
+            showInfoMessage(error.message || 'Failed to add user.', 'error');
+        }
+    } catch (err) {
+        console.error(err);
+        showInfoMessage('An error occurred while adding user.', 'error');
+    }
 });
 
 document.getElementById('edit-user-form').addEventListener('submit', async function(e) {
@@ -137,11 +179,19 @@ document.getElementById('edit-role').addEventListener('change', function() {
 function toggleBrandNameField(roleSelectId, containerId) {
     const role = document.getElementById(roleSelectId).value;
     const container = document.getElementById(containerId);
+    const brandNameInput = container.querySelector('input[type="text"]');
     
     if (role === 'vendor') {
         container.style.display = 'block';
+        if (brandNameInput) {
+            brandNameInput.required = true;
+        }
     } else {
         container.style.display = 'none';
+        if (brandNameInput) {
+            brandNameInput.required = false;
+            brandNameInput.value = '';
+        }
     }
 }
 
