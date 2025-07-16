@@ -1,80 +1,99 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Elements
     const searchInput = document.querySelector('input[placeholder="Search All Items"]');
     const productGrid = document.getElementById("product-grid");
-    const allProductCards = Array.from(document.querySelectorAll(".product-card"));
+    const productCards = document.querySelectorAll(".product-card");
     const noResults = document.getElementById("no-results");
     const sortSelect = document.querySelector("select.border-gray-300");
     const itemsPerPageSelect = document.querySelector('section.flex.justify-end.items-center.mb-6 select');
 
-    // Initialize all products as hidden
-    allProductCards.forEach(card => {
-        card.style.display = 'none';
-    });
-
-    // Store filtered and sorted products
-    let filteredProducts = [];
-    let sortedProducts = [];
+    // Store original products
+    const originalProductCards = Array.from(productCards);
+    let currentProducts = Array.from(productCards);
 
     function updateProducts() {
         const query = searchInput.value.trim().toLowerCase();
         const sortOption = sortSelect.value;
+        let visibleProducts = [];
+        let totalVisibleStock = 0;
 
         // Filter products
-        filteredProducts = allProductCards.filter(card => {
+        currentProducts = originalProductCards.filter(card => {
             const name = card.dataset.name.toLowerCase();
-            return name.includes(query);
+            const matches = name.includes(query);
+            card.style.display = matches ? "flex" : "none";
+            return matches;
+        });
+
+        // Calculate stock and prepare for sorting
+        visibleProducts = currentProducts.map(card => {
+            const stockText = card.querySelector('.product-stock').textContent;
+            const stockValue = parseInt(stockText.replace('Stock: ', '')) || 0;
+            totalVisibleStock += stockValue;
+            return {
+                element: card,
+                name: card.dataset.name,
+                stock: stockValue
+            };
         });
 
         // Sort products
-        sortedProducts = [...filteredProducts].sort((a, b) => {
-            const aStock = parseInt(a.querySelector('.product-stock').textContent.replace('Stock: ', '')) || 0;
-            const bStock = parseInt(b.querySelector('.product-stock').textContent.replace('Stock: ', '')) || 0;
-            
+        visibleProducts.sort((a, b) => {
             switch (sortOption) {
-                case "Name ↑": return a.dataset.name.localeCompare(b.dataset.name);
-                case "Name ↓": return b.dataset.name.localeCompare(a.dataset.name);
-                case "Stock ↑": return aStock - bStock;
-                case "Stock ↓": return bStock - aStock;
+                case "Name ↑": return a.name.localeCompare(b.name);
+                case "Name ↓": return b.name.localeCompare(a.name);
+                case "Stock ↑": return a.stock - b.stock;
+                case "Stock ↓": return b.stock - a.stock;
                 default: return 0;
             }
         });
 
-        // Reorder DOM without clearing (maintains hidden state)
-        sortedProducts.forEach(card => {
-            productGrid.appendChild(card);
+        // Update DOM
+        productGrid.innerHTML = '';
+        visibleProducts.forEach(product => {
+            productGrid.appendChild(product.element);
         });
 
-        // Update visibility
+        // Show/hide no results
+        noResults.style.display = visibleProducts.length ? "none" : "block";
         applyItemsPerPage();
-        noResults.style.display = filteredProducts.length ? "none" : "block";
     }
 
+    // Function to handle items per page selection
     function applyItemsPerPage() {
         const selectedValue = itemsPerPageSelect.value;
-        const limit = selectedValue === "All" ? filteredProducts.length : parseInt(selectedValue);
-
-        // Hide all filtered products first
-        filteredProducts.forEach(card => {
-            card.style.display = 'none';
-        });
-
-        // Show only up to the limit
-        sortedProducts.slice(0, limit).forEach(card => {
-            card.style.display = 'flex';
+        if (selectedValue === "All") return;
+        
+        const limit = parseInt(selectedValue);
+        currentProducts.forEach((card, index) => {
+            card.style.display = index < limit ? "flex" : "none";
         });
     }
 
-    // Event listeners with debouncing
-    let searchTimeout;
-    searchInput.addEventListener("input", () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(updateProducts, 300);
-    });
-
+    // Event listeners
+    searchInput.addEventListener("input", updateProducts);
     sortSelect.addEventListener("change", updateProducts);
     itemsPerPageSelect.addEventListener("change", applyItemsPerPage);
 
+    // Initialize low stock indicators
+    function initLowStockIndicators() {
+        productCards.forEach(card => {
+            const stockText = card.querySelector('.product-stock').textContent;
+            const stock = parseInt(stockText.replace('Stock: ', '')) || 0;
+            const lowStockMessage = card.querySelector('.low-stock-message');
+            const warningIcon = card.querySelector('.warning-icon');
+
+            if (stock < 10) { // You can adjust this threshold
+                lowStockMessage.classList.remove('hidden');
+                warningIcon.classList.remove('hidden');
+            } else {
+                lowStockMessage.classList.add('hidden');
+                warningIcon.classList.add('hidden');
+            }
+        });
+    }
+
     // Initial setup
+    initLowStockIndicators();
     updateProducts();
 });
