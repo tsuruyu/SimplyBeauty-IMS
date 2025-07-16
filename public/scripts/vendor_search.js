@@ -1,71 +1,77 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     // Elements
     const searchInput = document.querySelector('input[placeholder="Search All Items"]');
     const productGrid = document.getElementById("product-grid");
-    const productCards = document.querySelectorAll(".product-card");
+    const allProductCards = Array.from(document.querySelectorAll(".product-card"));
     const noResults = document.getElementById("no-results");
     const sortSelect = document.querySelector("select.border-gray-300");
     const itemsPerPageSelect = document.querySelector('section.flex.justify-end.items-center.mb-6 select');
 
-    // Store original products
-    const originalProductCards = Array.from(productCards);
-    let currentProducts = Array.from(productCards);
+    // Initialize all products as hidden
+    allProductCards.forEach(card => {
+        card.style.display = 'none';
+    });
+
+    // Store filtered and sorted products
+    let filteredProducts = [];
+    let sortedProducts = [];
 
     function updateProducts() {
         const query = searchInput.value.trim().toLowerCase();
         const sortOption = sortSelect.value;
-        let visibleProducts = [];
 
         // Filter products
-        currentProducts = originalProductCards.filter(card => {
+        filteredProducts = allProductCards.filter(card => {
             const name = card.dataset.name.toLowerCase();
-            const matches = name.includes(query);
-            card.style.display = matches ? "flex" : "none";
-            return matches;
+            return name.includes(query);
         });
 
-        // Prepare for sorting
-        visibleProducts = currentProducts.map(card => ({
-            element: card,
-            name: card.dataset.name,
-            stock: parseInt(card.querySelector('.product-stock').textContent.replace('Stock: ', '')) || 0
-        }));
-
         // Sort products
-        visibleProducts.sort((a, b) => {
+        sortedProducts = [...filteredProducts].sort((a, b) => {
+            const aStock = parseInt(a.querySelector('.product-stock').textContent.replace('Stock: ', '')) || 0;
+            const bStock = parseInt(b.querySelector('.product-stock').textContent.replace('Stock: ', '')) || 0;
+            
             switch (sortOption) {
-                case "Name ↑": return a.name.localeCompare(b.name);
-                case "Name ↓": return b.name.localeCompare(a.name);
-                case "Stock ↑": return a.stock - b.stock;
-                case "Stock ↓": return b.stock - a.stock;
+                case "Name ↑": return a.dataset.name.localeCompare(b.dataset.name);
+                case "Name ↓": return b.dataset.name.localeCompare(a.dataset.name);
+                case "Stock ↑": return aStock - bStock;
+                case "Stock ↓": return bStock - aStock;
                 default: return 0;
             }
         });
 
-        // Update DOM
-        productGrid.innerHTML = '';
-        visibleProducts.forEach(product => {
-            productGrid.appendChild(product.element);
+        // Reorder DOM without clearing (maintains hidden state)
+        sortedProducts.forEach(card => {
+            productGrid.appendChild(card);
         });
 
-        // Show/hide no results
-        noResults.style.display = visibleProducts.length ? "none" : "block";
+        // Update visibility
         applyItemsPerPage();
+        noResults.style.display = filteredProducts.length ? "none" : "block";
     }
 
-    // Function to handle items per page selection
     function applyItemsPerPage() {
         const selectedValue = itemsPerPageSelect.value;
-        if (selectedValue === "All") return;
-        
-        const limit = parseInt(selectedValue);
-        currentProducts.forEach((card, index) => {
-            card.style.display = index < limit ? "flex" : "none";
+        const limit = selectedValue === "All" ? filteredProducts.length : parseInt(selectedValue);
+
+        // Hide all filtered products first
+        filteredProducts.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Show only up to the limit
+        sortedProducts.slice(0, limit).forEach(card => {
+            card.style.display = 'flex';
         });
     }
 
-    // Event listeners
-    searchInput.addEventListener("input", updateProducts);
+    // Event listeners with debouncing
+    let searchTimeout;
+    searchInput.addEventListener("input", () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(updateProducts, 300);
+    });
+
     sortSelect.addEventListener("change", updateProducts);
     itemsPerPageSelect.addEventListener("change", applyItemsPerPage);
 
