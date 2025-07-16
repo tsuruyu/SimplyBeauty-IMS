@@ -78,11 +78,22 @@ async function filterUsersByRole(req, res) {
     }
 }
 
+async function getAllUsers(req, res) {
+    try {
+        const users = await getUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Get all users error:', error);
+        res.status(500).json({ message: 'Failed to get users' });
+    }
+}
+
 
 module.exports = {
     getUsers,
     getProducts,
     updateUser,
     deleteUserById,
-    filterUsersByRole
+    filterUsersByRole,
+    getAllUsers
 };

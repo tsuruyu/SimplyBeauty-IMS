@@ -140,22 +140,25 @@ document.getElementById('filter-btn').addEventListener('click', async function()
     const roleFilter = document.getElementById('role-filter').value;
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
-    // If 'all' is selected, reload the page to show all users
-    if (roleFilter === 'all') {
-        location.reload();
-        return;
-    }
-
     try {
-        const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
-        if (!response.ok) throw new Error('Failed to fetch users');
-        let users = await response.json();
+        let users;
+        
+        if (roleFilter === 'all') {
+            // Fetch all users when "All" is selected
+            const response = await fetch('/admin/users');
+            if (!response.ok) throw new Error('Failed to fetch users');
+            users = await response.json();
+        } else {
+            // Fetch users filtered by role
+            const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
+            if (!response.ok) throw new Error('Failed to fetch users');
+            users = await response.json();
+        }
 
-        // Optionally filter by search term on the client
+        // Apply search filter on the client side for both "All" and specific roles
         if (searchTerm) {
             users = users.filter(user =>
-                user.full_name.toLowerCase().includes(searchTerm) ||
-                user.email.toLowerCase().includes(searchTerm)
+                user.full_name.toLowerCase().includes(searchTerm)
             );
         }
 
@@ -204,6 +207,44 @@ function updateUserTable(users) {
     });
 }
 
+
+// Add real-time search functionality
+let searchTimeout;
+document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async function() {
+        const roleFilter = document.getElementById('role-filter').value;
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+        try {
+            let users;
+            
+            if (roleFilter === 'all') {
+                // Fetch all users when "All" is selected
+                const response = await fetch('/admin/users');
+                if (!response.ok) throw new Error('Failed to fetch users');
+                users = await response.json();
+            } else {
+                // Fetch users filtered by role
+                const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
+                if (!response.ok) throw new Error('Failed to fetch users');
+                users = await response.json();
+            }
+
+            // Apply search filter on the client side for both "All" and specific roles
+            if (searchTerm) {
+                users = users.filter(user =>
+                    user.full_name.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            updateUserTable(users);
+        } catch (err) {
+            console.error(err);
+            showInfoMessage('Failed to search users.', 'error');
+        }
+    }, 300); // 300ms delay for better performance
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     const tableScroller = document.getElementById('table-scroller');
