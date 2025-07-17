@@ -58,7 +58,7 @@ async function createProduct(req, res) {
 async function updateProduct(req, res) {
     try {
         const productId = req.params.id;
-        const { name, sku, category, price, stock_qty, description, image_url } = req.body;
+        const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
 
         // Validate required fields
         if (!name || !sku || !category || !price || stock_qty === undefined) {
@@ -83,7 +83,8 @@ async function updateProduct(req, res) {
             price: parseFloat(price),
             stock_qty: parseInt(stock_qty),
             description,
-            image_url
+            image_url,
+            brand_name
         };
 
         const updatedProduct = await Product.findByIdAndUpdate(

@@ -17,7 +17,7 @@ function selectRoute(role) {
             route = "/user/product";
             break;
         case "admin":
-            route = "/admin/manage_products";
+            route = "/admin/product";
             break;
         default:
             throw new Error("wtf");
@@ -51,7 +51,7 @@ function openEditModal(productId) {
     document.getElementById('edit-description').value = row.dataset.description;
     document.getElementById('edit-image_url').value = row.dataset.image;
     if (role !== "vendor") {
-        document.getElementById('edit-brand-name').value = row.dataset.brand_name;
+        document.getElementById('edit-brand-name').value = row.dataset.brandName;
     }
 
     document.getElementById('edit-product-modal').classList.remove('hidden');
