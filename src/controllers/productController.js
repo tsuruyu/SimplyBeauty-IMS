@@ -4,8 +4,6 @@ async function createProduct(req, res) {
     try {
         const { name, sku, category, category_id, product_id, price, stock_qty, description, image_url, brand_name } = req.body;
 
-        console.log(brand_name);
-
         // Validate required fields
         if (!name || !sku || !category || !price || stock_qty === undefined || !brand_name) {
             return res.status(400).json({ 

@@ -138,7 +138,8 @@
         
         <!-- Add Product Modal -->
         <div id="add-product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-            <input type="hidden" id="brandName" value="{{u.brand_name}}">
+            {{!-- THIS IS NOT VERY SECURE, CHANGE LATER --}}
+            <input type="hidden" id="user-role" value="{{u.role}}">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Add New Product</h3>
@@ -150,6 +151,10 @@
                         <div class="mb-4">
                             <label for="add-sku" class="block text-sm font-medium text-gray-700 text-left">SKU</label>
                             <input type="text" id="add-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label for="add-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
+                            <input type="text" id="add-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="add-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
@@ -205,6 +210,10 @@
                         <div class="mb-4">
                             <label for="edit-sku" class="block text-sm font-medium text-gray-700 text-left">SKU</label>
                             <input type="text" id="edit-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
+                            <input type="text" id="edit-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>

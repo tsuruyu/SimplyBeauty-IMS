@@ -6,6 +6,25 @@ function closeAddModal() {
     document.getElementById('add-product-modal').classList.add('hidden');
 }
 
+function selectRoute(role) {
+    var route;
+
+    switch(role) {
+        case "vendor":
+            route = "/vendor/product_table";
+            break;
+        case "employee":
+            route = "/user/manage_products";
+            break;
+        case "admin":
+            route = "/admin/manage_products";
+            break;
+        default:
+            throw new Error("wtf");
+    }
+    return route;
+}
+
 function showInfoMessage(message, type = 'success') {
     const container = document.getElementById('info-message-container');
     if (!container) return;
@@ -21,6 +40,8 @@ function openEditModal(productId) {
     const row = document.querySelector(`[data-product-id="${productId}"]`);
     if (!row) return;
 
+    var role = document.getElementById('user-role').value;
+
     document.getElementById('edit-product_id').value = productId;
     document.getElementById('edit-name').value = row.dataset.name;
     document.getElementById('edit-sku').value = row.dataset.sku;
@@ -29,8 +50,12 @@ function openEditModal(productId) {
     document.getElementById('edit-stock_qty').value = row.dataset.stock;
     document.getElementById('edit-description').value = row.dataset.description;
     document.getElementById('edit-image_url').value = row.dataset.image;
+    if (role === "vendor") {
+        document.getElementById('edit-brand-name').value = row.dataset.brand_name;
+    }
 
     document.getElementById('edit-product-modal').classList.remove('hidden');
+
 }
 
 function closeEditModal() {
@@ -52,21 +77,40 @@ function closeDeleteModal() {
 document.getElementById('add-product-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const payload = {
-        name: document.getElementById('add-name').value,
-        sku: document.getElementById('add-sku').value,
-        category: document.getElementById('add-category').value,
-        category_id: document.getElementById('add-category').value, // Fixed this line
-        product_id: "sample-" + Math.random().toString(36), // Better temp ID
-        price: document.getElementById('add-price').value,
-        stock_qty: document.getElementById('add-stock_qty').value,
-        description: document.getElementById('add-description').value,
-        image_url: document.getElementById('add-image_url').value,
-        brand_name: document.getElementById('brandName').value
-    };
+    var role = document.getElementById('user-role').value;
+    var payload;
+
+    if (role === "vendor") {
+        payload = {
+            name: document.getElementById('add-name').value,
+            sku: document.getElementById('add-sku').value,
+            category: document.getElementById('add-category').value,
+            category_id: document.getElementById('add-category').value, // Fixed this line
+            product_id: "sample-" + Math.random().toString(36), // Better temp ID
+            price: document.getElementById('add-price').value,
+            stock_qty: document.getElementById('add-stock_qty').value,
+            description: document.getElementById('add-description').value,
+            image_url: document.getElementById('add-image_url').value,
+            brand_name: document.getElementById('brandName').value
+        };
+    }
+    else {
+        payload = {
+            name: document.getElementById('add-name').value,
+            sku: document.getElementById('add-sku').value,
+            category: document.getElementById('add-category').value,
+            category_id: document.getElementById('add-category').value, // Fixed this line
+            product_id: "sample-" + Math.random().toString(36), // Better temp ID
+            price: document.getElementById('add-price').value,
+            stock_qty: document.getElementById('add-stock_qty').value,
+            description: document.getElementById('add-description').value,
+            image_url: document.getElementById('add-image_url').value,
+            brand_name: document.getElementById('add-brand-name').value
+        };
+    }
 
     try {
-        const response = await fetch('/vendor/product_table', {
+        const response = await fetch(selectRoute(role), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -97,20 +141,36 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
 document.getElementById('edit-product-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    var payload;
     const productId = document.getElementById('edit-product_id').value;
+    var role = document.getElementById('user-role').value;
 
-    const payload = {
-        name: document.getElementById('edit-name').value,
-        sku: document.getElementById('edit-sku').value,
-        category: document.getElementById('edit-category').value,
-        price: document.getElementById('edit-price').value,
-        stock_qty: document.getElementById('edit-stock_qty').value,
-        description: document.getElementById('edit-description').value,
-        image_url: document.getElementById('edit-image_url').value
-    };
+    if (role === "vendor") {
+        payload = {
+            name: document.getElementById('edit-name').value,
+            sku: document.getElementById('edit-sku').value,
+            category: document.getElementById('edit-category').value,
+            price: document.getElementById('edit-price').value,
+            stock_qty: document.getElementById('edit-stock_qty').value,
+            description: document.getElementById('edit-description').value,
+            image_url: document.getElementById('edit-image_url').value
+        };
+    }
+    else {
+        payload = {
+            name: document.getElementById('edit-name').value,
+            sku: document.getElementById('edit-sku').value,
+            category: document.getElementById('edit-category').value,
+            price: document.getElementById('edit-price').value,
+            stock_qty: document.getElementById('edit-stock_qty').value,
+            description: document.getElementById('edit-description').value,
+            image_url: document.getElementById('edit-image_url').value,
+            brand_name: document.getElementById('edit-brand-name').value,
+        };
+    }
 
     try {
-        const response = await fetch(`/vendor/product/${productId}`, {
+        const response = await fetch(`${selectRoute(role)}/${productId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -136,7 +196,7 @@ async function deleteProduct() {
     if (!productToDelete) return;
 
     try {
-        const response = await fetch(`/vendor/product/${productToDelete}`, {
+        const response = await fetch(`${selectRoute(role)}/${productId}`, {
             method: 'DELETE'
         });
 
@@ -169,8 +229,6 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateScrollButtons() {
             const scrollLeft = tableScroller.scrollLeft;
             const maxScroll = tableScroller.scrollWidth - tableScroller.clientWidth;
-            
-            // You can add scroll buttons if needed
         }
         
         // Initial check
