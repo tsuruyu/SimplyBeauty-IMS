@@ -19,7 +19,7 @@ async function filterRoles(role) {
 }
 
 // GET /admin_dashboard - user view for admin
-async function getAdminDashboard(req, res) {
+async function getAdminUserDashboard(req, res) {
     const user = req.session.user;
 
     if (user.role !== 'admin') {
@@ -40,6 +40,22 @@ async function getAdminDashboard(req, res) {
         console.error("Failed to load vendor dashboard:", error);
         res.status(500).send("Server error loading user dashboard.");
     }
+}
+
+async function getAdminProductDashboard(req, res) {
+    const user = req.session.user;
+
+    if (user.role !== 'admin') { // this change is so stupid LMAO
+        return res.status(403).send("Access denied.");
+    }
+
+    const products = await getProducts();
+
+    res.render('admin/product_table', {
+        u: user,
+        p: products,
+        currentPath: tokenizePath(req.path)
+    });
 }
 
 async function updateUser(req, res) {
@@ -197,11 +213,15 @@ async function createUser(req, res) {
     }
 }
 
+function tokenizePath(path) {
+    return path.split('/')[2] || '';
+}
 
 module.exports = {
     getUsers,
     getProducts,
-    getAdminDashboard,
+    getAdminUserDashboard,
+    getAdminProductDashboard,
     updateUser,
     deleteUserById,
     filterUsersByRole,

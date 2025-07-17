@@ -13,7 +13,7 @@ function requireLogin(req, res, next) {
 async function getUserDashboard(req, res) {
     const user = req.session.user;
 
-    if (user.role !== 'employee') {
+    if (user.role === 'vendor') { // this change is so stupid LMAO
         return res.status(403).send("Access denied.");
     }
 
