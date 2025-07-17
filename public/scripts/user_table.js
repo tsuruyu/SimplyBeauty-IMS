@@ -15,6 +15,8 @@ function openEditModal(userId) {
     document.getElementById('edit-role').value = row.dataset.role;
     document.getElementById('edit-brand_name').value = row.dataset.brand || '';
     document.getElementById('edit-email').value = row.dataset.email;
+    document.getElementById('edit-password').value = ''; // Clear password field
+    document.getElementById('edit-user_id_display').value = row.dataset.userIdDisplay || userId; // Display user ID
 
     toggleBrandNameField('edit-role', 'edit-brand-name-container');
     document.getElementById('edit-user-modal').classList.remove('hidden');
@@ -36,10 +38,63 @@ function closeDeleteModal() {
     document.getElementById('delete-confirm-modal').classList.add('hidden');
 }
 
-document.getElementById('add-user-form').addEventListener('submit', function(e) {
+function showInfoMessage(message, type = 'success') {
+    const container = document.getElementById('info-message-container');
+    if (!container) return;
+    container.innerHTML = `<div class="rounded-lg px-4 py-3 shadow-md text-white font-semibold text-center ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}">${message}</div>`;
+    container.style.display = 'block';
+    setTimeout(() => {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }, 3000);
+}
+
+document.getElementById('add-user-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    alert('User added successfully!');
-    closeAddModal();
+
+    const payload = {
+        user_id: document.getElementById('add-user_id').value,
+        full_name: document.getElementById('add-full_name').value,
+        email: document.getElementById('add-email').value,
+        role: document.getElementById('add-role').value,
+        password: document.getElementById('add-password').value
+    };
+
+    // Add brand_name only if role is vendor
+    if (payload.role === 'vendor') {
+        const brandName = document.getElementById('add-brand_name').value;
+        if (!brandName || brandName.trim() === '') {
+            showInfoMessage('Brand name is required for vendors.', 'error');
+            return;
+        }
+        payload.brand_name = brandName;
+    }
+
+    try {
+        const response = await fetch('/admin/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            showInfoMessage('User added successfully!', 'success');
+            closeAddModal();
+            // Clear form
+            document.getElementById('add-user-form').reset();
+            // Hide brand name field if it was shown
+            document.getElementById('brand-name-container').style.display = 'none';
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
+        } else {
+            const error = await response.json();
+            showInfoMessage(error.message || 'Failed to add user.', 'error');
+        }
+    } catch (err) {
+        console.error(err);
+        showInfoMessage('An error occurred while adding user.', 'error');
+    }
 });
 
 document.getElementById('edit-user-form').addEventListener('submit', async function(e) {
@@ -51,8 +106,15 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         full_name: document.getElementById('edit-full_name').value,
         email: document.getElementById('edit-email').value,
         role: document.getElementById('edit-role').value,
-        brand_name: document.getElementById('edit-brand_name').value
+        brand_name: document.getElementById('edit-brand_name').value,
+        user_id: document.getElementById('edit-user_id_display').value
     };
+
+    // Add password only if it's not empty
+    const password = document.getElementById('edit-password').value;
+    if (password.trim() !== '') {
+        payload.password = password;
+    }
 
     // Optional: remove brand_name if not vendor
     if (payload.role !== 'vendor') {
@@ -69,16 +131,16 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         });
 
         if (response.ok) {
-            alert('User updated successfully!');
+            showInfoMessage('User updated successfully!', 'success');
             closeEditModal();
-            location.reload(); // Or you could dynamically update the row
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to update user.');
+            showInfoMessage(error.message || 'Failed to update user.', 'error');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while updating user.');
+        showInfoMessage('An error occurred while updating user.', 'error');
     }
 });
 
@@ -92,16 +154,16 @@ async function deleteUser() {
         });
 
         if (response.ok) {
-            alert('User deleted successfully!');
+            showInfoMessage('User deleted successfully!', 'success');
             closeDeleteModal();
-            location.reload(); // Or dynamically remove the row
+            setTimeout(() => location.reload(), 3000); // Give time for message to show
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to delete user.');
+            showInfoMessage(error.message || 'Failed to delete user.', 'error');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while deleting user.');
+        showInfoMessage('An error occurred while deleting user.', 'error');
     }
 }
 
@@ -117,23 +179,133 @@ document.getElementById('edit-role').addEventListener('change', function() {
 function toggleBrandNameField(roleSelectId, containerId) {
     const role = document.getElementById(roleSelectId).value;
     const container = document.getElementById(containerId);
+    const brandNameInput = container.querySelector('input[type="text"]');
     
     if (role === 'vendor') {
         container.style.display = 'block';
+        if (brandNameInput) {
+            brandNameInput.required = true;
+        }
     } else {
         container.style.display = 'none';
+        if (brandNameInput) {
+            brandNameInput.required = false;
+            brandNameInput.value = '';
+        }
     }
 }
 
-document.getElementById('filter-btn').addEventListener('click', function() {
+document.getElementById('filter-btn').addEventListener('click', async function() {
     const roleFilter = document.getElementById('role-filter').value;
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    
-    // In a real app, you would send these filters to your backend
-    // For now, we'll just log them
-    console.log('Filtering by role:', roleFilter, 'and search term:', searchTerm);
 
-// Add this to your existing script section
+    try {
+        let users;
+        
+        if (roleFilter === 'all') {
+            // Fetch all users when "All" is selected
+            const response = await fetch('/admin/users');
+            if (!response.ok) throw new Error('Failed to fetch users');
+            users = await response.json();
+        } else {
+            // Fetch users filtered by role
+            const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
+            if (!response.ok) throw new Error('Failed to fetch users');
+            users = await response.json();
+        }
+
+        // Apply search filter on the client side for both "All" and specific roles
+        if (searchTerm) {
+            users = users.filter(user =>
+                user.full_name.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        updateUserTable(users);
+    } catch (err) {
+        console.error(err);
+        showInfoMessage('Failed to filter users.', 'error');
+    }
+});
+
+function updateUserTable(users) {
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = '';
+    if (!users.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-4 text-center text-sm text-gray-500">No users found.</td></tr>`;
+        return;
+    }
+    users.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50';
+        tr.setAttribute('data-user-id', user._id);
+        tr.setAttribute('data-fullname', user.full_name);
+        tr.setAttribute('data-email', user.email);
+        tr.setAttribute('data-role', user.role);
+        tr.setAttribute('data-brand', user.brand_name || '');
+        tr.setAttribute('data-user-id-display', user.user_id || '');
+        tr.innerHTML = `
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[100px] md:max-w-none">${user._id}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
+                <div class="text-xs md:text-sm font-medium text-gray-900 truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">${user.full_name}</div>
+            </td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : user.role === 'vendor' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${user.role}</span>
+            </td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">${user.brand_name || ''}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">${user.created_at ? new Date(user.created_at).toLocaleDateString() : ''}</td>
+            <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm font-medium">
+                <div class="flex space-x-3">
+                    <button onclick="openEditModal('${user._id}')" class="text-indigo-600 hover:text-indigo-900">
+                        <i class="fas fa-edit text-sm md:text-base"></i>
+                    </button>
+                    ${window.currentUserId !== user._id ? `<button onclick="confirmDelete('${user._id}')" class="text-red-600 hover:text-red-900"><i class="fas fa-trash text-sm md:text-base"></i></button>` : ''}
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+
+// Add real-time search functionality
+let searchTimeout;
+document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async function() {
+        const roleFilter = document.getElementById('role-filter').value;
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+        try {
+            let users;
+            
+            if (roleFilter === 'all') {
+                // Fetch all users when "All" is selected
+                const response = await fetch('/admin/users');
+                if (!response.ok) throw new Error('Failed to fetch users');
+                users = await response.json();
+            } else {
+                // Fetch users filtered by role
+                const response = await fetch(`/admin/users/filter?role=${encodeURIComponent(roleFilter)}`);
+                if (!response.ok) throw new Error('Failed to fetch users');
+                users = await response.json();
+            }
+
+            // Apply search filter on the client side for both "All" and specific roles
+            if (searchTerm) {
+                users = users.filter(user =>
+                    user.full_name.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            updateUserTable(users);
+        } catch (err) {
+            console.error(err);
+            showInfoMessage('Failed to search users.', 'error');
+        }
+    }, 300); // 300ms delay for better performance
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const tableScroller = document.getElementById('table-scroller');
     const scrollLeftBtn = document.getElementById('scroll-left');
@@ -192,6 +364,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
-
 });
