@@ -3,7 +3,9 @@ const path = require('path');
 const router = express.Router();
 
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
-const { requireLogin, getUserDashboard, getVendorDashboard, getAdminDashboard } = require('../controllers/userController');
+const { requireLogin, getUserDashboard, 
+       getVendorDashboard, getVendorTable, updateProduct, deleteProductById, 
+        getAdminDashboard  } = require('../controllers/userController');
 const { updateUser, deleteUserById, filterUsersByRole, getAllUsers, createUser } = require('../controllers/adminController'); 
 
 router.get('/', (req, res) => {
@@ -18,7 +20,9 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 
 // router.get('/vendor/profile', requireLogin, getVendorDashboard);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
-// router.get('/vendor/product_table', requireLogin, getVendorDashboard);
+router.get('/vendor/product_table', requireLogin, getVendorTable);
+router.put('/vendor/product/:id', requireLogin, updateProduct);
+router.delete('/vendor/product/:id', requireLogin, deleteProductById);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
 
 router.get('/admin/manage_users', requireLogin, getAdminDashboard);
