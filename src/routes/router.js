@@ -20,7 +20,6 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 
 // router.get('/vendor/profile', requireLogin, getVendorDashboard);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
-// router.post('/vendor/product_dashboard', requireLogin, createProduct);
 router.get('/vendor/product_table', requireLogin, getVendorTable);
 router.post('/vendor/product_table', requireLogin, createProduct);
 router.put('/vendor/product/:id', requireLogin, updateProduct);
