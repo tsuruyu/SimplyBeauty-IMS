@@ -6,7 +6,6 @@ function closeAddModal() {
     document.getElementById('add-product-modal').classList.add('hidden');
 }
 
-
 function showInfoMessage(message, type = 'success') {
     const container = document.getElementById('info-message-container');
     if (!container) return;

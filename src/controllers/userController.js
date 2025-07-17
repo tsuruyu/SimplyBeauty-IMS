@@ -1,5 +1,11 @@
-// const { getTotalStockByBrand, getProductCount } = require('./productController');
-const { getUsers, getProducts } = require('./adminController');
+const { getProducts, getVendorProducts,
+    getTotalStock,
+    getTotalStockByBrand,
+    getProductCount,
+    createProduct,
+    updateProduct,
+    deleteProductById } = require('./productController');
+const { getUsers } = require('./adminController');
 
 // Middleware: require user to be logged in
 function requireLogin(req, res, next) {
@@ -17,9 +23,11 @@ async function getUserDashboard(req, res) {
         return res.status(403).send("Access denied.");
     }
 
+    const products = getProducts();
 
     res.render('user/product_table', {
         u: user,
+        p: products,
         currentPath: tokenizePath(req.path)
     });
 }

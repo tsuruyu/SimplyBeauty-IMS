@@ -132,6 +132,12 @@ async function deleteProductById(req, res) {
     }
 }
 
+async function getProducts() {
+    const products = await Product.find().lean();
+    // console.log(products)
+    return products;
+}
+
 async function getVendorProducts(user) {
     const brand_name = user.brand_name;
 
@@ -159,6 +165,7 @@ async function getTotalStockByBrand(brand_name) {
 }
 
 module.exports = {
+    getProducts,
     getVendorProducts,
     getTotalStock,
     getTotalStockByBrand,
