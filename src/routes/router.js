@@ -56,9 +56,9 @@ router.delete('/admin/users/:id', requireLogin, deleteUserById);
 router.get('/admin/users/filter', requireLogin, filterUsersByRole);
 router.get('/admin/users', requireLogin, getAllUsers);
 router.get('/admin/manage_products', requireLogin, getAdminProductDashboard);
-router.post('/admin/manage_products', requireLogin, createProduct);
+router.post('/admin/product', requireLogin, createProduct);
 router.put('/admin/product/:id', requireLogin, updateProduct);
-// router.get('/admin/product/filter', requireLogin, filterProductByBrand);
 router.delete('/admin/product/:id', requireLogin, deleteProductById);
+// router.get('/admin/product/filter', requireLogin, filterProductByBrand);
 
 module.exports = router;

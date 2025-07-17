@@ -11,10 +11,10 @@ function selectRoute(role) {
 
     switch(role) {
         case "vendor":
-            route = "/vendor/product_table";
+            route = "/vendor/product";
             break;
         case "employee":
-            route = "/user/manage_products";
+            route = "/user/product";
             break;
         case "admin":
             route = "/admin/manage_products";
@@ -50,7 +50,7 @@ function openEditModal(productId) {
     document.getElementById('edit-stock_qty').value = row.dataset.stock;
     document.getElementById('edit-description').value = row.dataset.description;
     document.getElementById('edit-image_url').value = row.dataset.image;
-    if (role === "vendor") {
+    if (role !== "vendor") {
         document.getElementById('edit-brand-name').value = row.dataset.brand_name;
     }
 
@@ -153,7 +153,8 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
             price: document.getElementById('edit-price').value,
             stock_qty: document.getElementById('edit-stock_qty').value,
             description: document.getElementById('edit-description').value,
-            image_url: document.getElementById('edit-image_url').value
+            image_url: document.getElementById('edit-image_url').value,
+            brand_name: document.getElementById('brandName').value
         };
     }
     else {
@@ -195,13 +196,15 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
 async function deleteProduct() {
     if (!productToDelete) return;
 
+    var role = document.getElementById('user-role').value;
+
     try {
-        const response = await fetch(`${selectRoute(role)}/${productId}`, {
+        const response = await fetch(`${selectRoute(role)}/${productToDelete}`, {
             method: 'DELETE'
         });
 
         if (response.ok) {
-            alert('Product deleted successfully!');
+            showInfoMessage('Product deleted successfully!', 'success');
             closeDeleteModal();
             location.reload(); // Or dynamically remove the row
         } else {
