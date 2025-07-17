@@ -3,10 +3,10 @@ const path = require('path');
 const router = express.Router();
 
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
-const { requireLogin, getUserDashboard, 
-       getVendorDashboard, getVendorTable, updateProduct, deleteProductById, 
-        getAdminDashboard  } = require('../controllers/userController');
+const { requireLogin, getUserDashboard, getAdminDashboard } = require('../controllers/userController');
+const { getVendorDashboard, getVendorTable } = require('../controllers/vendorController'); 
 const { updateUser, deleteUserById, filterUsersByRole, getAllUsers, createUser } = require('../controllers/adminController'); 
+const { createProduct, updateProduct, deleteProductById } = require('../controllers/productController')
 
 router.get('/', (req, res) => {
     res.redirect('/login');
@@ -20,7 +20,9 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 
 // router.get('/vendor/profile', requireLogin, getVendorDashboard);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
+// router.post('/vendor/product_dashboard', requireLogin, createProduct);
 router.get('/vendor/product_table', requireLogin, getVendorTable);
+router.post('/vendor/product_table', requireLogin, createProduct);
 router.put('/vendor/product/:id', requireLogin, updateProduct);
 router.delete('/vendor/product/:id', requireLogin, deleteProductById);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
