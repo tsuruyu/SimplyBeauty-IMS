@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const auditSchema = new Schema({
+    transaction_id: { type: String, required: true, unique: true },
+    user_id: { type: String, required: true, unique: true },
+    description: { type: String, required: true, unique: true },
+    date: { type: Date, required: true, unique: true }
+});
+
+module.exports = mongoose.model('AuditLog', categorySchema);

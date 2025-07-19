@@ -2,8 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-    product_id: { type: String, required: true, unique: true },
-    category_id: { type: String, ref: 'Category', required: true },
+    product_id: { 
+        type: Schema.Types.ObjectId, 
+        required: true, 
+        unique: true,
+        ref: 'Product'
+    },
+    category_id: { 
+        type: Schema.Types.ObjectId, 
+        required: true, 
+        ref: 'Category'
+    },
     brand_name: { type: String, required: false },
     name: { type: String, required: false },
     description: { type: String },

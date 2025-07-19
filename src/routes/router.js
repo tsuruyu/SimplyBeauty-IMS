@@ -16,6 +16,10 @@ router.get('/', (req, res) => {
 
 
 /**
+ * It probably would've been much better if we used API endpoints pero we dug too deep na eh
+ */
+
+/**
  * Login/Auth Endpoints
  */
 
