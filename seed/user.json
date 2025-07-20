@@ -1,102 +1,82 @@
 [
   {
-    "user_id": "user_1",
     "email": "employee@yahoo.com",
     "password_hash": "a25406ee2acfc04fa11f21ffdb1fa4dd071ef16ce3e7661d6becca7df6197079",
     "role": "employee",
     "full_name": "Employee",
     "brand_name": "",
-    "phone": "(439)311-5103",
-    "created_at": "2025-02-28 20:41:02"
+    "phone": "(439)311-5103"
   },
   {
-    "user_id": "user_2",
     "email": "caravan@vendor.com",
     "password_hash": "17f5d89bd0ee70b879ee129f2cf5a3ebd834c997a092648ea60a9c4b4003a481",
     "role": "vendor",
     "full_name": "Vendori Caravan",
     "brand_name": "Caravan",
-    "phone": "147.030.7124",
-    "created_at": "2022-12-19 02:47:04"
+    "phone": "147.030.7124"
   },
   {
-    "user_id": "user_3",
     "email": "admin@gmail.com",
     "password_hash": "a390c0389ec2f220e35ffc16544249ad2061c9960a34c84d36acedc691e8a2c8",
     "role": "admin",
     "full_name": "Admin",
     "brand_name": "",
-    "phone": "+1-458-759-9713x707",
-    "created_at": "2020-12-03 22:49:51"
+    "phone": "+1-458-759-9713x707"
   },
   {
-    "user_id": "user_4",
     "email": "brandiose@vendor.comm",
     "password_hash": "b7ee70894d70fbf7d762f1f51258392e446318c19f8579a97c9b3e1dcd66000d",
     "role": "vendor",
     "full_name": "Vendora Brandiose",
     "brand_name": "Brandiose",
-    "phone": "244-239-6240x967",
-    "created_at": "2021-11-05 01:48:20"
+    "phone": "244-239-6240x967"
   },
   {
-    "user_id": "user_5",
     "email": "greeremily@glass.com",
     "password_hash": "748f32f52bb075ffbd152426b813b6cb7d40045869828d28868062a9411c815e",
     "role": "admin",
     "full_name": "Ryan Holt",
     "brand_name": "",
-    "phone": "+1-719-296-3603x41885",
-    "created_at": "2020-09-19 00:36:13"
+    "phone": "+1-719-296-3603x41885"
   },
   {
-    "user_id": "user_6",
     "email": "adrianrodriguez@black.org",
     "password_hash": "7d52e7deb3773652e2823ddbdf844645ee792d11eac9c7389ec3f867c0712e55",
     "role": "vendor",
     "full_name": "Shelby Hernandez",
     "brand_name": "Trueness",
-    "phone": "584.505.7978x8497",
-    "created_at": "2020-05-09 23:21:49"
+    "phone": "584.505.7978x8497"
   },
   {
-    "user_id": "user_7",
     "email": "dwhite@kennedy.info",
     "password_hash": "c48cb36f3fac7239f99692eb629df752d914dd79b8009d0c2b2ca01d4a8bfd3f",
     "role": "employee",
     "full_name": "Luis Ramirez",
     "brand_name": "",
-    "phone": "+1-024-033-3387x7895",
-    "created_at": "2023-05-18 12:54:23"
+    "phone": "+1-024-033-3387x7895"
   },
   {
-    "user_id": "user_8",
     "email": "julie82@brown-gibson.com",
     "password_hash": "14aa1ba67f0119289fdcf9944399616487fe62c1c6b6aac60f8e2d2d0d72397f",
     "role": "admin",
     "full_name": "John Hensley",
     "brand_name": "",
-    "phone": "861.076.0441",
-    "created_at": "2021-05-25 12:31:51"
+    "phone": "861.076.0441"
   },
   {
-    "user_id": "user_9",
     "email": "betty80@jordan.com",
     "password_hash": "8bde307ee9178032c67cc76f455a1862f7f1bb2c9251b5d4420d8447c540e7d5",
     "role": "employee",
     "full_name": "Monique Rodriguez",
     "brand_name": "",
-    "phone": "251-994-6186",
-    "created_at": "2020-01-31 19:24:44"
+    "phone": "251-994-6186"
   },
   {
-    "user_id": "user_10",
     "email": "ian78@gmail.com",
     "password_hash": "b6eead32be1ca0184f9beb2cf9c53f68109605be2171d10f339d5b18e458464e",
     "role": "admin",
     "full_name": "Theresa Cole",
     "brand_name": "",
-    "phone": "553-645-1943x3842",
-    "created_at": "2024-01-01 12:45:27"
+    "phone": "553-645-1943x3842"
   }
 ]

@@ -85,8 +85,6 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             name: document.getElementById('add-name').value,
             sku: document.getElementById('add-sku').value,
             category: document.getElementById('add-category').value,
-            category_id: document.getElementById('add-category').value, // Fixed this line
-            product_id: "sample-" + Math.random().toString(36), // Better temp ID
             price: document.getElementById('add-price').value,
             stock_qty: document.getElementById('add-stock_qty').value,
             description: document.getElementById('add-description').value,
@@ -99,8 +97,6 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             name: document.getElementById('add-name').value,
             sku: document.getElementById('add-sku').value,
             category: document.getElementById('add-category').value,
-            category_id: document.getElementById('add-category').value, // Fixed this line
-            product_id: "sample-" + Math.random().toString(36), // Better temp ID
             price: document.getElementById('add-price').value,
             stock_qty: document.getElementById('add-stock_qty').value,
             description: document.getElementById('add-description').value,
@@ -128,7 +124,7 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
                 location.reload();
             }, 1500);
         } else {
-            const error = await response.json(); // Added await here
+            const error = await response.json();
             showInfoMessage(error.message || 'Failed to add product.', 'error');
         }
     } catch (err) {
@@ -182,7 +178,7 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
         if (response.ok) {
             alert('Product updated successfully!');
             closeEditModal();
-            location.reload(); // Or you could dynamically update the row
+            location.reload();
         } else {
             const error = await response.json();
             alert(error.message || 'Failed to update product.');
@@ -206,7 +202,7 @@ async function deleteProduct() {
         if (response.ok) {
             showInfoMessage('Product deleted successfully!', 'success');
             closeDeleteModal();
-            location.reload(); // Or dynamically remove the row
+            location.reload();
         } else {
             const error = await response.json();
             alert(error.message || 'Failed to delete product.');
@@ -229,18 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableScroller = document.getElementById('table-scroller');
     
     if (tableScroller) {
-        function updateScrollButtons() {
-            const scrollLeft = tableScroller.scrollLeft;
-            const maxScroll = tableScroller.scrollWidth - tableScroller.clientWidth;
-        }
-        
-        // Initial check
-        updateScrollButtons();
-        
-        // Scroll event listener
-        tableScroller.addEventListener('scroll', updateScrollButtons);
-        
-        // Also enable arrow key navigation
         document.addEventListener('keydown', function(e) {
             if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
                 if (e.key === 'ArrowLeft') {

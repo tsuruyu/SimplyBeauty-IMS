@@ -1,19 +1,20 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 async function createProduct(req, res) {
     try {
-        const { name, sku, category, category_id, product_id, price, stock_qty, description, image_url, brand_name } = req.body;
+        const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
 
         // Validate required fields
-        if (!name || !sku || !category || !price || stock_qty === undefined || !brand_name) {
+        if (!name || !sku || !category || !price || !stock_qty || !brand_name) {
             return res.status(400).json({ 
-                message: 'Missing required fields (name, sku, category, price, stock_qty, or brand_name)' 
+                message: 'One or more fields are missing or invalid.' 
             });
         }
 
         // Validate category
-        const validCategories = ['Skincare', 'Makeup', 'Haircare', 'Fragrances', 'Bodycare', 'Unassigned'];
-        if (!validCategories.includes(category)) {
+        const categoryExists = await Category.exists({ name: category });
+        if (!categoryExists) {
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
@@ -30,8 +31,6 @@ async function createProduct(req, res) {
             name,
             sku,
             category,
-            category_id: category_id,
-            product_id: product_id,
             price: parseFloat(price),
             stock_qty: parseInt(stock_qty),
             description: description || '',
@@ -61,15 +60,15 @@ async function updateProduct(req, res) {
         const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
 
         // Validate required fields
-        if (!name || !sku || !category || !price || stock_qty === undefined) {
+        if (!name || !sku || !category || !price || !stock_qty) {
             return res.status(400).json({ 
                 message: 'Missing required fields (name, sku, category, price, or stock_qty)' 
             });
         }
 
         // Validate category
-        const validCategories = ['Skincare', 'Makeup', 'Haircare', 'Fragrances', 'Bodycare', 'Unassigned'];
-        if (!validCategories.includes(category)) {
+        const categoryExists = await Category.exists({ name: category });
+        if (!categoryExists) {
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
@@ -88,8 +87,8 @@ async function updateProduct(req, res) {
         };
 
         const updatedProduct = await Product.findByIdAndUpdate(
-            productId, 
-            updateData, 
+            productId,
+            updateData,
             { new: true, runValidators: true }
         );
 
@@ -132,15 +131,17 @@ async function deleteProductById(req, res) {
 }
 
 async function getProducts() {
-    const products = await Product.find().lean();
-    // console.log(products)
-    return products;
+    const products = await Product.find().populate('category');
+    
+    const safeProducts = JSON.parse(JSON.stringify(products));
+
+    return safeProducts;
 }
 
 async function getVendorProducts(user) {
     const brand_name = user.brand_name;
-
     const products = await Product.find({ brand_name }).lean();
+    
     return products;
 }
 

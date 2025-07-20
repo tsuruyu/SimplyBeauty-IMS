@@ -8,4 +8,4 @@ const auditSchema = new Schema({
     date: { type: Date, required: true, unique: true }
 });
 
-module.exports = mongoose.model('AuditLog', categorySchema);
+module.exports = mongoose.model('AuditLog', auditSchema);

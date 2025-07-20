@@ -1,5 +1,6 @@
 const User = require('../models/User');
-const Product = require('../models/Product');
+const { getProducts } = require('../controllers/productController');
+const Category = require('../models/Category');
 const ProductStorage = require('../models/ProductStorage');
 const bcrypt = require('bcrypt');
 
@@ -8,9 +9,9 @@ async function getUsers() {
     return users;
 }
 
-async function getProducts() {
-    const products = await Product.find().lean();
-    return products;
+async function getCategories() {
+    const categories = await Category.find().lean();
+    return categories;
 }
 
 async function filterRoles(role) {
@@ -51,9 +52,12 @@ async function getAdminProductDashboard(req, res) {
 
     const products = await getProducts();
 
+    const categories = await getCategories();
+
     res.render('admin/product_table', {
         u: user,
         p: products,
+        c: categories,
         currentPath: tokenizePath(req.path)
     });
 }
@@ -219,7 +223,6 @@ function tokenizePath(path) {
 
 module.exports = {
     getUsers,
-    getProducts,
     getAdminUserDashboard,
     getAdminProductDashboard,
     updateUser,

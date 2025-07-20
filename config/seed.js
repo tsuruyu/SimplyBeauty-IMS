@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
@@ -44,11 +43,33 @@ async function seedCategories() {
 
 // Seed products
 async function seedProducts() {
-    const products = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/product.json'), 'utf-8'));
-    await Product.deleteMany();
-    await Product.insertMany(products);
-    console.log('Products seeded successfully.');
+  const productsData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/product.json'), 'utf-8'));
+
+  // Fetch all categories from the database
+  const categories = await Category.find({});
+  const categoryMap = {};
+  categories.forEach(cat => {
+    categoryMap[cat.name.toLowerCase()] = cat._id;
+  });
+
+  // Map product category names to category ObjectIds
+  const productsWithCategoryIds = productsData.map(product => {
+    const categoryId = categoryMap[product.category.toLowerCase()];
+    if (!categoryId) {
+      throw new Error(`Category not found for product: ${product.name} (category: ${product.category})`);
+    }
+
+    return {
+      ...product,
+      category: categoryId,
+    };
+  });
+
+  await Product.deleteMany();
+  await Product.insertMany(productsWithCategoryIds);
+  console.log('Products seeded successfully.');
 }
+
 
 // Seed storage locations
 async function seedStorage() {

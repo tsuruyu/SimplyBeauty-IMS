@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 const storageSchema = new Schema({
     storage_id: { 
         type: Schema.Types.ObjectId, 
-        required: true, 
-        unique: true,
+        required: false,
         ref: 'Storage'
     },
     name: { type: String, required: true, unique: true },

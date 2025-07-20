@@ -1,42 +1,52 @@
 [
   {
-    "category_id": "cat_1",
-    "name": "Foundation"
+    "name": "Foundation",
+    "bg_color": "#FEE2E2",
+    "text_color": "#B91C1C"
   },
   {
-    "category_id": "cat_2",
-    "name": "Lipstick"
+    "name": "Lipstick",
+    "bg_color": "#FECACA",
+    "text_color": "#DC2626"
   },
   {
-    "category_id": "cat_3",
-    "name": "Mascara"
+    "name": "Mascara",
+    "bg_color": "#FCA5A5",
+    "text_color": "#991B1B"
   },
   {
-    "category_id": "cat_4",
-    "name": "Eyeliner"
+    "name": "Eyeliner",
+    "bg_color": "#171717",
+    "text_color": "#F5F5F5"
   },
   {
-    "category_id": "cat_5",
-    "name": "Blush"
+    "name": "Blush",
+    "bg_color": "#FBCFE8",
+    "text_color": "#9D174D"
   },
   {
-    "category_id": "cat_6",
-    "name": "Concealer"
+    "name": "Concealer",
+    "bg_color": "#FEF3C7",
+    "text_color": "#92400E"
   },
   {
-    "category_id": "cat_7",
-    "name": "Eyeshadow"
+    "name": "Eyeshadow",
+    "bg_color": "#C7D2FE",
+    "text_color": "#3730A3"
   },
   {
-    "category_id": "cat_8",
-    "name": "Highlighter"
+    "name": "Highlighter",
+    "bg_color": "#FEF08A",
+    "text_color": "#854D0E"
   },
   {
-    "category_id": "cat_9",
-    "name": "Primer"
+    "name": "Primer",
+    "bg_color": "#D1FAE5",
+    "text_color": "#065F46"
   },
   {
-    "category_id": "cat_10",
-    "name": "Setting Spray"
+    "name": "Setting Spray",
+    "bg_color": "#E0E7FF",
+    "text_color": "#4338CA"
   }
 ]

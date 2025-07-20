@@ -34,12 +34,9 @@
                 <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                     <div class="relative w-full sm:w-40">
                         <select id="category-filter" class="appearance-none bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-3 pr-8 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">
-                            <option value="all">All Categories</option>
-                            <option value="Skincare">Skincare</option>
-                            <option value="Makeup">Makeup</option>
-                            <option value="Haircare">Haircare</option>
-                            <option value="Fragrances">Fragrances</option>
-                            <option value="Bodycare">Bodycare</option>
+                            {{#each c}}
+                            <option value={{this.name}}>{{this.name}}</option>
+                            {{/each}}
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -84,7 +81,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{#each p }}                     
+                            {{#each p }}           
                             <tr class="hover:bg-gray-50" data-product-id="{{this._id}}"
                                 data-name="{{this.name}}" data-sku="{{this.sku}}" data-category="{{this.category}}" data-brand-name="{{this.brand_name}}"
                                 data-price="{{this.price}}" data-stock="{{this.stock_qty}}" 
@@ -96,14 +93,9 @@
                                     {{this.sku}}
                                 </td>
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        {{#if (eq this.category 'Skincare')}}bg-blue-100 text-blue-800
-                                        {{else if (eq this.category 'Makeup')}}bg-purple-100 text-purple-800
-                                        {{else if (eq this.category 'Haircare')}}bg-green-100 text-green-800
-                                        {{else if (eq this.category 'Fragrances')}}bg-yellow-100 text-yellow-800
-                                        {{else if (eq this.category 'Bodycare')}} bg-pink-100 text-pink-800
-                                        {{else}}bg-pink-100 text-pink-800{{/if}}">
-                                        {{this.category}}
+                                    <span 
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[{{this.category.bg_color}}] text-[{{this.category.text_color}}]">
+                                        {{this.category.name}}
                                     </span>
                                 </td>
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">
@@ -159,12 +151,9 @@
                         <div class="mb-4">
                             <label for="add-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
                             <select id="add-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
-                                <option value="Skincare">Skincare</option>
-                                <option value="Makeup">Makeup</option>
-                                <option value="Haircare">Haircare</option>
-                                <option value="Fragrances">Fragrances</option>
-                                <option value="Bodycare">Bodycare</option>
-                                <option value="Unassigned">Unassigned</option>
+                                {{#each c}}
+                                <option value={{this.name}}>{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="mb-4">
@@ -218,11 +207,9 @@
                         <div class="mb-4">
                             <label for="edit-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
                             <select id="edit-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
-                                <option value="Skincare">Skincare</option>
-                                <option value="Makeup">Makeup</option>
-                                <option value="Haircare">Haircare</option>
-                                <option value="Fragrances">Fragrances</option>
-                                <option value="Bodycare">Bodycare</option>
+                                {{#each c}}
+                                <option value={{this.name}}>{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="mb-4">
