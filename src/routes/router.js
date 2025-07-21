@@ -9,6 +9,8 @@ const { getAdminUserDashboard, getAdminProductDashboard,
         updateUser, deleteUserById, filterUsersByRole, 
         getAllUsers, createUser } = require('../controllers/adminController'); 
 const { createProduct, updateProduct, deleteProductById } = require('../controllers/productController')
+const { getCategory, createCategory, 
+        updateCategory, deleteCategoryById } = require('../controllers/categoryController')
 
 router.get('/', (req, res) => {
     res.redirect('/login');
@@ -18,6 +20,10 @@ router.get('/', (req, res) => {
 /**
  * It probably would've been much better if we used API endpoints pero we dug too deep na eh
  */
+router.get('/api/categories', getCategory);
+router.post('/api/categories', createCategory);
+router.put('/api/categories/:id', updateCategory);
+router.delete('/api/categories/:id', deleteCategoryById);
 
 /**
  * Login/Auth Endpoints
@@ -63,6 +69,7 @@ router.get('/admin/manage_products', requireLogin, getAdminProductDashboard);
 router.post('/admin/product', requireLogin, createProduct);
 router.put('/admin/product/:id', requireLogin, updateProduct);
 router.delete('/admin/product/:id', requireLogin, deleteProductById);
-// router.get('/admin/product/filter', requireLogin, filterProductByBrand);
+// router.get('/admin/product/filter', requireLogin, filterProductByBrand);\
+router.post('/admin/category', requireLogin, createCategory);
 
 module.exports = router;

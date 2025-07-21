@@ -1,12 +1,18 @@
 const Category = require('../models/Category');
 
-async function getCategory() {
-    const categories = await Category.find();
-    
-    return categories;
+async function getCategory(req, res) {
+    try {
+        const categories = await Category.find().lean();
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error('Get categories error:', error);
+        res.status(500).json({ 
+            message: error.message || 'Failed to get categories' 
+        });
+    }
 }
 
-async function createCategory() {
+async function createCategory(req, res) {
     try {    
         const { name, bg_color, text_color } = req.body;
 
@@ -17,9 +23,9 @@ async function createCategory() {
             });
         }
 
-        // Validate category
+        // Validate category doesn't already exist
         const categoryExists = await Category.findOne({ name: name });
-        if (!categoryExists) {
+        if (categoryExists) {
             return res.status(400).json({ 
                 message: 'Category already exists!' 
             });
@@ -37,7 +43,7 @@ async function createCategory() {
 
         res.status(201).json({ 
             message: 'Category created successfully',
-            Category: newCategory 
+            category: newCategory 
         });
         
     } catch (error) {
@@ -48,8 +54,9 @@ async function createCategory() {
     }
 }
 
-async function updateCategory() {
+async function updateCategory(req, res) {
     try {    
+        const { id } = req.params;
         const { name, bg_color, text_color } = req.body;
 
         // Validate required fields
@@ -59,30 +66,40 @@ async function updateCategory() {
             });
         }
 
-        // Validate category
-        const categoryExists = await Category.findOne({ name: name });
-        if (!categoryExists) {
-            return res.status(400).json({ 
-                message: 'Category already exists!' 
+        // Check if category exists
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ 
+                message: 'Category not found!' 
             });
         }
 
-        // Create object
+        // Check if new name conflicts with other categories
+        if (name !== category.name) {
+            const nameExists = await Category.findOne({ name });
+            if (nameExists) {
+                return res.status(400).json({ 
+                    message: 'Category name already exists!' 
+                });
+            }
+        }
+
+        // Update object
         const categoryData = {
             name,
             bg_color,
             text_color
         };
         
-        const updatedProduct = await Product.findOneAndUpdate(
-            { name: name }, 
+        const updatedCategory = await Category.findByIdAndUpdate(
+            id, 
             categoryData, 
             { new: true, runValidators: true }
         );
 
-        res.status(201).json({ 
-            message: 'Category created successfully',
-            Category: updatedProduct 
+        res.status(200).json({ 
+            message: 'Category updated successfully',
+            category: updatedCategory 
         });
         
     } catch (error) {
@@ -95,9 +112,9 @@ async function updateCategory() {
 
 async function deleteCategoryById(req, res) {
     try {
-        const categoryId = req.params.id;
+        const { id } = req.params;
 
-        const deletedCategory = await Category.findByIdAndDelete(categoryId);
+        const deletedCategory = await Category.findByIdAndDelete(id);
 
         if (!deletedCategory) {
             return res.status(404).json({ message: 'Category not found' });
