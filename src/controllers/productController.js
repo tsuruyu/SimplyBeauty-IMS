@@ -140,9 +140,11 @@ async function getProducts() {
 
 async function getVendorProducts(user) {
     const brand_name = user.brand_name;
-    const products = await Product.find({ brand_name }).lean();
+    const products = await Product.find({brand_name: brand_name}).populate('category');
     
-    return products;
+    const safeProducts = JSON.parse(JSON.stringify(products));
+    
+    return safeProducts;
 }
 
 async function getProductCount(brand_name) {

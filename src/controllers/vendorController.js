@@ -1,5 +1,10 @@
-const Product = require('../models/Product')
+const Category = require('../models/Category');
 const { getVendorProducts, getTotalStockByBrand, getProductCount } = require('./productController');
+
+async function getCategories() {
+    const categories = await Category.find().lean();
+    return categories;
+}
 
 async function getVendorDashboard(req, res) {
     const user = req.session.user;
@@ -32,10 +37,12 @@ async function getVendorTable(req, res) {
 
     try {
         const products = await getVendorProducts(user);
+        const categories = await getCategories();
 
         res.render('vendor/product_table', {
             u: user,
             p: products,
+            c: categories,
             count: await getProductCount(user.brand_name),
             currentPath: tokenizePath(req.path)
         });

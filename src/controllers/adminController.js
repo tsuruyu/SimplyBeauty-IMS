@@ -9,6 +9,7 @@ async function getUsers() {
     return users;
 }
 
+// ik this is a double declaration but everything works and i do not want to break anything
 async function getCategories() {
     const categories = await Category.find().lean();
     return categories;
@@ -51,7 +52,6 @@ async function getAdminProductDashboard(req, res) {
     }
 
     const products = await getProducts();
-
     const categories = await getCategories();
 
     res.render('admin/product_table', {

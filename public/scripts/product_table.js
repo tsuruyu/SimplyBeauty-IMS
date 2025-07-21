@@ -418,8 +418,6 @@ let categoryToDelete = null;
 
 function confirmDeleteCategory(id) {
     categoryToDelete = id;
-    // You can reuse your existing delete confirmation modal or create a new one
-    // For simplicity, I'll use the existing one
     document.getElementById('delete-confirm-modal').classList.remove('hidden');
 }
 

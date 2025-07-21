@@ -1,3 +1,4 @@
+const Category = require('../models/Category');
 const { getProducts } = require('./productController');
 const { getUsers } = require('./adminController');
 
@@ -9,6 +10,11 @@ function requireLogin(req, res, next) {
     next();
 }
 
+async function getCategories() {
+    const categories = await Category.find().lean();
+    return categories;
+}
+
 // GET /user_dashboard - for employees
 async function getUserDashboard(req, res) {
     const user = req.session.user;
@@ -18,10 +24,12 @@ async function getUserDashboard(req, res) {
     }
 
     const products = await getProducts();
+    const categories = await getCategories();
 
     res.render('user/product_table', {
         u: user,
         p: products,
+        c: categories,
         currentPath: tokenizePath(req.path)
     });
 }

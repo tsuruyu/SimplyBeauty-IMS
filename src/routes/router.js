@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
 /**
  * It probably would've been much better if we used API endpoints pero we dug too deep na eh
  */
+// these endpoints are currently not secure. no role/user validation
 router.get('/api/categories', getCategory);
 router.post('/api/categories', createCategory);
 router.put('/api/categories/:id', updateCategory);
@@ -69,7 +70,6 @@ router.get('/admin/manage_products', requireLogin, getAdminProductDashboard);
 router.post('/admin/product', requireLogin, createProduct);
 router.put('/admin/product/:id', requireLogin, updateProduct);
 router.delete('/admin/product/:id', requireLogin, deleteProductById);
-// router.get('/admin/product/filter', requireLogin, filterProductByBrand);\
-router.post('/admin/category', requireLogin, createCategory);
+// router.get('/admin/product/filter', requireLogin, filterProductByBrand);
 
 module.exports = router;
