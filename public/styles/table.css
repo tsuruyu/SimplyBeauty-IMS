@@ -22,7 +22,22 @@
     background: rgba(156, 163, 175, 0.5);
 }
 
-/* For Firefox */
+#product-search-results {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#product-search-results div {
+    transition: background-color 0.2s;
+}
+
+#product-search-results div:hover {
+    background-color: #f3f4f6;
+}
+
+#product-search-results div:last-child {
+    border-bottom: none;
+}
+
 .table-container {
     scrollbar-width: thin;
     scrollbar-color: rgba(156, 163, 175, 0.3) transparent;

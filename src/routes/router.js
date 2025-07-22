@@ -8,12 +8,40 @@ const { getVendorDashboard, getVendorTable } = require('../controllers/vendorCon
 const { getAdminUserDashboard, getAdminProductDashboard,
         updateUser, deleteUserById, filterUsersByRole, 
         getAllUsers, createUser } = require('../controllers/adminController'); 
-const { createProduct, updateProduct, deleteProductById } = require('../controllers/productController')
+const { getAllProducts, createProduct, 
+        updateProduct, deleteProductById } = require('../controllers/productController')
+const { getCategory, createCategory, 
+        updateCategory, deleteCategoryById } = require('../controllers/categoryController')
+const { getAllStorages, createStorage, updateStorage, 
+        deleteStorageById, getStorageDetails } = require('../controllers/storageController');
+const { getLocationDashboard, addProductToStorage, updateProductInStorage, 
+        removeProductFromStorage} = require('../controllers/productStorageController');
 
 router.get('/', (req, res) => {
     res.redirect('/login');
 });
 
+
+/**
+ * It probably would've been much better if we used API endpoints pero we dug too deep na eh
+ */
+// these endpoints are currently not secure. no role/user validation
+router.get('/api/categories', getCategory);
+router.post('/api/categories', createCategory);
+router.put('/api/categories/:id', updateCategory);
+router.delete('/api/categories/:id', deleteCategoryById);
+
+router.get('/api/storages', requireLogin, getAllStorages);
+router.post('/api/storages', requireLogin, createStorage);
+router.put('/api/storages/:id', requireLogin, updateStorage);
+router.delete('/api/storages/:id', requireLogin, deleteStorageById);
+router.get('/api/storages/:id', requireLogin, getStorageDetails);
+
+router.get('/api/products', requireLogin, getAllProducts);
+
+router.post('/api/product-storage', requireLogin, addProductToStorage);
+router.put('/api/product-storage/:id', requireLogin, updateProductInStorage);
+router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage);
 
 /**
  * Login/Auth Endpoints
@@ -31,6 +59,7 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 router.post('/user/manage_products', requireLogin, createProduct);
 router.put('/user/product/:id', requireLogin, updateProduct);
 router.delete('/user/product/:id', requireLogin, deleteProductById);
+router.get('user/manage_locations', requireLogin);
 
 
 /**
@@ -44,6 +73,7 @@ router.put('/vendor/product/:id', requireLogin, updateProduct);
 router.delete('/vendor/product/:id', requireLogin, deleteProductById);
 // router.get('/vendor/product/filter', requireLogin, filterProductByBrand);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
+router.get('vendor/manage_locations', requireLogin);
 
 
 /**
@@ -60,5 +90,7 @@ router.post('/admin/product', requireLogin, createProduct);
 router.put('/admin/product/:id', requireLogin, updateProduct);
 router.delete('/admin/product/:id', requireLogin, deleteProductById);
 // router.get('/admin/product/filter', requireLogin, filterProductByBrand);
+router.get('/admin/manage_locations', requireLogin, getLocationDashboard);
+
 
 module.exports = router;

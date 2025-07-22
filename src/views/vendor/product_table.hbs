@@ -26,7 +26,12 @@
                     </svg>
                     ADD PRODUCT
                 </button>
+                <button onclick="openCategoryManagement()" class="bg-purple-600 text-white px-4 py-2 text-sm md:text-base rounded-lg md:rounded-xl font-medium flex items-center justify-center shadow-sm hover:bg-purple-700 transition-colors duration-200">
+                    <i class="fas fa-tags mr-2"></i>
+                    MANAGE CATEGORIES
+                </button>
             </div>
+            
         </header>
 
         <section class="bg-white p-4 md:p-6 rounded-lg md:rounded-2xl shadow-md mb-6 overflow-hidden">
@@ -34,12 +39,9 @@
                 <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                     <div class="relative w-full sm:w-40">
                         <select id="category-filter" class="appearance-none bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-3 pr-8 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">
-                            <option value="all">All Categories</option>
-                            <option value="Skincare">Skincare</option>
-                            <option value="Makeup">Makeup</option>
-                            <option value="Haircare">Haircare</option>
-                            <option value="Fragrances">Fragrances</option>
-                            <option value="Bodycare">Bodycare</option>
+                            {{#each c}}
+                            <option value={{this.name}}>{{this.name}}</option>
+                            {{/each}}
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -84,9 +86,9 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{#each p }}                     
+                            {{#each p }} 
                             <tr class="hover:bg-gray-50" data-product-id="{{this._id}}"
-                                data-name="{{this.name}}" data-sku="{{this.sku}}" data-category="{{this.category}}" 
+                                data-name="{{this.name}}" data-sku="{{this.sku}}" data-category="{{this.category}}" data-brand-name="{{this.brand_name}}"
                                 data-price="{{this.price}}" data-stock="{{this.stock_qty}}" 
                                 data-description="{{this.description}}" data-image="{{this.image_url}}">
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
@@ -96,14 +98,9 @@
                                     {{this.sku}}
                                 </td>
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        {{#if (eq this.category 'Skincare')}}bg-blue-100 text-blue-800
-                                        {{else if (eq this.category 'Makeup')}}bg-purple-100 text-purple-800
-                                        {{else if (eq this.category 'Haircare')}}bg-green-100 text-green-800
-                                        {{else if (eq this.category 'Fragrances')}}bg-yellow-100 text-yellow-800
-                                        {{else if (eq this.category 'Bodycare')}} bg-pink-100 text-pink-800
-                                        {{else}}bg-pink-100 text-pink-800{{/if}}">
-                                        {{this.category}}
+                                    <span 
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[{{this.category.bg_color}}] text-[{{this.category.text_color}}]">
+                                        {{this.category.name}}
                                     </span>
                                 </td>
                                 <td class="px-3 py-2 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">
@@ -138,6 +135,7 @@
         
         <!-- Add Product Modal -->
         <div id="add-product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+            {{!-- THIS IS NOT VERY SECURE, CHANGE LATER --}}
             <input type="hidden" id="brandName" value="{{u.brand_name}}">
             <input type="hidden" id="user-role" value="{{u.role}}">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -153,14 +151,15 @@
                             <input type="text" id="add-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
+                            <label for="add-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
+                            <input type="text" id="add-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
                             <label for="add-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
                             <select id="add-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
-                                <option value="Skincare">Skincare</option>
-                                <option value="Makeup">Makeup</option>
-                                <option value="Haircare">Haircare</option>
-                                <option value="Fragrances">Fragrances</option>
-                                <option value="Bodycare">Bodycare</option>
-                                <option value="Unassigned">Unassigned</option>
+                                {{#each c}}
+                                <option value={{this.name}}>{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="mb-4">
@@ -208,13 +207,15 @@
                             <input type="text" id="edit-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
+                            <label for="edit-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
+                            <input type="text" id="edit-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
                             <label for="edit-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
                             <select id="edit-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
-                                <option value="Skincare">Skincare</option>
-                                <option value="Makeup">Makeup</option>
-                                <option value="Haircare">Haircare</option>
-                                <option value="Fragrances">Fragrances</option>
-                                <option value="Bodycare">Bodycare</option>
+                                {{#each c}}
+                                <option value={{this.name}}>{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="mb-4">
@@ -247,7 +248,7 @@
         </div>
 
         <!-- Delete Confirmation Modal -->
-        <div id="delete-confirm-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div id="delete-confirm-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-10">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
@@ -258,7 +259,7 @@
                         <p class="text-sm text-gray-500">Are you sure you want to delete this product? This action cannot be undone.</p>
                     </div>
                     <div class="items-center px-4 py-3">
-                        <button onclick="deleteProduct()" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <button onclick="deleteCategory()" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                             Delete
                         </button>
                         <button onclick="closeDeleteModal()" class="ml-3 px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
@@ -269,6 +270,112 @@
             </div>
         </div>
 
+        <!-- Category Management Modal -->
+        <div id="category-management-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+            <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Category Management</h3>
+                        <button onclick="closeCategoryManagement()" class="text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Add New Category Form -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="text-md font-medium text-gray-700 mb-3">Add New Category</h4>
+                        <form id="add-category-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="new-category-name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" id="new-category-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            </div>
+                            <div>
+                                <label for="new-category-bg" class="block text-sm font-medium text-gray-700">Background Color</label>
+                                <div class="flex items-center">
+                                    <input type="color" id="new-category-bg" value="#3b82f6" class="h-10 w-10 rounded border-gray-300 mr-2">
+                                    <input type="text" id="new-category-bg-text" value="#3b82f6" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="new-category-text" class="block text-sm font-medium text-gray-700">Text Color</label>
+                                <div class="flex items-center">
+                                    <input type="color" id="new-category-text" value="#ffffff" class="h-10 w-10 rounded border-gray-300 mr-2">
+                                    <input type="text" id="new-category-text-text" value="#ffffff" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                                </div>
+                            </div>
+                            <div class="flex items-end">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 h-10">
+                                    Add Category
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Categories Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Background Color
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Text Color
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="categories-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Categories will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Category Modal -->
+        <div id="edit-category-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Edit Category</h3>
+                    <form id="edit-category-form" class="mt-2 px-7 py-3">
+                        <input type="hidden" id="edit-category-id">
+                        <div class="mb-4">
+                            <label for="edit-cat-name" class="block text-sm font-medium text-gray-700 text-left">Name</label>
+                            <input type="text" id="edit-cat-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit-cat-bg" class="block text-sm font-medium text-gray-700 text-left">Background Color</label>
+                            <div class="flex items-center">
+                                <input type="color" id="edit-cat-bg" class="h-10 w-10 rounded border-gray-300 mr-2">
+                                <input type="text" id="edit-cat-bg-text" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit-cat-text" class="block text-sm font-medium text-gray-700 text-left">Text Color</label>
+                            <div class="flex items-center">
+                                <input type="color" id="edit-cat-text" class="h-10 w-10 rounded border-gray-300 mr-2">
+                                <input type="text" id="edit-cat-text-text" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            </div>
+                        </div>
+                        <div class="items-center px-4 py-3">
+                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Update
+                            </button>
+                            <button type="button" onclick="closeEditCategoryModal()" class="ml-3 px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <p id="no-results" class="text-gray-500 text-center hidden">No items found.</p>
         {{> help_button }}
     </div>

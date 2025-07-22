@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-const User = require('../src/models/User');
-const Product = require('../src/models/Product');
-const Category = require('../src/models/Category');
-const ProductStorage = require('../src/models/ProductStorage');
-const Storage = require('../src/models/Storage');
-
 dotenv.config();
 
 async function connect() {
