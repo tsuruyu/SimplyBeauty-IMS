@@ -12,8 +12,16 @@ const productSchema = new Schema({
         ref: 'Category'
     },
     price: { type: Number, required: true, min: 0 },
-    stock_qty: { type: Number, required: true, min: 0 },
-    image_url: { type: String, default: "https://placehold.co/600x400" }
+    image_url: { type: String, default: "https://placehold.co/600x400" },
+    stock_qty: { type: Number, default: 0 } // Now maintained automatically
+}, { 
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+// Virtual for total stock (calculated on demand)
+productSchema.virtual('total_stock').get(function() {
+    return this.stock_qty;
 });
 
 module.exports = mongoose.model('Product', productSchema);

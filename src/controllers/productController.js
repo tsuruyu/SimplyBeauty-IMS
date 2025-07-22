@@ -1,6 +1,16 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
+// Add this to your existing productController.js
+async function getAllProducts(req, res) {
+    try {
+        const products = await Product.find().select('name sku');
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 async function createProduct(req, res) {
     try {
         const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
@@ -167,6 +177,7 @@ async function getTotalStockByBrand(brand_name) {
 }
 
 module.exports = {
+    getAllProducts,
     getProducts,
     getVendorProducts,
     getTotalStock,
