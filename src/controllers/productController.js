@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const ProductStorage = require('../models/ProductStorage');
 
-// Add this to your existing productController.js
 async function getAllProducts(req, res) {
     try {
         const products = await Product.find().select('name sku');
@@ -142,10 +142,17 @@ async function deleteProductById(req, res) {
 
 async function getProducts() {
     const products = await Product.find().populate('category');
-    
-    const safeProducts = JSON.parse(JSON.stringify(products));
-
-    return safeProducts;
+    const productsWithStock = await Promise.all(products.map(async (product) => {
+        const stock = await ProductStorage.aggregate([
+        { $match: { product_id: product._id } },
+        { $group: { _id: null, total: { $sum: "$quantity" } } }
+        ]);
+        return {
+        ...product.toObject(),
+        stock_qty: stock.length ? stock[0].total : 0
+        };
+    }));
+    return productsWithStock;
 }
 
 async function getVendorProducts(user) {

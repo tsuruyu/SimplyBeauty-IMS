@@ -37,10 +37,8 @@ router.put('/api/storages/:id', requireLogin, updateStorage);
 router.delete('/api/storages/:id', requireLogin, deleteStorageById);
 router.get('/api/storages/:id', requireLogin, getStorageDetails);
 
-// Add to the existing product routes
 router.get('/api/products', requireLogin, getAllProducts);
 
-// Add to the existing routes
 router.post('/api/product-storage', requireLogin, addProductToStorage);
 router.put('/api/product-storage/:id', requireLogin, updateProductInStorage);
 router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage);

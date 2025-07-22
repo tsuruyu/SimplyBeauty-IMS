@@ -5,13 +5,89 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('add-storage-form').addEventListener('submit', handleAddStorage);
     document.getElementById('edit-storage-form').addEventListener('submit', handleUpdateStorage);
     document.getElementById('add-product-to-storage-form').addEventListener('submit', handleAddProductToStorage);
+
+    // Initialize product search functionality
+    productSearch();
 });
 
 let currentStorageId = null;
+let allProducts = [];
+
+async function productSearch() {
+    // Fetch all products when modal opens
+    document.getElementById('product-search').addEventListener('focus', async function() {
+        try {
+            const response = await fetch('/api/products');
+            if (!response.ok) throw new Error('Failed to load products');
+            allProducts = await response.json();
+        } catch (error) {
+            console.error('Failed to load products:', error);
+            showMessage('Failed to load products', 'error');
+        }
+    });
+    
+    // Client-side search functionality
+    document.getElementById('product-search').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        const resultsContainer = document.getElementById('product-search-results');
+        
+        if (searchTerm.length < 2) {
+            resultsContainer.classList.add('hidden');
+            return;
+        }
+        
+        const filteredProducts = allProducts.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) || 
+            (product.sku && product.sku.toLowerCase().includes(searchTerm))
+        );
+        
+        displaySearchResults(filteredProducts);
+    });
+    
+    function displaySearchResults(products) {
+        const resultsContainer = document.getElementById('product-search-results');
+        resultsContainer.innerHTML = '';
+        
+        if (products.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="p-2 text-sm text-gray-500">No matching products found</div>
+            `;
+        } else {
+            products.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'p-2 hover:bg-gray-100 cursor-pointer border-b border-gray-200';
+                item.innerHTML = `
+                    <div class="font-medium">${product.name}</div>
+                    <div class="text-xs text-gray-500">
+                        SKU: ${product.sku || 'N/A'} | 
+                        Stock: ${product.stock_qty || 0} | 
+                        $${product.price || '0.00'}
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    document.getElementById('selected-product-id').value = product._id;
+                    document.getElementById('product-search').value = `${product.name}${product.sku ? ` (${product.sku})` : ''}`;
+                    resultsContainer.classList.add('hidden');
+                });
+                resultsContainer.appendChild(item);
+            });
+        }
+        
+        resultsContainer.classList.remove('hidden');
+    }
+    
+    // Close results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#product-search, #product-search-results')) {
+            document.getElementById('product-search-results').classList.add('hidden');
+        }
+    });
+}
 
 async function loadStorages() {
     try {
         const response = await fetch('/api/storages');
+        if (!response.ok) throw new Error('Failed to load storages');
         const storages = await response.json();
         
         const tableBody = document.getElementById('storage-table-body');
@@ -43,10 +119,10 @@ async function loadStorages() {
                         <button onclick="viewStorageDetails('${storage._id}')" class="text-blue-600 hover:text-blue-900">
                             <i class="fas fa-eye text-sm md:text-base"></i>
                         </button>
-                        <button onclick="openEditStorageModal('${storage._id}', '${storage.name}', '${storage.location || ''}')" class="text-indigo-600 hover:text-indigo-900">
+                        <button onclick="openEditStorageModal('${storage._id}', '${escapeString(storage.name)}', '${escapeString(storage.location || '')}')" class="text-indigo-600 hover:text-indigo-900">
                             <i class="fas fa-edit text-sm md:text-base"></i>
                         </button>
-                        <button onclick="confirmDeleteStorage('${storage._id}', '${storage.name}')" class="text-red-600 hover:text-red-900">
+                        <button onclick="confirmDeleteStorage('${storage._id}', '${escapeString(storage.name)}')" class="text-red-600 hover:text-red-900">
                             <i class="fas fa-trash text-sm md:text-base"></i>
                         </button>
                     </div>
@@ -59,11 +135,20 @@ async function loadStorages() {
     }
 }
 
+function escapeString(str) {
+    return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
 async function handleAddStorage(e) {
     e.preventDefault();
     
-    const name = document.getElementById('storage-name').value;
-    const location = document.getElementById('storage-location').value;
+    const name = document.getElementById('storage-name').value.trim();
+    const location = document.getElementById('storage-location').value.trim();
+    
+    if (!name) {
+        showMessage('Storage name is required', 'error');
+        return;
+    }
     
     try {
         const response = await fetch('/api/storages', {
@@ -75,7 +160,8 @@ async function handleAddStorage(e) {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to add storage location');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to add storage location');
         }
         
         closeAddStorageModal();
@@ -90,8 +176,13 @@ async function handleUpdateStorage(e) {
     e.preventDefault();
     
     const id = document.getElementById('edit-storage-id').value;
-    const name = document.getElementById('edit-storage-name').value;
-    const location = document.getElementById('edit-storage-location').value;
+    const name = document.getElementById('edit-storage-name').value.trim();
+    const location = document.getElementById('edit-storage-location').value.trim();
+    
+    if (!name) {
+        showMessage('Storage name is required', 'error');
+        return;
+    }
     
     try {
         const response = await fetch(`/api/storages/${id}`, {
@@ -103,7 +194,8 @@ async function handleUpdateStorage(e) {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to update storage location');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to update storage location');
         }
         
         closeEditStorageModal();
@@ -120,11 +212,11 @@ async function viewStorageDetails(storageId) {
         
         // Load storage details
         const response = await fetch(`/api/storages/${storageId}`);
-        const data = await response.json();
-        
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to load storage details');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to load storage details');
         }
+        const data = await response.json();
         
         // Update the modal title
         document.getElementById('storage-details-title').textContent = 
@@ -132,9 +224,6 @@ async function viewStorageDetails(storageId) {
         
         // Set the current storage ID in the add product form
         document.getElementById('current-storage-id').value = storageId;
-        
-        // Load products into the select dropdown
-        await loadProductsForSelect();
         
         // Populate the products table
         const tableBody = document.getElementById('storage-products-table-body');
@@ -182,34 +271,20 @@ async function viewStorageDetails(storageId) {
     }
 }
 
-async function loadProductsForSelect() {
-    try {
-        const response = await fetch('/api/products'); // You'll need to add this endpoint
-        const products = await response.json();
-        
-        const select = document.getElementById('product-select');
-        select.innerHTML = '<option value="">Select a product</option>';
-        
-        products.forEach(product => {
-            const option = document.createElement('option');
-            option.value = product._id;
-            option.textContent = `${product.name} (${product.sku})`;
-            select.appendChild(option);
-        });
-    } catch (error) {
-        console.error('Error loading products:', error);
-    }
-}
-
 async function handleAddProductToStorage(e) {
     e.preventDefault();
     
     const storageId = document.getElementById('current-storage-id').value;
-    const productId = document.getElementById('product-select').value;
+    const productId = document.getElementById('selected-product-id').value;
     const quantity = document.getElementById('product-quantity').value;
     
-    if (!productId || !quantity) {
-        showMessage('Please select a product and enter a quantity', 'error');
+    if (!productId) {
+        showMessage('Please select a product first', 'error');
+        return;
+    }
+    
+    if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+        showMessage('Please enter a valid quantity', 'error');
         return;
     }
     
@@ -227,7 +302,8 @@ async function handleAddProductToStorage(e) {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to add product to storage');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to add product to storage');
         }
         
         // Refresh the storage details
@@ -236,6 +312,7 @@ async function handleAddProductToStorage(e) {
         
         // Reset the form
         document.getElementById('add-product-to-storage-form').reset();
+        document.getElementById('selected-product-id').value = '';
     } catch (error) {
         showMessage('Error adding product to storage: ' + error.message, 'error');
     }
@@ -260,7 +337,8 @@ async function updateProductInStorage(productStorageId, currentQuantity) {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to update product quantity');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to update product quantity');
         }
         
         // Refresh the storage details
@@ -282,7 +360,8 @@ async function removeProductFromStorage(productStorageId) {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to remove product from storage');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to remove product from storage');
         }
         
         // Refresh the storage details
@@ -337,7 +416,8 @@ async function deleteStorage() {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to delete storage location');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to delete storage location');
         }
         
         closeDeleteStorageModal();
