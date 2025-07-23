@@ -6,25 +6,6 @@ function closeAddModal() {
     document.getElementById('add-product-modal').classList.add('hidden');
 }
 
-function selectRoute(role) {
-    var route;
-
-    switch(role) {
-        case "vendor":
-            route = "/vendor/product";
-            break;
-        case "employee":
-            route = "/user/product";
-            break;
-        case "admin":
-            route = "/admin/product";
-            break;
-        default:
-            throw new Error("wtf");
-    }
-    return route;
-}
-
 function showInfoMessage(message, type = 'success') {
     const container = document.getElementById('info-message-container');
     if (!container) return;
@@ -103,7 +84,7 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
     }
 
     try {
-        const response = await fetch(selectRoute(role), {
+        const response = await fetch('/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -162,7 +143,7 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
     }
 
     try {
-        const response = await fetch(`${selectRoute(role)}/${productId}`, {
+        const response = await fetch(`/api/products/${productId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -187,10 +168,8 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
 async function deleteProduct() {
     if (!productToDelete) return;
 
-    var role = document.getElementById('user-role').value;
-
     try {
-        const response = await fetch(`${selectRoute(role)}/${productToDelete}`, {
+        const response = await fetch(`/api/products/${productToDelete}`, {
             method: 'DELETE'
         });
 

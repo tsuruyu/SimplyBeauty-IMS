@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { getProducts } = require('../controllers/productController');
+const { getAllProductObjects } = require('../controllers/productController');
 const Category = require('../models/Category');
 const ProductStorage = require('../models/ProductStorage');
 const bcrypt = require('bcrypt');
@@ -30,17 +30,17 @@ async function getAdminUserDashboard(req, res) {
 
     try {
         const users = await getUsers();
-        const products = await getProducts();
+        // const products = await getAllProductObjects();
         // printDebug(user, products);
         res.render('admin/user_table', {
             u: user,
             users: users,
-            p: products,
+            // p: products,
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {
-        console.error("Failed to load vendor dashboard:", error);
-        res.status(500).send("Server error loading user dashboard.");
+        console.error("Failed to load admin user dashboard:", error);
+        res.status(500).send("Server error loading admin user dashboard.");
     }
 }
 
@@ -51,7 +51,7 @@ async function getAdminProductDashboard(req, res) {
         return res.status(403).send("Access denied.");
     }
 
-    const products = await getProducts();
+    const products = await getAllProductObjects();
     const categories = await getCategories();
 
     res.render('admin/product_table', {

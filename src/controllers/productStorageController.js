@@ -8,8 +8,13 @@ function tokenizePath(path) {
 
 async function getLocationDashboard(req, res) {
     const user = req.session.user;
+    var role = user.role;
 
-    res.render('admin/storage_management', {
+    if (role === 'employee') {
+        role = 'user';
+    }
+
+    res.render(`${role}/storage_management`, {
         u: user,
         currentPath: tokenizePath(req.path)
     });

@@ -21,11 +21,15 @@ router.get('/', (req, res) => {
     res.redirect('/login');
 });
 
-
 /**
  * It probably would've been much better if we used API endpoints throughout the program
  */
-// these endpoints are currently not secure. no role/user validation
+// these endpoints are currently not secure, only guarded by requireLogin which checks for user roles
+router.get('/api/products', requireLogin, getAllProducts);
+router.post('/api/products', requireLogin, createProduct);
+router.put('/api/products/:id', requireLogin, updateProduct);
+router.delete('/api/products/:id', requireLogin, deleteProductById);
+
 router.get('/api/categories', getCategory);
 router.post('/api/categories', createCategory);
 router.put('/api/categories/:id', updateCategory);
@@ -36,8 +40,6 @@ router.post('/api/storages', requireLogin, createStorage);
 router.put('/api/storages/:id', requireLogin, updateStorage);
 router.delete('/api/storages/:id', requireLogin, deleteStorageById);
 router.get('/api/storages/:id', requireLogin, getStorageDetails);
-
-router.get('/api/products', requireLogin, getAllProducts);
 
 router.post('/api/product-storage', requireLogin, addProductToStorage);
 router.put('/api/product-storage/:id', requireLogin, updateProductInStorage);
@@ -59,7 +61,7 @@ router.get('/user/manage_products', requireLogin, getUserDashboard);
 router.post('/user/manage_products', requireLogin, createProduct);
 router.put('/user/product/:id', requireLogin, updateProduct);
 router.delete('/user/product/:id', requireLogin, deleteProductById);
-router.get('user/manage_locations', requireLogin);
+router.get('/user/manage_locations', requireLogin, getLocationDashboard);
 
 
 /**
@@ -73,7 +75,7 @@ router.put('/vendor/product/:id', requireLogin, updateProduct);
 router.delete('/vendor/product/:id', requireLogin, deleteProductById);
 // router.get('/vendor/product/filter', requireLogin, filterProductByBrand);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
-router.get('vendor/manage_locations', requireLogin);
+router.get('/vendor/manage_locations', requireLogin);
 
 
 /**
@@ -86,9 +88,6 @@ router.delete('/admin/users/:id', requireLogin, deleteUserById);
 router.get('/admin/users/filter', requireLogin, filterUsersByRole);
 router.get('/admin/users', requireLogin, getAllUsers);
 router.get('/admin/manage_products', requireLogin, getAdminProductDashboard);
-router.post('/admin/product', requireLogin, createProduct);
-router.put('/admin/product/:id', requireLogin, updateProduct);
-router.delete('/admin/product/:id', requireLogin, deleteProductById);
 // router.get('/admin/product/filter', requireLogin, filterProductByBrand);
 router.get('/admin/manage_locations', requireLogin, getLocationDashboard);
 

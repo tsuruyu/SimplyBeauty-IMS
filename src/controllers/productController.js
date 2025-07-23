@@ -4,11 +4,68 @@ const ProductStorage = require('../models/ProductStorage');
 
 async function getAllProducts(req, res) {
     try {
-        const products = await Product.find().select('name sku');
-        res.json(products);
+        const products = await Product.find().populate('category');
+        const productsWithStock = await Promise.all(products.map(async (product) => {
+        const stock = await ProductStorage.aggregate([
+            { $match: { product_id: product._id } },
+            { $group: { _id: null, total: { $sum: "$quantity" } } }
+        ]);
+        return {
+            ...product.toObject(),
+            stock_qty: stock.length ? stock[0].total : 0
+        };
+        }));
+        res.json(productsWithStock);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+}
+
+async function getAllProductObjects(req, res) {
+    try {
+        const products = await Product.find().populate('category');
+        const productsWithStock = await Promise.all(products.map(async (product) => {
+            const stock = await ProductStorage.aggregate([
+            { $match: { product_id: product._id } },
+            { $group: { _id: null, total: { $sum: "$quantity" } } }
+            ]);
+            return {
+            ...product.toObject(),
+            stock_qty: stock.length ? stock[0].total : 0 // do not remove, this computes all products and aggregates the stock quantity depending on its stock in ProductStorage
+            };
+        }));
+        return productsWithStock;
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getVendorProducts(user) {
+    const brand_name = user.brand_name;
+    const products = await Product.find({brand_name: brand_name}).populate('category');
+    
+    const safeProducts = JSON.parse(JSON.stringify(products));
+    
+    return safeProducts;
+}
+
+async function getProductCount(brand_name) {
+    return await Product.countDocuments({ brand_name });
+}
+
+async function getTotalStock() {
+    const products = await Product.find({}, 'stock_qty'); // fix this and the below function soon
+    const quantity = products.map(doc => doc.stock_qty);
+    const totalStock = quantity.reduce((sum, qty) => sum + qty, 0);
+
+    return totalStock;
+}
+
+async function getTotalStockByBrand(brand_name) {
+    const products = await Product.find({ brand_name: brand_name }, 'stock_qty');
+    const total = products.reduce((sum, p) => sum + (p.stock_qty || 0), 0);
+    
+    return total;
 }
 
 async function createProduct(req, res) {
@@ -138,52 +195,9 @@ async function deleteProductById(req, res) {
     }
 }
 
-async function getProducts() {
-    const products = await Product.find().populate('category');
-    const productsWithStock = await Promise.all(products.map(async (product) => {
-        const stock = await ProductStorage.aggregate([
-        { $match: { product_id: product._id } },
-        { $group: { _id: null, total: { $sum: "$quantity" } } }
-        ]);
-        return {
-        ...product.toObject(),
-        stock_qty: stock.length ? stock[0].total : 0 // do not remove, this computes all products and aggregates the stock quantity depending on its stock in ProductStorage
-        };
-    }));
-    return productsWithStock;
-}
-
-async function getVendorProducts(user) {
-    const brand_name = user.brand_name;
-    const products = await Product.find({brand_name: brand_name}).populate('category');
-    
-    const safeProducts = JSON.parse(JSON.stringify(products));
-    
-    return safeProducts;
-}
-
-async function getProductCount(brand_name) {
-    return await Product.countDocuments({ brand_name });
-}
-
-async function getTotalStock() {
-    const products = await Product.find({}, 'stock_qty'); // fix this and the below function soon
-    const quantity = products.map(doc => doc.stock_qty);
-    const totalStock = quantity.reduce((sum, qty) => sum + qty, 0);
-
-    return totalStock;
-}
-
-async function getTotalStockByBrand(brand_name) {
-    const products = await Product.find({ brand_name: brand_name }, 'stock_qty');
-    const total = products.reduce((sum, p) => sum + (p.stock_qty || 0), 0);
-    
-    return total;
-}
-
 module.exports = {
     getAllProducts,
-    getProducts,
+    getAllProductObjects,
     getVendorProducts,
     getTotalStock,
     getTotalStockByBrand,

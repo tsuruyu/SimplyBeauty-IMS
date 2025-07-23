@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     loadStorages();
-    
+    productSearch();
+
     // Setup form event listeners
     document.getElementById('add-storage-form').addEventListener('submit', handleAddStorage);
     document.getElementById('edit-storage-form').addEventListener('submit', handleUpdateStorage);
     document.getElementById('add-product-to-storage-form').addEventListener('submit', handleAddProductToStorage);
-
-    // Initialize product search functionality
-    productSearch();
 });
 
 let currentStorageId = null;
@@ -15,7 +13,7 @@ let allProducts = [];
 
 async function productSearch() {
     // Fetch all products when modal opens
-    document.getElementById('product-search').addEventListener('focus', async function() {
+    async function loadProducts() {
         try {
             const response = await fetch('/api/products');
             if (!response.ok) throw new Error('Failed to load products');
@@ -24,7 +22,11 @@ async function productSearch() {
             console.error('Failed to load products:', error);
             showMessage('Failed to load products', 'error');
         }
-    });
+    }
+    
+    await loadProducts();
+    
+    document.getElementById('product-search').addEventListener('focus', loadProducts);
     
     // Client-side search functionality
     document.getElementById('product-search').addEventListener('input', function(e) {
