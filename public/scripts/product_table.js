@@ -47,7 +47,6 @@ function openEditModal(productId) {
     document.getElementById('edit-sku').value = row.dataset.sku;
     document.getElementById('edit-category').value = row.dataset.category;
     document.getElementById('edit-price').value = row.dataset.price;
-    document.getElementById('edit-stock_qty').value = row.dataset.stock;
     document.getElementById('edit-description').value = row.dataset.description;
     document.getElementById('edit-image_url').value = row.dataset.image;
     if (role !== "vendor") {
@@ -86,7 +85,6 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             sku: document.getElementById('add-sku').value,
             category: document.getElementById('add-category').value,
             price: document.getElementById('add-price').value,
-            stock_qty: document.getElementById('add-stock_qty').value,
             description: document.getElementById('add-description').value,
             image_url: document.getElementById('add-image_url').value,
             brand_name: document.getElementById('brandName').value
@@ -98,7 +96,6 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             sku: document.getElementById('add-sku').value,
             category: document.getElementById('add-category').value,
             price: document.getElementById('add-price').value,
-            stock_qty: document.getElementById('add-stock_qty').value,
             description: document.getElementById('add-description').value,
             image_url: document.getElementById('add-image_url').value,
             brand_name: document.getElementById('add-brand-name').value
@@ -147,7 +144,6 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
             sku: document.getElementById('edit-sku').value,
             category: document.getElementById('edit-category').value,
             price: document.getElementById('edit-price').value,
-            stock_qty: document.getElementById('edit-stock_qty').value,
             description: document.getElementById('edit-description').value,
             image_url: document.getElementById('edit-image_url').value,
             brand_name: document.getElementById('brandName').value
@@ -159,7 +155,6 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
             sku: document.getElementById('edit-sku').value,
             category: document.getElementById('edit-category').value,
             price: document.getElementById('edit-price').value,
-            stock_qty: document.getElementById('edit-stock_qty').value,
             description: document.getElementById('edit-description').value,
             image_url: document.getElementById('edit-image_url').value,
             brand_name: document.getElementById('edit-brand-name').value,
@@ -176,16 +171,16 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
         });
 
         if (response.ok) {
-            alert('Product updated successfully!');
+            showInfoMessage('Product updated successfully!', 'success');
             closeEditModal();
             location.reload();
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to update product.');
+            showInfoMessage(error.message || 'Failed to update product.');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while updating product.');
+        showInfoMessage('An error occurred while updating product.');
     }
 });
 
@@ -205,11 +200,11 @@ async function deleteProduct() {
             location.reload();
         } else {
             const error = await response.json();
-            alert(error.message || 'Failed to delete product.');
+            showInfoMessage(error.message || 'Failed to delete product.');
         }
     } catch (err) {
         console.error(err);
-        alert('An error occurred while deleting product.');
+        showInfoMessage('An error occurred while deleting product.');
     }
 }
 
@@ -418,7 +413,12 @@ let categoryToDelete = null;
 
 function confirmDeleteCategory(id) {
     categoryToDelete = id;
-    document.getElementById('delete-confirm-modal').classList.remove('hidden');
+    document.getElementById('delete-category-modal').classList.remove('hidden');
+}
+
+function closeDeleteCategoryModal() {
+    categoryToDelete = null;
+    document.getElementById('delete-category-modal').classList.add('hidden');
 }
 
 function deleteCategory() {

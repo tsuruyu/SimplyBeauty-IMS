@@ -13,18 +13,18 @@ async function getAllProducts(req, res) {
 
 async function createProduct(req, res) {
     try {
-        const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
+        const { name, sku, category, price, description, image_url, brand_name } = req.body;
 
         // Validate required fields
-        if (!name || !sku || !category || !price || !stock_qty || !brand_name) {
+        if (!name || !sku || !category || !price || !brand_name) {
             return res.status(400).json({ 
                 message: 'One or more fields are missing or invalid.' 
             });
         }
 
-        // Validate category
-        const categoryExists = await Category.exists({ name: category });
-        if (!categoryExists) {
+        // Find category by name and get its ObjectId
+        const categoryDoc = await Category.findOne({ name: category });
+        if (!categoryDoc) {
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
@@ -40,9 +40,8 @@ async function createProduct(req, res) {
         const productData = {
             name,
             sku,
-            category,
+            category: categoryDoc._id,
             price: parseFloat(price),
-            stock_qty: parseInt(stock_qty),
             description: description || '',
             image_url: image_url || 'https://placehold.co/600x400',
             brand_name
@@ -67,30 +66,29 @@ async function createProduct(req, res) {
 async function updateProduct(req, res) {
     try {
         const productId = req.params.id;
-        const { name, sku, category, price, stock_qty, description, image_url, brand_name } = req.body;
+        const { name, sku, category, price, description, image_url, brand_name } = req.body;
 
         // Validate required fields
-        if (!name || !sku || !category || !price || !stock_qty) {
+        if (!name || !sku || !category || !price) {
             return res.status(400).json({ 
-                message: 'Missing required fields (name, sku, category, price, or stock_qty)' 
+                message: 'One or more fields are missing or invalid.' 
             });
         }
 
-        // Validate category
-        const categoryExists = await Category.exists({ name: category });
-        if (!categoryExists) {
+        // Find category by name and get its ObjectId
+        const categoryDoc = await Category.findOne({ name: category });
+        if (!categoryDoc) {
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
         }
 
-        // Prepare update object
+        // Prepare update object with category ObjectId
         const updateData = {
             name,
             sku,
-            category,
+            category: categoryDoc._id, // Use the ObjectId instead of name
             price: parseFloat(price),
-            stock_qty: parseInt(stock_qty),
             description,
             image_url,
             brand_name
@@ -149,7 +147,7 @@ async function getProducts() {
         ]);
         return {
         ...product.toObject(),
-        stock_qty: stock.length ? stock[0].total : 0
+        stock_qty: stock.length ? stock[0].total : 0 // do not remove, this computes all products and aggregates the stock quantity depending on its stock in ProductStorage
         };
     }));
     return productsWithStock;
@@ -169,7 +167,7 @@ async function getProductCount(brand_name) {
 }
 
 async function getTotalStock() {
-    const products = await Product.find({}, 'stock_qty');
+    const products = await Product.find({}, 'stock_qty'); // fix this and the below function soon
     const quantity = products.map(doc => doc.stock_qty);
     const totalStock = quantity.reduce((sum, qty) => sum + qty, 0);
 

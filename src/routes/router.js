@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 
 
 /**
- * It probably would've been much better if we used API endpoints pero we dug too deep na eh
+ * It probably would've been much better if we used API endpoints throughout the program
  */
 // these endpoints are currently not secure. no role/user validation
 router.get('/api/categories', getCategory);

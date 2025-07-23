@@ -136,7 +136,15 @@ async function loadStorages() {
 }
 
 function escapeString(str) {
-    return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r');
 }
 
 async function handleAddStorage(e) {
