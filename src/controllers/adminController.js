@@ -1,18 +1,11 @@
 const User = require('../models/User');
-const { getAllProductObjects } = require('../controllers/productController');
-const Category = require('../models/Category');
-const ProductStorage = require('../models/ProductStorage');
+const { getAllProductObjects } = require('./productController');
+const { getCategoryObjects } = require('./categoryController');
 const bcrypt = require('bcrypt');
 
 async function getUsers() {
     const users = await User.find().lean();
     return users;
-}
-
-// ik this is a double declaration but everything works and i do not want to break anything
-async function getCategories() {
-    const categories = await Category.find().lean();
-    return categories;
 }
 
 async function filterRoles(role) {
@@ -52,7 +45,7 @@ async function getAdminProductDashboard(req, res) {
     }
 
     const products = await getAllProductObjects();
-    const categories = await getCategories();
+    const categories = await getCategoryObjects();
 
     res.render('admin/product_table', {
         u: user,

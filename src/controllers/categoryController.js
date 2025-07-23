@@ -12,6 +12,12 @@ async function getCategory(req, res) {
     }
 }
 
+async function getCategoryObjects() {
+    const categories = await Category.find().lean();
+
+    return categories;
+}
+
 async function createCategory(req, res) {
     try {    
         const { name, bg_color, text_color } = req.body;
@@ -134,6 +140,7 @@ async function deleteCategoryById(req, res) {
 
 module.exports = {
     getCategory,
+    getCategoryObjects,
     createCategory,
     updateCategory,
     deleteCategoryById

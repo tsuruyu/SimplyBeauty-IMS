@@ -58,9 +58,9 @@ router.post('/login', handleLoginRequest);
 
 // router.get('/user/profile', requireLogin, getUserDashboard);
 router.get('/user/manage_products', requireLogin, getUserDashboard);
-router.post('/user/manage_products', requireLogin, createProduct);
-router.put('/user/product/:id', requireLogin, updateProduct);
-router.delete('/user/product/:id', requireLogin, deleteProductById);
+// router.post('/user/manage_products', requireLogin, createProduct);
+// router.put('/user/product/:id', requireLogin, updateProduct);
+// router.delete('/user/product/:id', requireLogin, deleteProductById);
 router.get('/user/manage_locations', requireLogin, getLocationDashboard);
 
 
@@ -70,9 +70,9 @@ router.get('/user/manage_locations', requireLogin, getLocationDashboard);
 // router.get('/vendor/profile', requireLogin, getVendorDashboard);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
 router.get('/vendor/product_table', requireLogin, getVendorTable);
-router.post('/vendor/product_table', requireLogin, createProduct);
-router.put('/vendor/product/:id', requireLogin, updateProduct);
-router.delete('/vendor/product/:id', requireLogin, deleteProductById);
+// router.post('/vendor/product_table', requireLogin, createProduct);
+// router.put('/vendor/product/:id', requireLogin, updateProduct);
+// router.delete('/vendor/product/:id', requireLogin, deleteProductById);
 // router.get('/vendor/product/filter', requireLogin, filterProductByBrand);
 // router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
 router.get('/vendor/manage_locations', requireLogin);
