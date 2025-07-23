@@ -33,7 +33,7 @@ function showInfoMessage(message, type = 'success') {
     setTimeout(() => {
         container.style.display = 'none';
         container.innerHTML = '';
-    }, 3000);
+    }, 1000);
 }
 
 function openEditModal(productId) {
@@ -122,7 +122,7 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             setTimeout(() => {
                 closeAddModal();
                 location.reload();
-            }, 1500);
+            }, 1000);
         } else {
             const error = await response.json();
             showInfoMessage(error.message || 'Failed to add product.', 'error');
@@ -335,7 +335,7 @@ document.getElementById('add-category-form').addEventListener('submit', function
             setTimeout(() => {
                 closeCategoryManagement();
                 location.reload();
-            }, 3000);
+            }, 1000);
         }
     })
     .catch(error => {
@@ -403,7 +403,7 @@ document.getElementById('edit-category-form').addEventListener('submit', functio
                 setTimeout(() => {
                     closeEditCategoryModal();
                     location.reload();
-                }, 3000);
+                }, 1000);
             }
         }
     })
@@ -437,7 +437,7 @@ function deleteCategory() {
                 setTimeout(() => {
                     closeDeleteModal();
                     location.reload();
-                }, 3000);
+                }, 1000);
             }
         }
     })
