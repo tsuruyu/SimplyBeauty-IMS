@@ -10,12 +10,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let currentStorageId = null;
 let allProducts = [];
+let role = document.getElementById('user-role').value;
+const brandNameElement = document.getElementById('brandName');
+if (brandNameElement) {
+    brand_name = brandNameElement.value;
+}
 
 async function productSearch() {
     // Fetch all products when modal opens
     async function loadProducts() {
         try {
-            const response = await fetch('/api/products');
+            let url = '/api/products';
+            
+            if (role === 'vendor') {
+                url += `?brand_name=${encodeURIComponent(brand_name)}`;
+            }
+            
+            const response = await fetch(url);
+            
             if (!response.ok) throw new Error('Failed to load products');
             allProducts = await response.json();
         } catch (error) {
@@ -239,16 +251,24 @@ async function viewStorageDetails(storageId) {
         const tableBody = document.getElementById('storage-products-table-body');
         tableBody.innerHTML = '';
         
-        if (data.products.length === 0) {
+        // Filter products if role is vendor and brand_name is set
+        let filteredProducts = data.products;
+        if (role === 'vendor' && brand_name) {
+            filteredProducts = data.products.filter(product => 
+                product.product_id?.brand_name === brand_name
+            );
+        }
+        
+        if (filteredProducts.length === 0) {
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="4" class="px-4 py-4 text-center text-sm text-gray-500">
-                        No products in this location.
+                        No products in this location${role === 'vendor' ? ' for your brand' : ''}.
                     </td>
                 </tr>
             `;
         } else {
-            data.products.forEach(product => {
+            filteredProducts.forEach(product => {
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `

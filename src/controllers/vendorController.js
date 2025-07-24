@@ -1,10 +1,6 @@
-const Category = require('../models/Category');
-const { getVendorProducts, getTotalStockByBrand, getProductCount } = require('./productController');
-
-async function getCategories() {
-    const categories = await Category.find().lean();
-    return categories;
-}
+const { getCategoryObjects } = require('./categoryController');
+const { getVendorProductObjects, 
+        getTotalStockByBrand, getProductCount } = require('./productController');
 
 async function getVendorDashboard(req, res) {
     const user = req.session.user;
@@ -14,7 +10,7 @@ async function getVendorDashboard(req, res) {
     }
 
     try {
-        const products = await getVendorProducts(user);
+        const products = await getVendorProductObjects(user);
         res.render('vendor/product_dashboard', {
             u: user,
             p: products,
@@ -36,8 +32,8 @@ async function getVendorTable(req, res) {
     }
 
     try {
-        const products = await getVendorProducts(user);
-        const categories = await getCategories();
+        const products = await getVendorProductObjects(user);
+        const categories = await getCategoryObjects();
 
         res.render('vendor/product_table', {
             u: user,

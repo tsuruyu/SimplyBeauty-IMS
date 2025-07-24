@@ -2,22 +2,25 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 const ProductStorage = require('../models/ProductStorage');
 
+// In your controller file
 async function getAllProducts(req, res) {
     try {
-        const products = await Product.find().populate('category');
-        const productsWithStock = await Promise.all(products.map(async (product) => {
-        const stock = await ProductStorage.aggregate([
-            { $match: { product_id: product._id } },
-            { $group: { _id: null, total: { $sum: "$quantity" } } }
-        ]);
-        return {
-            ...product.toObject(),
-            stock_qty: stock.length ? stock[0].total : 0
-        };
-        }));
-        res.json(productsWithStock);
+        let products;
+        
+        if (req.query.brand_name) {
+            // Filter products by brand (case-insensitive)
+            products = await Product.find({ 
+                brand_name: { $regex: new RegExp(req.query.brand_name, 'i') } 
+            });
+        } else {
+            // Get all products if no brand filter
+            products = await Product.find({});
+        }
+
+        res.json(products);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Failed to fetch products' });
     }
 }
 
@@ -40,7 +43,20 @@ async function getAllProductObjects(req, res) {
     }
 }
 
-async function getVendorProducts(user) {
+async function getVendorProducts(req, res, user) {
+    try {
+        const brand_name = user.brand_name;
+        const products = await Product.find({brand_name: brand_name}).populate('category');
+        
+        const safeProducts = JSON.parse(JSON.stringify(products));
+        
+        res.json(safeProducts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getVendorProductObjects(user) {
     const brand_name = user.brand_name;
     const products = await Product.find({brand_name: brand_name}).populate('category');
     
@@ -199,6 +215,7 @@ module.exports = {
     getAllProducts,
     getAllProductObjects,
     getVendorProducts,
+    getVendorProductObjects,
     getTotalStock,
     getTotalStockByBrand,
     getProductCount,

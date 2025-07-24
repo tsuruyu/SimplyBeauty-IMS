@@ -12,6 +12,7 @@
 </head>
 
 <body class="flex min-h-screen bg-gray-100">
+    <input type="hidden" id="user-role" value="{{u.role}}">
     {{> user_sidebar u currentPath=currentPath count=count}}
     <div id="info-message-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4" style="display:none;"></div>
     <div class="flex-1 p-4 md:p-6 overflow-hidden">
