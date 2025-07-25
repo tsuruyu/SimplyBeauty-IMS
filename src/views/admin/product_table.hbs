@@ -26,7 +26,11 @@
                     </svg>
                     ADD PRODUCT
                 </button>
-            </div>          
+                <button onclick="openCategoryManagement()" class="bg-purple-600 text-white px-4 py-2 text-sm md:text-base rounded-lg md:rounded-xl font-medium flex items-center justify-center shadow-sm hover:bg-purple-700 transition-colors duration-200">
+                    <i class="fas fa-tags mr-2"></i>
+                    MANAGE CATEGORIES
+                </button>
+            </div>   
         </header>
 
         <section class="bg-white p-4 md:p-6 rounded-lg md:rounded-2xl shadow-md mb-6 overflow-hidden">
@@ -34,6 +38,7 @@
                 <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                     <div class="relative w-full sm:w-40">
                         <select id="category-filter" class="appearance-none bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-3 pr-8 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">
+                            <option value="all">All Categories</option>
                             {{#each c}}
                             <option value={{this.name}}>{{this.name}}</option>
                             {{/each}}
@@ -44,9 +49,6 @@
                             </svg>
                         </div>
                     </div>
-                    <button id="filter-btn" class="bg-blue-600 text-white px-3 py-2 text-sm md:text-base rounded-lg md:rounded-xl hover:bg-blue-700 transition-colors duration-200">
-                        Filter
-                    </button>
                 </div>
                 <div class="relative mt-2 sm:mt-0 w-full sm:w-48 md:w-64">
                     <input type="text" id="search-input" placeholder="Search products..." class="bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-8 pr-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">

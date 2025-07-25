@@ -1,3 +1,8 @@
+function getUserRole() {
+    const roleElement = document.getElementById('user-role');
+    return roleElement ? roleElement.value : null;
+}
+
 function openAddModal() {
     document.getElementById('add-product-modal').classList.remove('hidden');
 }
@@ -21,8 +26,6 @@ function openEditModal(productId) {
     const row = document.querySelector(`[data-product-id="${productId}"]`);
     if (!row) return;
 
-    var role = document.getElementById('user-role').value;
-
     document.getElementById('edit-product_id').value = productId;
     document.getElementById('edit-name').value = row.dataset.name;
     document.getElementById('edit-sku').value = row.dataset.sku;
@@ -30,7 +33,7 @@ function openEditModal(productId) {
     document.getElementById('edit-price').value = row.dataset.price;
     document.getElementById('edit-description').value = row.dataset.description;
     document.getElementById('edit-image_url').value = row.dataset.image;
-    if (role !== "vendor") {
+    if (getUserRole() !== "vendor") {
         document.getElementById('edit-brand-name').value = row.dataset.brandName;
     }
 
@@ -57,10 +60,9 @@ function closeDeleteModal() {
 document.getElementById('add-product-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    var role = document.getElementById('user-role').value;
     var payload;
 
-    if (role === "vendor") {
+    if (getUserRole() === "vendor") {
         payload = {
             name: document.getElementById('add-name').value,
             sku: document.getElementById('add-sku').value,
@@ -117,9 +119,8 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
 
     var payload;
     const productId = document.getElementById('edit-product_id').value;
-    var role = document.getElementById('user-role').value;
 
-    if (role === "vendor") {
+    if (getUserRole() === "vendor") {
         payload = {
             name: document.getElementById('edit-name').value,
             sku: document.getElementById('edit-sku').value,
@@ -187,14 +188,6 @@ async function deleteProduct() {
     }
 }
 
-document.getElementById('filter-btn').addEventListener('click', function() {
-    const categoryFilter = document.getElementById('category-filter').value;
-    const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    
-    // In a real app, you would send these filters to your backend
-    console.log('Filtering by category:', categoryFilter, 'and search term:', searchTerm);
-});
-
 function tableScroller() {
 const tableScroller = document.getElementById('table-scroller');
     
@@ -213,217 +206,264 @@ const tableScroller = document.getElementById('table-scroller');
     }
 }
 
-// Category Management Functions
-function openCategoryManagement() {
-    document.getElementById('category-management-modal').classList.remove('hidden');
-    loadCategories();
-    
-    // Sync color inputs
-    document.getElementById('new-category-bg').addEventListener('input', function() {
-        document.getElementById('new-category-bg-text').value = this.value;
-    });
-    document.getElementById('new-category-bg-text').addEventListener('input', function() {
-        document.getElementById('new-category-bg').value = this.value;
-    });
-    document.getElementById('new-category-text').addEventListener('input', function() {
-        document.getElementById('new-category-text-text').value = this.value;
-    });
-    document.getElementById('new-category-text-text').addEventListener('input', function() {
-        document.getElementById('new-category-text').value = this.value;
-    });
-}
+if (getUserRole() !== 'vendor') {
+    // Category Management Functions
+    function openCategoryManagement() {
+        document.getElementById('category-management-modal').classList.remove('hidden');
+        loadCategories();
+        
+        // Sync color inputs
+        document.getElementById('new-category-bg').addEventListener('input', function() {
+            document.getElementById('new-category-bg-text').value = this.value;
+        });
+        document.getElementById('new-category-bg-text').addEventListener('input', function() {
+            document.getElementById('new-category-bg').value = this.value;
+        });
+        document.getElementById('new-category-text').addEventListener('input', function() {
+            document.getElementById('new-category-text-text').value = this.value;
+        });
+        document.getElementById('new-category-text-text').addEventListener('input', function() {
+            document.getElementById('new-category-text').value = this.value;
+        });
+    }
 
-function closeCategoryManagement() {
-    document.getElementById('category-management-modal').classList.add('hidden');
-}
+    function closeCategoryManagement() {
+        document.getElementById('category-management-modal').classList.add('hidden');
+    }
 
-function loadCategories() {
-    fetch('/api/categories')
-        .then(response => response.json())
-        .then(categories => {
-            const tbody = document.getElementById('categories-table-body');
-            tbody.innerHTML = '';
-            
-            categories.forEach(category => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-gray-50';
-                tr.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${category.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 text-xs rounded-full" style="background-color: ${category.bg_color}; color: ${category.text_color}">
-                            ${category.bg_color}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 text-xs rounded-full" style="color: ${category.text_color}">
-                            ${category.text_color}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openEditCategoryModal('${category._id}', '${category.name}', '${category.bg_color}', '${category.text_color}')" class="text-indigo-600 hover:text-indigo-900 mr-3">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="confirmDeleteCategory('${category._id}')" class="text-red-600 hover:text-red-900">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+    function loadCategories() {
+        fetch('/api/categories')
+            .then(response => response.json())
+            .then(categories => {
+                const tbody = document.getElementById('categories-table-body');
+                tbody.innerHTML = '';
+                
+                categories.forEach(category => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${category.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full" style="background-color: ${category.bg_color}; color: ${category.text_color}">
+                                ${category.bg_color}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full" style="color: ${category.text_color}">
+                                ${category.text_color}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="openEditCategoryModal('${category._id}', '${category.name}', '${category.bg_color}', '${category.text_color}')" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="confirmDeleteCategory('${category._id}')" class="text-red-600 hover:text-red-900">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading categories:', error);
+                showInfoMessage('Failed to load categories', 'error');
             });
+    }
+
+    // Add new category
+    document.getElementById('add-category-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('new-category-name').value;
+        const bg_color = document.getElementById('new-category-bg-text').value;
+        const text_color = document.getElementById('new-category-text-text').value;
+        
+        fetch('/api/categories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name,
+                bg_color,
+                text_color
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
+                if (data.message.includes('success')) {
+                    loadCategories();
+                    document.getElementById('add-category-form').reset();
+                    document.getElementById('new-category-bg').value = '#3b82f6';
+                    document.getElementById('new-category-text').value = '#ffffff';
+                }
+                setTimeout(() => {
+                    closeCategoryManagement();
+                    location.reload();
+                }, 1000);
+            }
         })
         .catch(error => {
-            console.error('Error loading categories:', error);
-            showInfoMessage('Failed to load categories', 'error');
+            console.error('Error adding category:', error);
+            showInfoMessage('Failed to add category', 'error');
         });
-}
+    });
 
-// Add new category
-document.getElementById('add-category-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('new-category-name').value;
-    const bg_color = document.getElementById('new-category-bg-text').value;
-    const text_color = document.getElementById('new-category-text-text').value;
-    
-    fetch('/api/categories', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            name,
-            bg_color,
-            text_color
+    // Edit category modal
+    function openEditCategoryModal(id, name, bgColor, textColor) {
+        document.getElementById('edit-category-id').value = id;
+        document.getElementById('edit-cat-name').value = name;
+        document.getElementById('edit-cat-bg').value = bgColor;
+        document.getElementById('edit-cat-bg-text').value = bgColor;
+        document.getElementById('edit-cat-text').value = textColor;
+        document.getElementById('edit-cat-text-text').value = textColor;
+        
+        document.getElementById('edit-category-modal').classList.remove('hidden');
+        
+        // Sync color inputs
+        document.getElementById('edit-cat-bg').addEventListener('input', function() {
+            document.getElementById('edit-cat-bg-text').value = this.value;
+        });
+        document.getElementById('edit-cat-bg-text').addEventListener('input', function() {
+            document.getElementById('edit-cat-bg').value = this.value;
+        });
+        document.getElementById('edit-cat-text').addEventListener('input', function() {
+            document.getElementById('edit-cat-text-text').value = this.value;
+        });
+        document.getElementById('edit-cat-text-text').addEventListener('input', function() {
+            document.getElementById('edit-cat-text').value = this.value;
+        });
+    }
+
+    function closeEditCategoryModal() {
+        document.getElementById('edit-category-modal').classList.add('hidden');
+    }
+
+    // Update category
+    document.getElementById('edit-category-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('edit-category-id').value;
+        const name = document.getElementById('edit-cat-name').value;
+        const bg_color = document.getElementById('edit-cat-bg-text').value;
+        const text_color = document.getElementById('edit-cat-text-text').value;
+        
+        fetch(`/api/categories/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name,
+                bg_color,
+                text_color
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
-            if (data.message.includes('success')) {
-                loadCategories();
-                document.getElementById('add-category-form').reset();
-                document.getElementById('new-category-bg').value = '#3b82f6';
-                document.getElementById('new-category-text').value = '#ffffff';
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
+                if (data.message.includes('success')) {
+                    loadCategories();
+                    setTimeout(() => {
+                        closeEditCategoryModal();
+                        location.reload();
+                    }, 1000);
+                }
             }
-            setTimeout(() => {
-                closeCategoryManagement();
-                location.reload();
-            }, 1000);
-        }
-    })
-    .catch(error => {
-        console.error('Error adding category:', error);
-        showInfoMessage('Failed to add category', 'error');
-    });
-});
-
-// Edit category modal
-function openEditCategoryModal(id, name, bgColor, textColor) {
-    document.getElementById('edit-category-id').value = id;
-    document.getElementById('edit-cat-name').value = name;
-    document.getElementById('edit-cat-bg').value = bgColor;
-    document.getElementById('edit-cat-bg-text').value = bgColor;
-    document.getElementById('edit-cat-text').value = textColor;
-    document.getElementById('edit-cat-text-text').value = textColor;
-    
-    document.getElementById('edit-category-modal').classList.remove('hidden');
-    
-    // Sync color inputs
-    document.getElementById('edit-cat-bg').addEventListener('input', function() {
-        document.getElementById('edit-cat-bg-text').value = this.value;
-    });
-    document.getElementById('edit-cat-bg-text').addEventListener('input', function() {
-        document.getElementById('edit-cat-bg').value = this.value;
-    });
-    document.getElementById('edit-cat-text').addEventListener('input', function() {
-        document.getElementById('edit-cat-text-text').value = this.value;
-    });
-    document.getElementById('edit-cat-text-text').addEventListener('input', function() {
-        document.getElementById('edit-cat-text').value = this.value;
-    });
-}
-
-function closeEditCategoryModal() {
-    document.getElementById('edit-category-modal').classList.add('hidden');
-}
-
-// Update category
-document.getElementById('edit-category-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const id = document.getElementById('edit-category-id').value;
-    const name = document.getElementById('edit-cat-name').value;
-    const bg_color = document.getElementById('edit-cat-bg-text').value;
-    const text_color = document.getElementById('edit-cat-text-text').value;
-    
-    fetch(`/api/categories/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            name,
-            bg_color,
-            text_color
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
-            if (data.message.includes('success')) {
-                loadCategories();
-                setTimeout(() => {
-                    closeEditCategoryModal();
-                    location.reload();
-                }, 1000);
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error updating category:', error);
-        showInfoMessage('Failed to update category', 'error');
+        .catch(error => {
+            console.error('Error updating category:', error);
+            showInfoMessage('Failed to update category', 'error');
+        });
     });
+
+    // Delete category
+    let categoryToDelete = null;
+
+    function confirmDeleteCategory(id) {
+        categoryToDelete = id;
+        document.getElementById('delete-category-modal').classList.remove('hidden');
+    }
+
+    function closeDeleteCategoryModal() {
+        categoryToDelete = null;
+        document.getElementById('delete-category-modal').classList.add('hidden');
+    }
+
+    function deleteCategory() {
+        if (!categoryToDelete) return;
+        
+        fetch(`/api/categories/${categoryToDelete}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
+                if (data.message.includes('success')) {
+                    categoryToDelete = null;
+                    loadCategories();
+                    setTimeout(() => {
+                        closeDeleteModal();
+                        location.reload();
+                    }, 1000);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting category:', error);
+            showInfoMessage('Failed to delete category', 'error');
+        });
+    }
+}
+
+function filterProducts() {
+    const categoryFilter = document.getElementById('category-filter').value.toLowerCase();
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr[data-product-id]');
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+        const name = row.dataset.name.toLowerCase();
+        const sku = row.dataset.sku.toLowerCase();
+        const category = row.dataset.category.toLowerCase();
+        const brandName = row.dataset.brandName ? row.dataset.brandName.toLowerCase() : '';
+        const description = row.dataset.description ? row.dataset.description.toLowerCase() : '';
+
+        // Check if the row matches both filters
+        const matchesCategory = categoryFilter === 'all' || category === categoryFilter;
+        const matchesSearch = searchTerm === '' || 
+                             name.includes(searchTerm) || 
+                             sku.includes(searchTerm) || 
+                             category.includes(searchTerm) ||
+                             brandName.includes(searchTerm) ||
+                             description.includes(searchTerm);
+
+        if (matchesCategory && matchesSearch) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Show/hide the "no results" message
+    const noResults = document.getElementById('no-results');
+    if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+    } else {
+        noResults.classList.add('hidden');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    tableScroller();
+    filterProducts(); 
+    document.getElementById('search-input').addEventListener('input', filterProducts);
+    document.getElementById('category-filter').addEventListener('change', filterProducts)
+
 });
-
-// Delete category
-let categoryToDelete = null;
-
-function confirmDeleteCategory(id) {
-    categoryToDelete = id;
-    document.getElementById('delete-category-modal').classList.remove('hidden');
-}
-
-function closeDeleteCategoryModal() {
-    categoryToDelete = null;
-    document.getElementById('delete-category-modal').classList.add('hidden');
-}
-
-function deleteCategory() {
-    if (!categoryToDelete) return;
-    
-    fetch(`/api/categories/${categoryToDelete}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            showInfoMessage(data.message, data.message.includes('success') ? 'success' : 'error');
-            if (data.message.includes('success')) {
-                categoryToDelete = null;
-                loadCategories();
-                setTimeout(() => {
-                    closeDeleteModal();
-                    location.reload();
-                }, 1000);
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting category:', error);
-        showInfoMessage('Failed to delete category', 'error');
-    });
-}
-
-document.addEventListener('DOMContentLoaded', tableScroller);

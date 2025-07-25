@@ -12,14 +12,45 @@
    {{> vendor_sidebar u currentPath=currentPath count=count}}
    
     <main class="flex-1 p-8">
-        {{> search_header u stock=stock count=count}}
+        <div class="flex-1 p-8">
+            <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <h1 class="text-3xl font-semibold text-gray-800 mb-4 sm:mb-0">
+                    Welcome, {{ full_name }}!
+                </h1>
+            </header>
+            <section class="bg-white p-6 rounded-2xl shadow-md mb-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 space-y-4 md:space-y-0"> 
+                    <!-- search section -->
+                    <div class="relative flex-grow mr-0 md:mr-4">
+                        <input type="text" placeholder="Search All Items" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6E5F61]">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C14.1 12.59 14.5 11.11 14.5 9.5 14.5 6.04 11.46 3 8 3S1.5 6.04 1.5 9.5c0 3.46 3.04 6.5 6.5 6.5 1.61 0 3.09-.39 4.33-1.07l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                    </div>
+                    <div class="flex items-center space-x-2 text-gray-700">
+                        <span class="mr-2">Sort by:</span>
+                        <select class="px-3 py-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6E5F61]">
+                            <option>Name ↑</option>
+                            <option>Name ↓</option>
+                            <option>Stock ↑</option>
+                            <option>Stock ↓</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-gray-600 text-sm mb-4">
+                    <p><strong>Items:</strong> {{ count }}</p>
+                    <p><strong>Total Stock:</strong> {{ stock }} units</p>
+                </div>
+            </section>
+        </section>
+        <p id="no-results" class="text-gray-500 text-center hidden">No items found.</p>
 
         <section id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
             
             {{#each p }}
             <div class="product-card relative bg-white p-4 rounded-2xl shadow-md flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300" onclick="toggleProductDetails(this)"
             data-name="{{ name }}">
-                <!-- might have to add some kind of functionality to accept in-server assets or assets taken from a link/CDNs -->
                 <img src="{{image_url}}" alt="{{name}}" class="rounded-xl mb-3 object-cover w-full h-36">
                 <div class="low-stock-message bg-yellow-400 text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm text-center w-full max-w-[200px]">
                     Low Stock!
@@ -64,11 +95,8 @@
             </select>
             <span class="text-gray-600 text-sm ml-2">per page</span>
         </section>
-
     </main>
-
     {{> help_button }}
-
     <script src="../scripts/card_anim.js"></script>
     <script src="../scripts/vendor_search.js"></script>
 </body>
