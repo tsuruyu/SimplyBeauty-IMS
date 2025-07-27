@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const { Types } = mongoose;
 
 const User = require('../src/models/User');
 const Category = require('../src/models/Category');
@@ -100,45 +102,18 @@ async function seedProductStorage() {
     });
 
     await ProductStorage.deleteMany();
-    await ProductStorage.insertMany(productStorages);
-    console.log(`Seeded ${productStorages.length} product-storage relationships`);
-}
-
-// In your seed.js, modify the productStorage seeding:
-async function seedProductStorage() {
-    const productStorageData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/product_storage.json'), 'utf-8'));
-    const productMap = await createNameToIdMap(Product);
-    const storageMap = await createNameToIdMap(Storage);
-
-    const productStorages = productStorageData.map(ps => {
-        const productId = productMap.get(ps.product_name.toLowerCase());
-        const storageId = storageMap.get(ps.storage_name.toLowerCase());
-
-        if (!productId) throw new Error(`Product not found: ${ps.product_name}`);
-        if (!storageId) throw new Error(`Storage not found: ${ps.storage_name}`);
-
-        return {
-            product_id: productId,
-            storage_id: storageId,
-            quantity: ps.quantity,
-            last_updated: new Date(ps.last_updated)
-        };
-    });
-
-    await ProductStorage.deleteMany();
     const inserted = await ProductStorage.insertMany(productStorages);
     
-    // Update all product stock quantities after seeding
     const productIds = [...new Set(inserted.map(ps => ps.product_id.toString()))];
     await Promise.all(productIds.map(id => updateProductStock(id)));
-    
+
     console.log(`Seeded ${productStorages.length} product-storage relationships`);
 }
 
 // Reuse the same update function from the model
 async function updateProductStock(productId) {
     const totalStock = await ProductStorage.aggregate([
-        { $match: { product_id: mongoose.Types.ObjectId(productId) } },
+        { $match: { product_id: Types.ObjectId.createFromHexString(productId) } },
         { $group: { _id: null, total: { $sum: "$quantity" } } }
     ]);
     

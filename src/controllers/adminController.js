@@ -39,7 +39,7 @@ async function getAdminUserDashboard(req, res) {
 
 async function getAdminProductDashboard(req, res) {
     const user = req.session.user;
-
+    console.log("User accessed dashboard: ", user);
     if (user.role !== 'admin') { // this change is so stupid LMAO
         return res.status(403).send("Access denied.");
     }

@@ -3,6 +3,11 @@ function getUserRole() {
     return roleElement ? roleElement.value : null;
 }
 
+function getUserId() {
+    const user_id = document.getElementById('user-id');
+    return user_id ? user_id.value : null;
+}
+
 function openAddModal() {
     document.getElementById('add-product-modal').classList.remove('hidden');
 }
@@ -60,29 +65,19 @@ function closeDeleteModal() {
 document.getElementById('add-product-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    var payload;
+    const payload = {
+        user_id: getUserId(),
+        name: document.getElementById('add-name').value,
+        sku: document.getElementById('add-sku').value,
+        category: document.getElementById('add-category').value,
+        price: document.getElementById('add-price').value,
+        description: document.getElementById('add-description').value,
+        image_url: document.getElementById('add-image_url').value || null
+    };
 
-    if (getUserRole() === "vendor") {
-        payload = {
-            name: document.getElementById('add-name').value,
-            sku: document.getElementById('add-sku').value,
-            category: document.getElementById('add-category').value,
-            price: document.getElementById('add-price').value,
-            description: document.getElementById('add-description').value,
-            image_url: document.getElementById('add-image_url').value,
-            brand_name: document.getElementById('brandName').value
-        };
-    }
-    else {
-        payload = {
-            name: document.getElementById('add-name').value,
-            sku: document.getElementById('add-sku').value,
-            category: document.getElementById('add-category').value,
-            price: document.getElementById('add-price').value,
-            description: document.getElementById('add-description').value,
-            image_url: document.getElementById('add-image_url').value,
-            brand_name: document.getElementById('add-brand-name').value
-        };
+    // Only add brand_name if not vendor
+    if (getUserRole() !== "vendor") {
+        payload.brand_name = document.getElementById('add-brand-name').value;
     }
 
     try {
@@ -98,7 +93,6 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             showInfoMessage('Product added successfully!', 'success');
             document.getElementById('add-product-form').reset();
             
-            // Only reload after showing success message
             setTimeout(() => {
                 closeAddModal();
                 location.reload();
@@ -117,30 +111,25 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
 document.getElementById('edit-product-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    var payload;
     const productId = document.getElementById('edit-product_id').value;
-
-    if (getUserRole() === "vendor") {
-        payload = {
-            name: document.getElementById('edit-name').value,
-            sku: document.getElementById('edit-sku').value,
-            category: document.getElementById('edit-category').value,
-            price: document.getElementById('edit-price').value,
-            description: document.getElementById('edit-description').value,
-            image_url: document.getElementById('edit-image_url').value,
-            brand_name: document.getElementById('brandName').value
-        };
+    if (!productId) {
+        showInfoMessage('No product selected for editing', 'error');
+        return;
     }
-    else {
-        payload = {
-            name: document.getElementById('edit-name').value,
-            sku: document.getElementById('edit-sku').value,
-            category: document.getElementById('edit-category').value,
-            price: document.getElementById('edit-price').value,
-            description: document.getElementById('edit-description').value,
-            image_url: document.getElementById('edit-image_url').value,
-            brand_name: document.getElementById('edit-brand-name').value,
-        };
+
+    const payload = {
+        user_id: getUserId(),
+        name: document.getElementById('edit-name').value,
+        sku: document.getElementById('edit-sku').value,
+        category: document.getElementById('edit-category').value,
+        price: document.getElementById('edit-price').value,
+        description: document.getElementById('edit-description').value,
+        image_url: document.getElementById('edit-image_url').value || null
+    };
+
+    // Only add brand_name if not vendor
+    if (getUserRole() !== "vendor") {
+        payload.brand_name = document.getElementById('edit-brand-name').value;
     }
 
     try {
@@ -158,11 +147,11 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
             location.reload();
         } else {
             const error = await response.json();
-            showInfoMessage(error.message || 'Failed to update product.');
+            showInfoMessage(error.message || 'Failed to update product.', 'error');
         }
     } catch (err) {
         console.error(err);
-        showInfoMessage('An error occurred while updating product.');
+        showInfoMessage('An error occurred while updating product.', 'error');
     }
 });
 
@@ -171,7 +160,13 @@ async function deleteProduct() {
 
     try {
         const response = await fetch(`/api/products/${productToDelete}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: getUserId()
+            })
         });
 
         if (response.ok) {
@@ -180,11 +175,11 @@ async function deleteProduct() {
             location.reload();
         } else {
             const error = await response.json();
-            showInfoMessage(error.message || 'Failed to delete product.');
+            showInfoMessage(error.message || 'Failed to delete product.', 'error');
         }
     } catch (err) {
         console.error(err);
-        showInfoMessage('An error occurred while deleting product.');
+        showInfoMessage('An error occurred while deleting product.', 'error');
     }
 }
 

@@ -1,1202 +1,1202 @@
 [
     {
         "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "1YJKLI2E",
-        "category": "Concealer",
-        "price": 67.01,
-        "image_url": "https://example.com/images/1YJKLI2E.jpg",
-        "created_at": "2025-12-18T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "XIKZRJUE",
-        "category": "Eyeshadow",
-        "price": 46.25,
-        "image_url": "https://example.com/images/XIKZRJUE.jpg",
-        "created_at": "2023-03-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Brandiose.",
-        "sku": "VXOXWYIF",
-        "category": "Eyeshadow",
-        "price": 11.21,
-        "image_url": "https://example.com/images/VXOXWYIF.jpg",
-        "created_at": "2024-08-29T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Caravan.",
-        "sku": "QCC3T2VE",
-        "category": "Blush",
-        "price": 51.65,
-        "image_url": "https://example.com/images/QCC3T2VE.jpg",
-        "created_at": "2024-08-12T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Brandiose.",
-        "sku": "MLJKBBVT",
-        "category": "Blush",
-        "price": 32.99,
-        "image_url": "https://example.com/images/MLJKBBVT.jpg",
-        "created_at": "2023-08-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Caravan.",
-        "sku": "SHYSKVHD",
-        "category": "Eyeshadow",
-        "price": 43.41,
-        "image_url": "https://example.com/images/SHYSKVHD.jpg",
-        "created_at": "2024-07-09T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Matte Finish Setting Spray",
-        "description": "A premium matte finish setting spray by Brandiose.",
-        "sku": "SAV0SGRW",
-        "category": "Setting Spray",
-        "price": 62.92,
-        "image_url": "https://example.com/images/SAV0SGRW.jpg",
-        "created_at": "2023-02-20T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Caravan.",
-        "sku": "7NYWIBMJ",
-        "category": "Primer",
-        "price": 63.01,
-        "image_url": "https://example.com/images/7NYWIBMJ.jpg",
-        "created_at": "2024-07-01T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Volumizing Mascara",
-        "description": "A premium volumizing mascara by Brandiose.",
-        "sku": "3YEIV0L6",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Brandiose.",
+        "sku": "ZQQGXWNO",
         "category": "Mascara",
-        "price": 16.76,
-        "image_url": "https://example.com/images/3YEIV0L6.jpg",
-        "created_at": "2024-02-20T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Caravan.",
-        "sku": "SQFC6TIS",
-        "category": "Primer",
-        "price": 8.5,
-        "image_url": "https://example.com/images/SQFC6TIS.jpg",
-        "created_at": "2024-06-01T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Brandiose.",
-        "sku": "L5J7PYL9",
-        "category": "Primer",
-        "price": 52.02,
-        "image_url": "https://example.com/images/L5J7PYL9.jpg",
-        "created_at": "2023-09-17T00:00:00.000Z"
+        "price": 8.08,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-07-18T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Creamy Lip Color",
         "description": "A premium creamy lip color by Caravan.",
-        "sku": "3MVWP4J6",
+        "sku": "2ZYOIPLK",
         "category": "Lipstick",
-        "price": 12.8,
-        "image_url": "https://example.com/images/3MVWP4J6.jpg",
-        "created_at": "2025-01-15T00:00:00.000Z"
+        "price": 15.59,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-22T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Liquid Eyeliner Pen",
-        "description": "A premium liquid eyeliner pen by Brandiose.",
-        "sku": "9WFG78CG",
-        "category": "Eyeliner",
-        "price": 26.49,
-        "image_url": "https://example.com/images/9WFG78CG.jpg",
-        "created_at": "2025-08-12T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Caravan.",
-        "sku": "WIKTHGJB",
+        "name": "Matte Liquid Foundation",
+        "description": "A premium matte liquid foundation by Brandiose.",
+        "sku": "OUYQ4N3A",
         "category": "Foundation",
-        "price": 37.98,
-        "image_url": "https://example.com/images/WIKTHGJB.jpg",
-        "created_at": "2024-04-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Kohl Eyeliner Pencil",
-        "description": "A premium kohl eyeliner pencil by Brandiose.",
-        "sku": "QHKO669R",
-        "category": "Eyeliner",
-        "price": 10.07,
-        "image_url": "https://example.com/images/QHKO669R.jpg",
-        "created_at": "2025-01-02T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Caravan.",
-        "sku": "FVMBBSA1",
-        "category": "Blush",
-        "price": 64.05,
-        "image_url": "https://example.com/images/FVMBBSA1.jpg",
-        "created_at": "2023-02-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Rosy Cheek Blush",
-        "description": "A premium rosy cheek blush by Brandiose.",
-        "sku": "F9XDXQBC",
-        "category": "Blush",
-        "price": 31.1,
-        "image_url": "https://example.com/images/F9XDXQBC.jpg",
-        "created_at": "2024-12-09T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Caravan.",
-        "sku": "RSLE2T1D",
-        "category": "Primer",
-        "price": 34.88,
-        "image_url": "https://example.com/images/RSLE2T1D.jpg",
-        "created_at": "2024-09-24T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "ST6SGJM4",
-        "category": "Concealer",
-        "price": 55.26,
-        "image_url": "https://example.com/images/ST6SGJM4.jpg",
-        "created_at": "2023-05-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Caravan.",
-        "sku": "3QA2RZ2N",
-        "category": "Concealer",
-        "price": 29.82,
-        "image_url": "https://example.com/images/3QA2RZ2N.jpg",
-        "created_at": "2025-02-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Brandiose.",
-        "sku": "3DVMMQZ6",
-        "category": "Lipstick",
-        "price": 46.34,
-        "image_url": "https://example.com/images/3DVMMQZ6.jpg",
-        "created_at": "2023-07-31T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "7YWKY6VW",
-        "category": "Eyeshadow",
-        "price": 16.01,
-        "image_url": "https://example.com/images/7YWKY6VW.jpg",
-        "created_at": "2024-02-26T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Velvet Matte Lipstick",
-        "description": "A premium velvet matte lipstick by Brandiose.",
-        "sku": "001EQBCQ",
-        "category": "Lipstick",
-        "price": 55.96,
-        "image_url": "https://example.com/images/001EQBCQ.jpg",
-        "created_at": "2025-11-17T00:00:00.000Z"
+        "price": 8.8,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-02-19T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Liquid Eyeliner Pen",
         "description": "A premium liquid eyeliner pen by Caravan.",
-        "sku": "KP9OLPL6",
+        "sku": "RVZADB2Z",
         "category": "Eyeliner",
-        "price": 40.42,
-        "image_url": "https://example.com/images/KP9OLPL6.jpg",
-        "created_at": "2025-10-09T00:00:00.000Z"
+        "price": 55.49,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-03-09T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Hydrating Face Mist",
-        "description": "A premium hydrating face mist by Brandiose.",
-        "sku": "N232W87I",
+        "name": "Liquid Eyeliner Pen",
+        "description": "A premium liquid eyeliner pen by Brandiose.",
+        "sku": "U445VP8N",
+        "category": "Eyeliner",
+        "price": 69.78,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-24T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Matte Finish Setting Spray",
+        "description": "A premium matte finish setting spray by Caravan.",
+        "sku": "AYBPR76D",
         "category": "Setting Spray",
-        "price": 10.44,
-        "image_url": "https://example.com/images/N232W87I.jpg",
-        "created_at": "2023-12-30T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Velvet Matte Lipstick",
-        "description": "A premium velvet matte lipstick by Caravan.",
-        "sku": "S932V5NU",
-        "category": "Lipstick",
-        "price": 56.48,
-        "image_url": "https://example.com/images/S932V5NU.jpg",
-        "created_at": "2023-04-29T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Brandiose.",
-        "sku": "LYFMCYAY",
-        "category": "Setting Spray",
-        "price": 36.5,
-        "image_url": "https://example.com/images/LYFMCYAY.jpg",
-        "created_at": "2024-02-14T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Lengthening Lash Mascara",
-        "description": "A premium lengthening lash mascara by Caravan.",
-        "sku": "RRL4YT2I",
-        "category": "Mascara",
-        "price": 51.71,
-        "image_url": "https://example.com/images/RRL4YT2I.jpg",
-        "created_at": "2025-04-14T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Brandiose.",
-        "sku": "GR2UCBC3",
-        "category": "Foundation",
-        "price": 62.38,
-        "image_url": "https://example.com/images/GR2UCBC3.jpg",
-        "created_at": "2025-12-01T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Rosy Cheek Blush",
-        "description": "A premium rosy cheek blush by Caravan.",
-        "sku": "7CRU7GJ1",
-        "category": "Blush",
-        "price": 41.31,
-        "image_url": "https://example.com/images/7CRU7GJ1.jpg",
-        "created_at": "2024-09-27T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Brandiose.",
-        "sku": "K9KF9JU9",
-        "category": "Primer",
-        "price": 21.79,
-        "image_url": "https://example.com/images/K9KF9JU9.jpg",
-        "created_at": "2025-03-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Waterproof Mascara",
-        "description": "A premium waterproof mascara by Caravan.",
-        "sku": "PMWXS69T",
-        "category": "Mascara",
-        "price": 30.48,
-        "image_url": "https://example.com/images/PMWXS69T.jpg",
-        "created_at": "2024-07-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Brandiose.",
-        "sku": "LT0YYKPH",
-        "category": "Blush",
-        "price": 40.04,
-        "image_url": "https://example.com/images/LT0YYKPH.jpg",
-        "created_at": "2024-12-30T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Full-Coverage Foundation",
-        "description": "A premium full-coverage foundation by Caravan.",
-        "sku": "LL0VAKPC",
-        "category": "Foundation",
-        "price": 15.85,
-        "image_url": "https://example.com/images/LL0VAKPC.jpg",
-        "created_at": "2025-03-28T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "3NCDMERX",
-        "category": "Concealer",
-        "price": 55.04,
-        "image_url": "https://example.com/images/3NCDMERX.jpg",
-        "created_at": "2025-12-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Caravan.",
-        "sku": "SYKP61R1",
-        "category": "Blush",
-        "price": 62.16,
-        "image_url": "https://example.com/images/SYKP61R1.jpg",
-        "created_at": "2024-12-25T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Brandiose.",
-        "sku": "D4D7KF6A",
-        "category": "Eyeshadow",
-        "price": 50.55,
-        "image_url": "https://example.com/images/D4D7KF6A.jpg",
-        "created_at": "2024-03-07T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Pore Minimizing Primer",
-        "description": "A premium pore minimizing primer by Caravan.",
-        "sku": "V6LIHDD1",
-        "category": "Primer",
-        "price": 68.88,
-        "image_url": "https://example.com/images/V6LIHDD1.jpg",
-        "created_at": "2025-01-18T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Full-Coverage Foundation",
-        "description": "A premium full-coverage foundation by Brandiose.",
-        "sku": "2YHRN2NY",
-        "category": "Foundation",
-        "price": 52.44,
-        "image_url": "https://example.com/images/2YHRN2NY.jpg",
-        "created_at": "2024-02-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Full-Coverage Concealer",
-        "description": "A premium full-coverage concealer by Caravan.",
-        "sku": "E3UV4RRM",
-        "category": "Concealer",
-        "price": 60.73,
-        "image_url": "https://example.com/images/E3UV4RRM.jpg",
-        "created_at": "2023-04-26T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Brandiose.",
-        "sku": "I722HSH7",
-        "category": "Foundation",
-        "price": 8.35,
-        "image_url": "https://example.com/images/I722HSH7.jpg",
-        "created_at": "2025-12-02T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Caravan.",
-        "sku": "OESS8M0P",
-        "category": "Blush",
-        "price": 59.08,
-        "image_url": "https://example.com/images/OESS8M0P.jpg",
-        "created_at": "2025-09-12T00:00:00.000Z"
+        "price": 64.63,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-05-03T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Velvet Matte Lipstick",
         "description": "A premium velvet matte lipstick by Brandiose.",
-        "sku": "233NWTT1",
+        "sku": "6O0NAX3A",
         "category": "Lipstick",
-        "price": 12.93,
-        "image_url": "https://example.com/images/233NWTT1.jpg",
-        "created_at": "2023-08-17T00:00:00.000Z"
+        "price": 32.88,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-10-05T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Caravan.",
-        "sku": "E8KR0Q49",
-        "category": "Lipstick",
-        "price": 38.95,
-        "image_url": "https://example.com/images/E8KR0Q49.jpg",
-        "created_at": "2025-01-18T00:00:00.000Z"
+        "name": "Champagne Highlighter",
+        "description": "A premium champagne highlighter by Caravan.",
+        "sku": "FABF8QHZ",
+        "category": "Highlighter",
+        "price": 64.1,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-12-17T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Brandiose.",
-        "sku": "64JVH1NX",
-        "category": "Setting Spray",
-        "price": 8.94,
-        "image_url": "https://example.com/images/64JVH1NX.jpg",
-        "created_at": "2023-12-29T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Waterproof Mascara",
-        "description": "A premium waterproof mascara by Caravan.",
-        "sku": "HK42I0QZ",
-        "category": "Mascara",
-        "price": 20.32,
-        "image_url": "https://example.com/images/HK42I0QZ.jpg",
-        "created_at": "2024-10-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Brandiose.",
-        "sku": "CWJO9SON",
-        "category": "Blush",
-        "price": 33.03,
-        "image_url": "https://example.com/images/CWJO9SON.jpg",
-        "created_at": "2025-01-12T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Caravan.",
-        "sku": "5ET0JPOI",
-        "category": "Setting Spray",
-        "price": 63.11,
-        "image_url": "https://example.com/images/5ET0JPOI.jpg",
-        "created_at": "2024-07-27T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Brandiose.",
-        "sku": "JCDCZ3E8",
-        "category": "Lipstick",
-        "price": 62.56,
-        "image_url": "https://example.com/images/JCDCZ3E8.jpg",
-        "created_at": "2024-07-28T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Concealer",
-        "description": "A premium hydrating concealer by Caravan.",
-        "sku": "72YH5W2Z",
-        "category": "Concealer",
-        "price": 41.99,
-        "image_url": "https://example.com/images/72YH5W2Z.jpg",
-        "created_at": "2023-07-26T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "106YAUBR",
-        "category": "Concealer",
-        "price": 36.04,
-        "image_url": "https://example.com/images/106YAUBR.jpg",
-        "created_at": "2023-01-14T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Volumizing Mascara",
-        "description": "A premium volumizing mascara by Caravan.",
-        "sku": "Z2NH830V",
-        "category": "Mascara",
-        "price": 12.61,
-        "image_url": "https://example.com/images/Z2NH830V.jpg",
-        "created_at": "2023-03-24T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Brandiose.",
-        "sku": "RIDDAIZK",
+        "name": "Glitter Eyeshadow",
+        "description": "A premium glitter eyeshadow by Brandiose.",
+        "sku": "WRGU7OKV",
         "category": "Eyeshadow",
-        "price": 44.04,
-        "image_url": "https://example.com/images/RIDDAIZK.jpg",
-        "created_at": "2025-04-06T00:00:00.000Z"
+        "price": 42.25,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-05-25T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Gel Eyeliner",
-        "description": "A premium gel eyeliner by Caravan.",
-        "sku": "JOAS6AET",
-        "category": "Eyeliner",
-        "price": 62.84,
-        "image_url": "https://example.com/images/JOAS6AET.jpg",
-        "created_at": "2023-12-30T00:00:00.000Z"
+        "name": "Smokey Eyeshadow Quad",
+        "description": "A premium smokey eyeshadow quad by Caravan.",
+        "sku": "7Q31V0WM",
+        "category": "Eyeshadow",
+        "price": 12.96,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-24T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
+        "name": "Matte Liquid Foundation",
+        "description": "A premium matte liquid foundation by Brandiose.",
+        "sku": "N5JBC46A",
+        "category": "Foundation",
+        "price": 37.83,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-12-30T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Nude Eyeshadow Palette",
+        "description": "A premium nude eyeshadow palette by Caravan.",
+        "sku": "7QBOELOP",
+        "category": "Eyeshadow",
+        "price": 18.92,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-05-20T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Brandiose.",
+        "sku": "UNJVX9IT",
+        "category": "Mascara",
+        "price": 23.63,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-12-22T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Caravan.",
+        "sku": "GNSFRJWF",
+        "category": "Concealer",
+        "price": 15.76,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-13T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Brandiose.",
+        "sku": "8TK01BE7",
+        "category": "Mascara",
+        "price": 63.15,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-01-16T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Matte Finish Setting Spray",
+        "description": "A premium matte finish setting spray by Caravan.",
+        "sku": "ZUQHT8VH",
+        "category": "Setting Spray",
+        "price": 41.68,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-13T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Full-Coverage Foundation",
+        "description": "A premium full-coverage foundation by Brandiose.",
+        "sku": "W6O5HAK7",
+        "category": "Foundation",
+        "price": 18.43,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-21T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
         "name": "Creamy Lip Color",
-        "description": "A premium creamy lip color by Brandiose.",
-        "sku": "2VTUSN7Y",
+        "description": "A premium creamy lip color by Caravan.",
+        "sku": "5LQGVBJQ",
         "category": "Lipstick",
-        "price": 38.81,
-        "image_url": "https://example.com/images/2VTUSN7Y.jpg",
+        "price": 9.14,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-12-09T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Kohl Eyeliner Pencil",
+        "description": "A premium kohl eyeliner pencil by Brandiose.",
+        "sku": "R1DFYID7",
+        "category": "Eyeliner",
+        "price": 14.01,
+        "image_url": "https://placehold.co/600x400",
         "created_at": "2023-07-09T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Pearl Powder Highlighter",
         "description": "A premium pearl powder highlighter by Caravan.",
-        "sku": "L6UQOZV8",
+        "sku": "7JUS0BXJ",
         "category": "Highlighter",
-        "price": 18.69,
-        "image_url": "https://example.com/images/L6UQOZV8.jpg",
-        "created_at": "2023-07-19T00:00:00.000Z"
+        "price": 14.63,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-06-17T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Liquid Eyeliner Pen",
+        "description": "A premium liquid eyeliner pen by Brandiose.",
+        "sku": "THPSCIWI",
+        "category": "Eyeliner",
+        "price": 49.03,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-08-08T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Rosy Cheek Blush",
+        "description": "A premium rosy cheek blush by Caravan.",
+        "sku": "4OQZ8MA9",
+        "category": "Blush",
+        "price": 51.74,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-01-18T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Matte Finish Setting Spray",
+        "description": "A premium matte finish setting spray by Brandiose.",
+        "sku": "ODUX8ZIJ",
+        "category": "Setting Spray",
+        "price": 19.99,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-12-01T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Caravan.",
+        "sku": "T5QV5QXY",
+        "category": "Highlighter",
+        "price": 9.5,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-12-03T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Rosy Cheek Blush",
         "description": "A premium rosy cheek blush by Brandiose.",
-        "sku": "WXQAG8BN",
+        "sku": "TR4VBCPV",
         "category": "Blush",
-        "price": 19.44,
-        "image_url": "https://example.com/images/WXQAG8BN.jpg",
-        "created_at": "2023-05-23T00:00:00.000Z"
+        "price": 14.84,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-02T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Caravan.",
-        "sku": "WPUX5M1C",
-        "category": "Eyeshadow",
-        "price": 61.81,
-        "image_url": "https://example.com/images/WPUX5M1C.jpg",
-        "created_at": "2025-04-15T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Gel Eyeliner",
-        "description": "A premium gel eyeliner by Brandiose.",
-        "sku": "AGRYDAZ4",
-        "category": "Eyeliner",
-        "price": 53.06,
-        "image_url": "https://example.com/images/AGRYDAZ4.jpg",
-        "created_at": "2025-09-10T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Caravan.",
-        "sku": "NTE8U80F",
-        "category": "Lipstick",
-        "price": 23.61,
-        "image_url": "https://example.com/images/NTE8U80F.jpg",
-        "created_at": "2024-04-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Face Mist",
-        "description": "A premium hydrating face mist by Brandiose.",
-        "sku": "SHK84L9T",
-        "category": "Setting Spray",
-        "price": 56.09,
-        "image_url": "https://example.com/images/SHK84L9T.jpg",
-        "created_at": "2023-12-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Champagne Highlighter",
-        "description": "A premium champagne highlighter by Caravan.",
-        "sku": "I2D7OLQ6",
-        "category": "Highlighter",
-        "price": 17.15,
-        "image_url": "https://example.com/images/I2D7OLQ6.jpg",
-        "created_at": "2024-02-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
         "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Brandiose.",
-        "sku": "O2KMYBPC",
+        "description": "A premium hydrating foundation by Caravan.",
+        "sku": "EM4JT07A",
         "category": "Foundation",
-        "price": 13.9,
-        "image_url": "https://example.com/images/O2KMYBPC.jpg",
-        "created_at": "2023-03-25T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Pore Minimizing Primer",
-        "description": "A premium pore minimizing primer by Caravan.",
-        "sku": "PWZPJ0T6",
-        "category": "Primer",
-        "price": 43.65,
-        "image_url": "https://example.com/images/PWZPJ0T6.jpg",
-        "created_at": "2024-12-21T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Brandiose.",
-        "sku": "XGIA67N3",
-        "category": "Eyeshadow",
-        "price": 21.58,
-        "image_url": "https://example.com/images/XGIA67N3.jpg",
-        "created_at": "2025-07-13T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Matte Finish Primer",
-        "description": "A premium matte finish primer by Caravan.",
-        "sku": "6WW4FNNR",
-        "category": "Primer",
-        "price": 26.54,
-        "image_url": "https://example.com/images/6WW4FNNR.jpg",
-        "created_at": "2025-10-12T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Face Mist",
-        "description": "A premium hydrating face mist by Brandiose.",
-        "sku": "F8R5LJ0R",
-        "category": "Setting Spray",
-        "price": 40.65,
-        "image_url": "https://example.com/images/F8R5LJ0R.jpg",
-        "created_at": "2023-01-25T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "I2QURSRV",
-        "category": "Eyeshadow",
-        "price": 39.39,
-        "image_url": "https://example.com/images/I2QURSRV.jpg",
-        "created_at": "2023-11-21T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "PFVUGWFL",
-        "category": "Concealer",
-        "price": 51.73,
-        "image_url": "https://example.com/images/PFVUGWFL.jpg",
-        "created_at": "2023-06-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Kohl Eyeliner Pencil",
-        "description": "A premium kohl eyeliner pencil by Caravan.",
-        "sku": "ZEFU31BC",
-        "category": "Eyeliner",
-        "price": 56.47,
-        "image_url": "https://example.com/images/ZEFU31BC.jpg",
-        "created_at": "2025-12-25T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Brandiose.",
-        "sku": "XFQPNDUL",
-        "category": "Blush",
-        "price": 33.48,
-        "image_url": "https://example.com/images/XFQPNDUL.jpg",
-        "created_at": "2025-01-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Champagne Highlighter",
-        "description": "A premium champagne highlighter by Caravan.",
-        "sku": "0CNVDKOJ",
-        "category": "Highlighter",
-        "price": 36.61,
-        "image_url": "https://example.com/images/0CNVDKOJ.jpg",
-        "created_at": "2025-05-28T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pearl Powder Highlighter",
-        "description": "A premium pearl powder highlighter by Brandiose.",
-        "sku": "1TP8Y6VD",
-        "category": "Highlighter",
-        "price": 8.13,
-        "image_url": "https://example.com/images/1TP8Y6VD.jpg",
-        "created_at": "2023-09-22T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "OGEF1REL",
-        "category": "Eyeshadow",
-        "price": 20.19,
-        "image_url": "https://example.com/images/OGEF1REL.jpg",
-        "created_at": "2023-03-31T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Brandiose.",
-        "sku": "4ZBB9X4M",
-        "category": "Setting Spray",
-        "price": 13.18,
-        "image_url": "https://example.com/images/4ZBB9X4M.jpg",
-        "created_at": "2023-10-05T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Caravan.",
-        "sku": "CS3NWSBH",
-        "category": "Concealer",
-        "price": 28.99,
-        "image_url": "https://example.com/images/CS3NWSBH.jpg",
-        "created_at": "2024-10-11T00:00:00.000Z"
+        "price": 65.37,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-11-05T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Champagne Highlighter",
         "description": "A premium champagne highlighter by Brandiose.",
-        "sku": "5GYU2RX4",
+        "sku": "JNZ6DJWX",
         "category": "Highlighter",
-        "price": 26.75,
-        "image_url": "https://example.com/images/5GYU2RX4.jpg",
-        "created_at": "2025-05-28T00:00:00.000Z"
+        "price": 44.37,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-11-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Rosy Cheek Blush",
+        "description": "A premium rosy cheek blush by Caravan.",
+        "sku": "EQ59F58F",
+        "category": "Blush",
+        "price": 18.02,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-03-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Full-Coverage Foundation",
+        "description": "A premium full-coverage foundation by Brandiose.",
+        "sku": "3JRHK24J",
+        "category": "Foundation",
+        "price": 57.15,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-04T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Creamy Lip Color",
         "description": "A premium creamy lip color by Caravan.",
-        "sku": "RUNPCCVN",
+        "sku": "S359PQC5",
         "category": "Lipstick",
-        "price": 55.01,
-        "image_url": "https://example.com/images/RUNPCCVN.jpg",
-        "created_at": "2024-08-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Glitter Eyeshadow",
-        "description": "A premium glitter eyeshadow by Brandiose.",
-        "sku": "AAQXLOMO",
-        "category": "Eyeshadow",
-        "price": 44.69,
-        "image_url": "https://example.com/images/AAQXLOMO.jpg",
-        "created_at": "2023-10-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "80CDG1P7",
-        "category": "Eyeshadow",
-        "price": 37.44,
-        "image_url": "https://example.com/images/80CDG1P7.jpg",
-        "created_at": "2023-11-20T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Brandiose.",
-        "sku": "1PYMDH9C",
-        "category": "Blush",
-        "price": 38.81,
-        "image_url": "https://example.com/images/1PYMDH9C.jpg",
-        "created_at": "2023-01-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Creamy Lip Color",
-        "description": "A premium creamy lip color by Caravan.",
-        "sku": "NSW9B5N1",
-        "category": "Lipstick",
-        "price": 19.7,
-        "image_url": "https://example.com/images/NSW9B5N1.jpg",
-        "created_at": "2023-01-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Brandiose.",
-        "sku": "JXD0QSNV",
-        "category": "Eyeshadow",
-        "price": 32.85,
-        "image_url": "https://example.com/images/JXD0QSNV.jpg",
-        "created_at": "2025-11-26T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Caravan.",
-        "sku": "5YCLB2OG",
-        "category": "Setting Spray",
-        "price": 69.75,
-        "image_url": "https://example.com/images/5YCLB2OG.jpg",
-        "created_at": "2023-11-24T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Brandiose.",
-        "sku": "KVA9CG1E",
-        "category": "Blush",
-        "price": 13.2,
-        "image_url": "https://example.com/images/KVA9CG1E.jpg",
-        "created_at": "2023-04-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Concealer",
-        "description": "A premium hydrating concealer by Caravan.",
-        "sku": "VZ6K0G8E",
-        "category": "Concealer",
-        "price": 20.2,
-        "image_url": "https://example.com/images/VZ6K0G8E.jpg",
-        "created_at": "2024-07-27T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Brandiose.",
-        "sku": "OI8FSGEQ",
-        "category": "Blush",
-        "price": 59.34,
-        "image_url": "https://example.com/images/OI8FSGEQ.jpg",
-        "created_at": "2025-06-29T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Caravan.",
-        "sku": "BCZZC0E8",
-        "category": "Eyeshadow",
-        "price": 64.36,
-        "image_url": "https://example.com/images/BCZZC0E8.jpg",
-        "created_at": "2025-11-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Brandiose.",
-        "sku": "LOXOMSJ6",
-        "category": "Primer",
-        "price": 21.63,
-        "image_url": "https://example.com/images/LOXOMSJ6.jpg",
-        "created_at": "2024-09-21T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Caravan.",
-        "sku": "I2I286QR",
-        "category": "Blush",
-        "price": 26.18,
-        "image_url": "https://example.com/images/I2I286QR.jpg",
-        "created_at": "2024-08-08T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Brandiose.",
-        "sku": "G1CIRVYY",
-        "category": "Eyeshadow",
-        "price": 37.78,
-        "image_url": "https://example.com/images/G1CIRVYY.jpg",
-        "created_at": "2024-10-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Waterproof Mascara",
-        "description": "A premium waterproof mascara by Caravan.",
-        "sku": "QRVT6CIM",
-        "category": "Mascara",
-        "price": 34.49,
-        "image_url": "https://example.com/images/QRVT6CIM.jpg",
-        "created_at": "2024-02-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Cream Blush Stick",
-        "description": "A premium cream blush stick by Brandiose.",
-        "sku": "FAAWW0LD",
-        "category": "Blush",
-        "price": 65.76,
-        "image_url": "https://example.com/images/FAAWW0LD.jpg",
-        "created_at": "2023-02-19T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Smokey Eyeshadow Quad",
-        "description": "A premium smokey eyeshadow quad by Caravan.",
-        "sku": "8WPCR8AI",
-        "category": "Eyeshadow",
-        "price": 62.1,
-        "image_url": "https://example.com/images/8WPCR8AI.jpg",
-        "created_at": "2025-02-04T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Champagne Highlighter",
-        "description": "A premium champagne highlighter by Brandiose.",
-        "sku": "I68R51VL",
-        "category": "Highlighter",
-        "price": 62.67,
-        "image_url": "https://example.com/images/I68R51VL.jpg",
-        "created_at": "2025-08-17T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Concealer",
-        "description": "A premium hydrating concealer by Caravan.",
-        "sku": "D85V1X43",
-        "category": "Concealer",
-        "price": 19.23,
-        "image_url": "https://example.com/images/D85V1X43.jpg",
-        "created_at": "2024-12-02T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Pearl Powder Highlighter",
-        "description": "A premium pearl powder highlighter by Brandiose.",
-        "sku": "180SHL42",
-        "category": "Highlighter",
-        "price": 68.72,
-        "image_url": "https://example.com/images/180SHL42.jpg",
-        "created_at": "2023-10-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Caravan.",
-        "sku": "44GIU0JA",
-        "category": "Concealer",
-        "price": 34.37,
-        "image_url": "https://example.com/images/44GIU0JA.jpg",
-        "created_at": "2023-10-19T00:00:00.000Z"
+        "price": 15.54,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-31T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Kohl Eyeliner Pencil",
         "description": "A premium kohl eyeliner pencil by Brandiose.",
-        "sku": "4VT1DGOM",
+        "sku": "MHJQ12YP",
         "category": "Eyeliner",
-        "price": 50.6,
-        "image_url": "https://example.com/images/4VT1DGOM.jpg",
-        "created_at": "2025-08-04T00:00:00.000Z"
+        "price": 38.79,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-07-01T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Long-Lasting Setting Spray",
-        "description": "A premium long-lasting setting spray by Caravan.",
-        "sku": "R1077XI0",
-        "category": "Setting Spray",
-        "price": 33.76,
-        "image_url": "https://example.com/images/R1077XI0.jpg",
-        "created_at": "2024-02-11T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Waterproof Mascara",
-        "description": "A premium waterproof mascara by Brandiose.",
-        "sku": "GMXSPLN1",
-        "category": "Mascara",
-        "price": 65.51,
-        "image_url": "https://example.com/images/GMXSPLN1.jpg",
-        "created_at": "2024-09-12T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Caravan.",
-        "sku": "CQZDHISD",
-        "category": "Foundation",
-        "price": 17.53,
-        "image_url": "https://example.com/images/CQZDHISD.jpg",
-        "created_at": "2023-06-10T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
         "name": "Hydrating Makeup Primer",
-        "description": "A premium hydrating makeup primer by Brandiose.",
-        "sku": "A2BVHZXF",
+        "description": "A premium hydrating makeup primer by Caravan.",
+        "sku": "HR78QJOQ",
         "category": "Primer",
-        "price": 58.5,
-        "image_url": "https://example.com/images/A2BVHZXF.jpg",
-        "created_at": "2025-05-25T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Caravan.",
-        "sku": "361ZJSI9",
-        "category": "Foundation",
-        "price": 12.99,
-        "image_url": "https://example.com/images/361ZJSI9.jpg",
-        "created_at": "2024-07-10T00:00:00.000Z"
+        "price": 38.96,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-05T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Under-Eye Concealer",
-        "description": "A premium under-eye concealer by Brandiose.",
-        "sku": "JCQCEMKR",
-        "category": "Concealer",
-        "price": 49.49,
-        "image_url": "https://example.com/images/JCQCEMKR.jpg",
-        "created_at": "2024-03-03T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Hydrating Foundation",
-        "description": "A premium hydrating foundation by Caravan.",
-        "sku": "IM9E3ZGU",
-        "category": "Foundation",
-        "price": 61.95,
-        "image_url": "https://example.com/images/IM9E3ZGU.jpg",
-        "created_at": "2024-10-21T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Brandiose.",
-        "sku": "0G3CJE6Z",
-        "category": "Lipstick",
-        "price": 57.74,
-        "image_url": "https://example.com/images/0G3CJE6Z.jpg",
-        "created_at": "2023-06-21T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Caravan",
-        "name": "Glitter Eyeshadow",
-        "description": "A premium glitter eyeshadow by Caravan.",
-        "sku": "Z2FRNREG",
-        "category": "Eyeshadow",
-        "price": 57.47,
-        "image_url": "https://example.com/images/Z2FRNREG.jpg",
-        "created_at": "2024-09-03T00:00:00.000Z"
-    },
-    {
-        "brand_name": "Brandiose",
-        "name": "Lengthening Lash Mascara",
-        "description": "A premium lengthening lash mascara by Brandiose.",
-        "sku": "UWHSFRVE",
+        "name": "Volumizing Mascara",
+        "description": "A premium volumizing mascara by Brandiose.",
+        "sku": "HCNEZZOH",
         "category": "Mascara",
-        "price": 65.36,
-        "image_url": "https://example.com/images/UWHSFRVE.jpg",
-        "created_at": "2023-03-20T00:00:00.000Z"
+        "price": 58.38,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-09-22T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Lengthening Lash Mascara",
         "description": "A premium lengthening lash mascara by Caravan.",
-        "sku": "BWWM35MW",
+        "sku": "PF1R64YY",
         "category": "Mascara",
-        "price": 27.42,
-        "image_url": "https://example.com/images/BWWM35MW.jpg",
-        "created_at": "2025-03-20T00:00:00.000Z"
+        "price": 35.43,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-29T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Kohl Eyeliner Pencil",
-        "description": "A premium kohl eyeliner pencil by Brandiose.",
-        "sku": "902E7SHQ",
-        "category": "Eyeliner",
-        "price": 53.47,
-        "image_url": "https://example.com/images/902E7SHQ.jpg",
-        "created_at": "2025-11-27T00:00:00.000Z"
+        "name": "Pearl Powder Highlighter",
+        "description": "A premium pearl powder highlighter by Brandiose.",
+        "sku": "4TKVY6HH",
+        "category": "Highlighter",
+        "price": 11.88,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-03T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Nude Eyeshadow Palette",
-        "description": "A premium nude eyeshadow palette by Caravan.",
-        "sku": "XLN4B702",
+        "name": "Hydrating Concealer",
+        "description": "A premium hydrating concealer by Caravan.",
+        "sku": "6QR6N60T",
+        "category": "Concealer",
+        "price": 57.82,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Brandiose.",
+        "sku": "FS9DX0LZ",
+        "category": "Concealer",
+        "price": 68.72,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-09-28T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Matte Liquid Foundation",
+        "description": "A premium matte liquid foundation by Caravan.",
+        "sku": "F6X6QD4D",
+        "category": "Foundation",
+        "price": 45.78,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-04-15T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Smokey Eyeshadow Quad",
+        "description": "A premium smokey eyeshadow quad by Brandiose.",
+        "sku": "EMCTO1UJ",
         "category": "Eyeshadow",
-        "price": 36.42,
-        "image_url": "https://example.com/images/XLN4B702.jpg",
-        "created_at": "2024-09-23T00:00:00.000Z"
+        "price": 25.02,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-27T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Hydrating Makeup Primer",
+        "description": "A premium hydrating makeup primer by Caravan.",
+        "sku": "DAZXMUTU",
+        "category": "Primer",
+        "price": 9.41,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-10-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Hydrating Face Mist",
+        "description": "A premium hydrating face mist by Brandiose.",
+        "sku": "S6J8F2P4",
+        "category": "Setting Spray",
+        "price": 25.92,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-07-01T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Hydrating Foundation",
+        "description": "A premium hydrating foundation by Caravan.",
+        "sku": "CB3SUUX9",
+        "category": "Foundation",
+        "price": 40.36,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-01-19T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Glitter Eyeshadow",
+        "description": "A premium glitter eyeshadow by Brandiose.",
+        "sku": "T5BWQE7J",
+        "category": "Eyeshadow",
+        "price": 62.46,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-15T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Caravan.",
+        "sku": "FMM1BA55",
+        "category": "Mascara",
+        "price": 32.79,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-03T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Champagne Highlighter",
+        "description": "A premium champagne highlighter by Brandiose.",
+        "sku": "UGUFUZSF",
+        "category": "Highlighter",
+        "price": 23.76,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-02-27T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Cream Blush Stick",
+        "description": "A premium cream blush stick by Caravan.",
+        "sku": "YXG4GS39",
+        "category": "Blush",
+        "price": 28.46,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-01T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Hydrating Foundation",
         "description": "A premium hydrating foundation by Brandiose.",
-        "sku": "ZNZVR8GW",
+        "sku": "UK1LQ2WY",
         "category": "Foundation",
-        "price": 40.29,
-        "image_url": "https://example.com/images/ZNZVR8GW.jpg",
-        "created_at": "2023-11-03T00:00:00.000Z"
+        "price": 35.9,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-09-13T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Long-Wear Lipstick",
-        "description": "A premium long-wear lipstick by Caravan.",
-        "sku": "BJ27DYMG",
-        "category": "Lipstick",
-        "price": 12.44,
-        "image_url": "https://example.com/images/BJ27DYMG.jpg",
-        "created_at": "2023-03-03T00:00:00.000Z"
+        "name": "Gel Eyeliner",
+        "description": "A premium gel eyeliner by Caravan.",
+        "sku": "E9V51N2D",
+        "category": "Eyeliner",
+        "price": 40.52,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-16T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Pressed Powder Blush",
-        "description": "A premium pressed powder blush by Brandiose.",
-        "sku": "YIH2L658",
-        "category": "Blush",
-        "price": 19.71,
-        "image_url": "https://example.com/images/YIH2L658.jpg",
-        "created_at": "2023-12-21T00:00:00.000Z"
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Brandiose.",
+        "sku": "45M4OJ0K",
+        "category": "Concealer",
+        "price": 26.02,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-09-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Caravan.",
+        "sku": "3XS2MAL2",
+        "category": "Mascara",
+        "price": 9.64,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-21T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Volumizing Mascara",
+        "description": "A premium volumizing mascara by Brandiose.",
+        "sku": "OHAI25GY",
+        "category": "Mascara",
+        "price": 24.62,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-03-20T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Liquid Eyeliner Pen",
+        "description": "A premium liquid eyeliner pen by Caravan.",
+        "sku": "V81762QQ",
+        "category": "Eyeliner",
+        "price": 55.06,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-01T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Full-Coverage Concealer",
+        "description": "A premium full-coverage concealer by Brandiose.",
+        "sku": "AP82D6YL",
+        "category": "Concealer",
+        "price": 58.05,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-06-03T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Full-Coverage Concealer",
         "description": "A premium full-coverage concealer by Caravan.",
-        "sku": "248WWDWP",
+        "sku": "XBU6ZA88",
         "category": "Concealer",
-        "price": 57.25,
-        "image_url": "https://example.com/images/248WWDWP.jpg",
-        "created_at": "2024-01-27T00:00:00.000Z"
+        "price": 21.67,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-04-12T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Brandiose.",
+        "sku": "Z4J59MPZ",
+        "category": "Lipstick",
+        "price": 56.8,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-10-03T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Full-Coverage Concealer",
+        "description": "A premium full-coverage concealer by Caravan.",
+        "sku": "I33PTNFV",
+        "category": "Concealer",
+        "price": 55.67,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-07-31T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
         "name": "Kohl Eyeliner Pencil",
         "description": "A premium kohl eyeliner pencil by Brandiose.",
-        "sku": "5XVSVO8K",
+        "sku": "I2RBPKLA",
         "category": "Eyeliner",
-        "price": 39.05,
-        "image_url": "https://example.com/images/5XVSVO8K.jpg",
-        "created_at": "2025-05-11T00:00:00.000Z"
+        "price": 58.38,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-04-27T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
-        "name": "Volumizing Mascara",
-        "description": "A premium volumizing mascara by Caravan.",
-        "sku": "C0RX3B13",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Caravan.",
+        "sku": "B4D97ZQI",
         "category": "Mascara",
-        "price": 50.58,
-        "image_url": "https://example.com/images/C0RX3B13.jpg",
-        "created_at": "2023-05-28T00:00:00.000Z"
+        "price": 44.38,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-04-19T00:00:00.000Z"
     },
     {
         "brand_name": "Brandiose",
-        "name": "Rosy Cheek Blush",
-        "description": "A premium rosy cheek blush by Brandiose.",
-        "sku": "IMPDKYHA",
+        "name": "Hydrating Makeup Primer",
+        "description": "A premium hydrating makeup primer by Brandiose.",
+        "sku": "AKDG7JSE",
+        "category": "Primer",
+        "price": 23.61,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-06-04T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Pressed Powder Blush",
+        "description": "A premium pressed powder blush by Caravan.",
+        "sku": "PPMS14NI",
         "category": "Blush",
-        "price": 35.63,
-        "image_url": "https://example.com/images/IMPDKYHA.jpg",
-        "created_at": "2024-11-01T00:00:00.000Z"
+        "price": 65.15,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-08T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Full-Coverage Concealer",
+        "description": "A premium full-coverage concealer by Brandiose.",
+        "sku": "RRJYTH91",
+        "category": "Concealer",
+        "price": 33.01,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-03-29T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Creamy Lip Color",
+        "description": "A premium creamy lip color by Caravan.",
+        "sku": "YIONT7OX",
+        "category": "Lipstick",
+        "price": 22.25,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-06T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Gel Eyeliner",
+        "description": "A premium gel eyeliner by Brandiose.",
+        "sku": "6XI0L5EH",
+        "category": "Eyeliner",
+        "price": 9.45,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-11-13T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Caravan.",
+        "sku": "BMEYPUKP",
+        "category": "Concealer",
+        "price": 62.8,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-01-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Brandiose.",
+        "sku": "QZGX590Z",
+        "category": "Concealer",
+        "price": 61.59,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-08-23T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Velvet Matte Lipstick",
+        "description": "A premium velvet matte lipstick by Caravan.",
+        "sku": "8JCZPR5R",
+        "category": "Lipstick",
+        "price": 10.86,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-05-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Brandiose.",
+        "sku": "5LPFXM7Z",
+        "category": "Lipstick",
+        "price": 32.77,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-15T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Nude Eyeshadow Palette",
+        "description": "A premium nude eyeshadow palette by Caravan.",
+        "sku": "ZXXEX0VZ",
+        "category": "Eyeshadow",
+        "price": 43.58,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-12-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Matte Finish Primer",
+        "description": "A premium matte finish primer by Brandiose.",
+        "sku": "UO3GHKFD",
+        "category": "Primer",
+        "price": 10.66,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-06-18T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Caravan.",
+        "sku": "KYLL8IMI",
+        "category": "Mascara",
+        "price": 15.86,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-05-27T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Pearl Powder Highlighter",
+        "description": "A premium pearl powder highlighter by Brandiose.",
+        "sku": "VZPWXO8U",
+        "category": "Highlighter",
+        "price": 39.47,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-06-29T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Pore Minimizing Primer",
+        "description": "A premium pore minimizing primer by Caravan.",
+        "sku": "MVJGWBXV",
+        "category": "Primer",
+        "price": 49.31,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-12-29T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Full-Coverage Foundation",
+        "description": "A premium full-coverage foundation by Brandiose.",
+        "sku": "LKJLYOXG",
+        "category": "Foundation",
+        "price": 13.32,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-04T00:00:00.000Z"
     },
     {
         "brand_name": "Caravan",
         "name": "Glitter Eyeshadow",
         "description": "A premium glitter eyeshadow by Caravan.",
-        "sku": "0Q32BLBS",
+        "sku": "KRZSYDWY",
         "category": "Eyeshadow",
-        "price": 29.15,
-        "image_url": "https://example.com/images/0Q32BLBS.jpg",
-        "created_at": "2023-05-29T00:00:00.000Z"
+        "price": 58.6,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-07T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Lasting Setting Spray",
+        "description": "A premium long-lasting setting spray by Brandiose.",
+        "sku": "8W6AT98F",
+        "category": "Setting Spray",
+        "price": 8.07,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Caravan.",
+        "sku": "F592YYDJ",
+        "category": "Mascara",
+        "price": 26.1,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-01-14T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Brandiose.",
+        "sku": "DHI04PZM",
+        "category": "Highlighter",
+        "price": 54.29,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-10-17T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Caravan.",
+        "sku": "6RM3MKR9",
+        "category": "Mascara",
+        "price": 54.82,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-04-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Brandiose.",
+        "sku": "51KVS5BI",
+        "category": "Mascara",
+        "price": 17.67,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-07-17T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Glitter Eyeshadow",
+        "description": "A premium glitter eyeshadow by Caravan.",
+        "sku": "1J4T1QH8",
+        "category": "Eyeshadow",
+        "price": 16.5,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-07T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Brandiose.",
+        "sku": "FGQV0DB3",
+        "category": "Lipstick",
+        "price": 30.33,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-03-31T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Matte Finish Primer",
+        "description": "A premium matte finish primer by Caravan.",
+        "sku": "21E1IQO0",
+        "category": "Primer",
+        "price": 10.17,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-01-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Brandiose.",
+        "sku": "POXAPLFN",
+        "category": "Highlighter",
+        "price": 65.31,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-03-03T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Velvet Matte Lipstick",
+        "description": "A premium velvet matte lipstick by Caravan.",
+        "sku": "4T21SKLV",
+        "category": "Lipstick",
+        "price": 66.07,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-02-06T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Brandiose.",
+        "sku": "TR55PZMC",
+        "category": "Lipstick",
+        "price": 58.76,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-04-14T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Full-Coverage Foundation",
+        "description": "A premium full-coverage foundation by Caravan.",
+        "sku": "EU0U8FIV",
+        "category": "Foundation",
+        "price": 21.38,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-10-30T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Hydrating Makeup Primer",
+        "description": "A premium hydrating makeup primer by Brandiose.",
+        "sku": "R4Z37S40",
+        "category": "Primer",
+        "price": 18.43,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-03-30T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Liquid Eyeliner Pen",
+        "description": "A premium liquid eyeliner pen by Caravan.",
+        "sku": "JPYS9NG3",
+        "category": "Eyeliner",
+        "price": 17.67,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-24T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Brandiose.",
+        "sku": "J61BKQL4",
+        "category": "Highlighter",
+        "price": 48.59,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-05-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Caravan.",
+        "sku": "OZ5CTWJB",
+        "category": "Lipstick",
+        "price": 64.83,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-04-25T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Pore Minimizing Primer",
+        "description": "A premium pore minimizing primer by Brandiose.",
+        "sku": "59NWHB9T",
+        "category": "Primer",
+        "price": 69.3,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-03-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Under-Eye Concealer",
+        "description": "A premium under-eye concealer by Caravan.",
+        "sku": "95V82NBC",
+        "category": "Concealer",
+        "price": 26.03,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-05-31T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Matte Finish Primer",
+        "description": "A premium matte finish primer by Brandiose.",
+        "sku": "863HEXRO",
+        "category": "Primer",
+        "price": 37.04,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-01-02T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Long-Lasting Setting Spray",
+        "description": "A premium long-lasting setting spray by Caravan.",
+        "sku": "16B0F6TY",
+        "category": "Setting Spray",
+        "price": 33.27,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-08-02T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Brandiose.",
+        "sku": "D8HLZX4U",
+        "category": "Highlighter",
+        "price": 57.98,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-12-03T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Hydrating Face Mist",
+        "description": "A premium hydrating face mist by Caravan.",
+        "sku": "QWR3R0GX",
+        "category": "Setting Spray",
+        "price": 21.06,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-15T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Pearl Powder Highlighter",
+        "description": "A premium pearl powder highlighter by Brandiose.",
+        "sku": "OEU8U73J",
+        "category": "Highlighter",
+        "price": 43.47,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-20T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Velvet Matte Lipstick",
+        "description": "A premium velvet matte lipstick by Caravan.",
+        "sku": "7KSMBQ70",
+        "category": "Lipstick",
+        "price": 47.62,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-08-06T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Nude Eyeshadow Palette",
+        "description": "A premium nude eyeshadow palette by Brandiose.",
+        "sku": "ZVCM40EZ",
+        "category": "Eyeshadow",
+        "price": 16.65,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-17T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Creamy Lip Color",
+        "description": "A premium creamy lip color by Caravan.",
+        "sku": "GU5K5ZQC",
+        "category": "Lipstick",
+        "price": 28.65,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-05-03T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Long-Wear Lipstick",
+        "description": "A premium long-wear lipstick by Brandiose.",
+        "sku": "4561OQ2T",
+        "category": "Lipstick",
+        "price": 64.91,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-01-22T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Caravan.",
+        "sku": "OH60BMMJ",
+        "category": "Mascara",
+        "price": 14.17,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-07-26T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Creamy Lip Color",
+        "description": "A premium creamy lip color by Brandiose.",
+        "sku": "MQYSZI58",
+        "category": "Lipstick",
+        "price": 16.12,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-08-28T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Full-Coverage Foundation",
+        "description": "A premium full-coverage foundation by Caravan.",
+        "sku": "O5W36LJY",
+        "category": "Foundation",
+        "price": 45.22,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-05-02T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Velvet Matte Lipstick",
+        "description": "A premium velvet matte lipstick by Brandiose.",
+        "sku": "EEXST2Y4",
+        "category": "Lipstick",
+        "price": 45.63,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-11-20T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Caravan.",
+        "sku": "KJ77M3DJ",
+        "category": "Mascara",
+        "price": 43.44,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-12-13T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Nude Eyeshadow Palette",
+        "description": "A premium nude eyeshadow palette by Brandiose.",
+        "sku": "CW0QUU2E",
+        "category": "Eyeshadow",
+        "price": 19.1,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-05-07T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Liquid Glow Highlighter",
+        "description": "A premium liquid glow highlighter by Caravan.",
+        "sku": "I5L7PCOW",
+        "category": "Highlighter",
+        "price": 61.15,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-04-30T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Nude Eyeshadow Palette",
+        "description": "A premium nude eyeshadow palette by Brandiose.",
+        "sku": "RWCDXJM7",
+        "category": "Eyeshadow",
+        "price": 62.69,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-06-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Pore Minimizing Primer",
+        "description": "A premium pore minimizing primer by Caravan.",
+        "sku": "TBAUH71U",
+        "category": "Primer",
+        "price": 29.87,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Waterproof Mascara",
+        "description": "A premium waterproof mascara by Brandiose.",
+        "sku": "S8QQDOOT",
+        "category": "Mascara",
+        "price": 37.89,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-10-10T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Hydrating Foundation",
+        "description": "A premium hydrating foundation by Caravan.",
+        "sku": "QI0RWSE7",
+        "category": "Foundation",
+        "price": 30.39,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-11-23T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Brandiose.",
+        "sku": "LYQIP4JU",
+        "category": "Mascara",
+        "price": 8.82,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-10-07T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Lengthening Lash Mascara",
+        "description": "A premium lengthening lash mascara by Caravan.",
+        "sku": "J9LR5ONC",
+        "category": "Mascara",
+        "price": 69.57,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-10-18T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Hydrating Concealer",
+        "description": "A premium hydrating concealer by Brandiose.",
+        "sku": "43GIK0L0",
+        "category": "Concealer",
+        "price": 18.42,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-04-05T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Kohl Eyeliner Pencil",
+        "description": "A premium kohl eyeliner pencil by Caravan.",
+        "sku": "S5Q1S6N3",
+        "category": "Eyeliner",
+        "price": 19.13,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2023-09-23T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Hydrating Makeup Primer",
+        "description": "A premium hydrating makeup primer by Brandiose.",
+        "sku": "DVG2QQKX",
+        "category": "Primer",
+        "price": 10.52,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2024-06-24T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Velvet Matte Lipstick",
+        "description": "A premium velvet matte lipstick by Caravan.",
+        "sku": "L3B4GXT8",
+        "category": "Lipstick",
+        "price": 23.32,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-10-19T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Brandiose",
+        "name": "Pearl Powder Highlighter",
+        "description": "A premium pearl powder highlighter by Brandiose.",
+        "sku": "NOLXL5HD",
+        "category": "Highlighter",
+        "price": 20.11,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-12-19T00:00:00.000Z"
+    },
+    {
+        "brand_name": "Caravan",
+        "name": "Long-Lasting Setting Spray",
+        "description": "A premium long-lasting setting spray by Caravan.",
+        "sku": "PNGYX3RQ",
+        "category": "Setting Spray",
+        "price": 22.99,
+        "image_url": "https://placehold.co/600x400",
+        "created_at": "2025-02-21T00:00:00.000Z"
     }
 ]

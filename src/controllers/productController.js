@@ -1,6 +1,7 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const ProductStorage = require('../models/ProductStorage');
+const AuditLogger = require('../services/auditLogger');
 
 // In your controller file
 async function getAllProducts(req, res) {
@@ -86,10 +87,19 @@ async function getTotalStockByBrand(brand_name) {
 
 async function createProduct(req, res) {
     try {
-        const { name, sku, category, price, description, image_url, brand_name } = req.body;
+        const { user_id, product_id, name, sku, category, 
+                price, description, image_url, brand_name } = req.body;
 
         // Validate required fields
         if (!name || !sku || !category || !price || !brand_name) {
+            // Log failed validation attempt
+            await AuditLogger.logAction({
+                user_id: user_id,
+                product_id: productId,
+                action_type: 'product_add',
+                description: `Failed product creation attempt - missing required fields`,
+                status: 'fail'
+            });
             return res.status(400).json({ 
                 message: 'One or more fields are missing or invalid.' 
             });
@@ -98,6 +108,13 @@ async function createProduct(req, res) {
         // Find category by name and get its ObjectId
         const categoryDoc = await Category.findOne({ name: category });
         if (!categoryDoc) {
+            // Log invalid category attempt
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_add',
+                description: `Failed product creation - invalid category: ${category}`,
+                status: 'fail'
+            });
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
@@ -106,6 +123,13 @@ async function createProduct(req, res) {
         // Check if SKU is unique
         const existingProduct = await Product.findOne({ sku: sku });
         if (existingProduct) {
+            // Log duplicate SKU attempt
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_add',
+                description: `Failed product creation - duplicate SKU: ${sku}`,
+                status: 'fail'
+            });
             return res.status(400).json({ message: 'SKU already exists' });
         }
 
@@ -123,6 +147,16 @@ async function createProduct(req, res) {
         const newProduct = new Product(productData);
         await newProduct.save();
 
+        // Log successful creation
+        await AuditLogger.logAction({
+            user_id: user_id,
+            action_type: 'product_add',
+            product_id: newProduct._id,
+            new_value: newProduct.toObject(),
+            description: `Product "${newProduct.name}" (SKU: ${newProduct.sku}) created`,
+            status: 'success'
+        });
+
         res.status(201).json({ 
             message: 'Product created successfully',
             product: newProduct 
@@ -130,6 +164,14 @@ async function createProduct(req, res) {
         
     } catch (error) {
         console.error('Create product error:', error);
+
+        await AuditLogger.logAction({
+            user_id: req.body.user_id,
+            action_type: 'product_add',
+            description: `Failed to create product: ${error.message}`,
+            status: 'fail'
+        });
+        
         res.status(500).json({ 
             message: error.message || 'Failed to create product' 
         });
@@ -139,18 +181,48 @@ async function createProduct(req, res) {
 async function updateProduct(req, res) {
     try {
         const productId = req.params.id;
-        const { name, sku, category, price, description, image_url, brand_name } = req.body;
+        const { user_id, product_id, name, sku, category, 
+                price, description, image_url, brand_name } = req.body;
 
         // Validate required fields
         if (!name || !sku || !category || !price) {
+            // Log failed validation attempt
+            await AuditLogger.logAction({
+                user_id: user_id,
+                product_id: productId,
+                action_type: 'product_update',
+                description: `Failed product update attempt - missing required fields for product ID: ${productId}`,
+                status: 'fail'
+            });
             return res.status(400).json({ 
                 message: 'One or more fields are missing or invalid.' 
             });
         }
 
+        // Get the current product state for audit logging
+        const currentProduct = await Product.findById(productId);
+        if (!currentProduct) {
+            // Log attempt to update non-existent product
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_update',
+                description: `Failed product update - product not found: ${productId}`,
+                status: 'fail'
+            });
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
         // Find category by name and get its ObjectId
         const categoryDoc = await Category.findOne({ name: category });
         if (!categoryDoc) {
+            // Log invalid category attempt
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_update',
+                product_id: productId,
+                description: `Failed product update - invalid category: ${category}`,
+                status: 'fail'
+            });
             return res.status(400).json({ 
                 message: 'Invalid category' 
             });
@@ -160,7 +232,7 @@ async function updateProduct(req, res) {
         const updateData = {
             name,
             sku,
-            category: categoryDoc._id, // Use the ObjectId instead of name
+            category: categoryDoc._id,
             price: parseFloat(price),
             description,
             image_url,
@@ -174,8 +246,27 @@ async function updateProduct(req, res) {
         );
 
         if (!updatedProduct) {
+            // Log update failure
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_update',
+                product_id: productId,
+                description: `Failed to update product - not found after validation: ${productId}`,
+                status: 'fail'
+            });
             return res.status(404).json({ message: 'Product not found' });
         }
+
+        // Log successful update with before/after values
+        await AuditLogger.logAction({
+            user_id: user_id,
+            action_type: 'product_update',
+            product_id: productId,
+            previous_value: currentProduct.toObject(),
+            new_value: updatedProduct.toObject(),
+            description: `Product "${currentProduct.name}" (SKU: ${currentProduct.sku}) updated`,
+            status: 'success'
+        });
 
         res.status(200).json({ 
             message: 'Product updated successfully',
@@ -183,6 +274,16 @@ async function updateProduct(req, res) {
         });
     } catch (error) {
         console.error('Update error:', error);
+        
+        // Log update failure
+        await AuditLogger.logAction({
+            user_id: req.body.user_id,
+            action_type: 'product_update',
+            product_id: req.params.id,
+            description: `Failed to update product: ${error.message}`,
+            status: 'fail'
+        });
+        
         res.status(500).json({ 
             message: error.message || 'Failed to update product' 
         });
@@ -192,12 +293,45 @@ async function updateProduct(req, res) {
 async function deleteProductById(req, res) {
     try {
         const productId = req.params.id;
+        const { user_id } = req.body;
+
+        // Get the product before deletion for audit logging
+        const productToDelete = await Product.findById(productId);
+        if (!productToDelete) {
+            // Log attempt to delete non-existent product
+            await AuditLogger.logAction({
+                user_id: user_id,
+                product_id: productId,
+                action_type: 'product_remove',
+                description: `Failed product deletion - product not found: ${productId}`,
+                status: 'fail'
+            });
+            return res.status(404).json({ message: 'Product not found' });
+        }
 
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {
+            // Log deletion failure
+            await AuditLogger.logAction({
+                user_id: user_id,
+                action_type: 'product_remove',
+                product_id: productId,
+                description: `Failed to delete product - not found after validation: ${productId}`,
+                status: 'fail'
+            });
             return res.status(404).json({ message: 'Product not found' });
         }
+
+        // Log successful deletion
+        await AuditLogger.logAction({
+            user_id: user_id,
+            action_type: 'product_remove',
+            product_id: productId,
+            previous_value: productToDelete.toObject(),
+            description: `Product "${productToDelete.name}" (SKU: ${productToDelete.sku}) deleted`,
+            status: 'success'
+        });
 
         res.status(200).json({ 
             message: 'Product deleted successfully',
@@ -205,6 +339,16 @@ async function deleteProductById(req, res) {
         });
     } catch (error) {
         console.error('Delete error:', error);
+        
+        // Log deletion failure
+        await AuditLogger.logAction({
+            user_id: user_id,
+            action_type: 'product_remove',
+            product_id: productId,
+            description: `Failed to delete product: ${error.message}`,
+            status: 'fail'
+        });
+        
         res.status(500).json({ 
             message: error.message || 'Failed to delete product' 
         });
