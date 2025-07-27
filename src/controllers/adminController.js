@@ -154,14 +154,8 @@ async function createUser(req, res) {
         const { user_id, full_name, email, role, brand_name, password } = req.body;
 
         // Validate required fields
-        if (!user_id || !full_name || !email || !role || !password) {
+        if (!full_name || !email || !role || !password) {
             return res.status(400).json({ message: 'All required fields must be provided' });
-        }
-
-        // Check if user_id is unique
-        const existingUserId = await User.findOne({ user_id: user_id });
-        if (existingUserId) {
-            return res.status(400).json({ message: 'Username already exists' });
         }
 
         // Check if email is unique
@@ -188,7 +182,6 @@ async function createUser(req, res) {
 
         // Create user object
         const userData = {
-            user_id,
             full_name,
             email: email.toLowerCase(),
             password_hash: hashedPassword,
