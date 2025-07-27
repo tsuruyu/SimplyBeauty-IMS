@@ -2,6 +2,20 @@ const { getCategoryObjects } = require('./categoryController');
 const { getVendorProductObjects, 
         getTotalStockByBrand, getProductCount } = require('./productController');
 
+// GET /vendor/profile - for vendor profile
+async function getVendorProfile(req, res) {
+    const user = req.session.user;
+
+    if (user.role !== 'vendor') {
+        return res.status(403).send("Access denied.");
+    }
+
+    res.render('vendor/profile', {
+        u: user,
+        currentPath: tokenizePath(req.path)
+    });
+}
+
 async function getVendorDashboard(req, res) {
     const user = req.session.user;
 
@@ -53,6 +67,7 @@ function tokenizePath(path) {
 }
 
 module.exports = {
+    getVendorProfile,
     getVendorDashboard,
     getVendorTable
 }

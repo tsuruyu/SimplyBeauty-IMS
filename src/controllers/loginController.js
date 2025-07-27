@@ -58,7 +58,8 @@ async function handleLoginRequest(req, res) {
                     user_id: user.user_id,
                     full_name: user.full_name,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    created_at: user.created_at
                 };
                     return res.redirect("/user/manage_products");
                 } catch (err) {
@@ -73,7 +74,8 @@ async function handleLoginRequest(req, res) {
                     full_name: user.full_name,
                     email: user.email,
                     role: user.role,
-                    brand_name: user.brand_name
+                    brand_name: user.brand_name,
+                    created_at: user.created_at
                 };
                     return res.redirect("/vendor/product_dashboard");
                 } catch (err) {
@@ -88,6 +90,7 @@ async function handleLoginRequest(req, res) {
                     full_name: user.full_name,
                     email: user.email,
                     role: user.role,
+                    created_at: user.created_at
                 };
                     return res.redirect("/admin/manage_users");
                 } catch (err) {

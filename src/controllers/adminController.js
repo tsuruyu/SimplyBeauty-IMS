@@ -13,6 +13,20 @@ async function filterRoles(role) {
     return users;
 }
 
+// GET /admin/profile - for admin profile
+async function getAdminProfile(req, res) {
+    const user = req.session.user;
+
+    if (user.role !== 'admin') {
+        return res.status(403).send("Access denied.");
+    }
+
+    res.render('admin/profile', {
+        u: user,
+        currentPath: tokenizePath(req.path)
+    });
+}
+
 // GET /admin_dashboard - user view for admin
 async function getAdminUserDashboard(req, res) {
     const user = req.session.user;
@@ -209,6 +223,7 @@ function tokenizePath(path) {
 
 module.exports = {
     getUsers,
+    getAdminProfile,
     getAdminUserDashboard,
     getAdminProductDashboard,
     updateUser,

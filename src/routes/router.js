@@ -3,9 +3,9 @@ const path = require('path');
 const router = express.Router();
 
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
-const { requireLogin, getUserDashboard } = require('../controllers/userController');
-const { getVendorDashboard, getVendorTable } = require('../controllers/vendorController'); 
-const { getAdminUserDashboard, getAdminProductDashboard,
+const { requireLogin, getUserDashboard, getUserProfile } = require('../controllers/userController');
+const { getVendorDashboard, getVendorTable, getVendorProfile } = require('../controllers/vendorController'); 
+const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
         updateUser, deleteUserById, filterUsersByRole, 
         getAllUsers, createUser } = require('../controllers/adminController'); 
 const { getAllProducts, createProduct, 
@@ -54,7 +54,7 @@ router.post('/login', handleLoginRequest);
 /**
  * Employee Endpoints
  */
-// router.get('/user/profile', requireLogin, getUserDashboard);
+router.get('/user/profile', requireLogin, getUserProfile);
 router.get('/user/manage_products', requireLogin, getUserDashboard);
 router.get('/user/manage_locations', requireLogin, getLocationDashboard);
 
@@ -62,7 +62,7 @@ router.get('/user/manage_locations', requireLogin, getLocationDashboard);
 /**
  * Vendor Endpoints
  */
-// router.get('/vendor/profile', requireLogin, getVendorDashboard);
+router.get('/vendor/profile', requireLogin, getVendorProfile);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
 router.get('/vendor/product_table', requireLogin, getVendorTable);
 router.get('/vendor/manage_locations', requireLogin, getLocationDashboard);
@@ -72,6 +72,7 @@ router.get('/vendor/manage_locations', requireLogin, getLocationDashboard);
 /**
  * Admin Endpoints
  */
+router.get('/admin/profile', requireLogin, getAdminProfile);
 router.get('/admin/manage_users', requireLogin, getAdminUserDashboard);
 router.post('/admin/users', requireLogin, createUser);
 router.put('/admin/users/:id', requireLogin, updateUser);

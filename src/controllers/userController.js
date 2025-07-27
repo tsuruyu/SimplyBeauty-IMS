@@ -9,6 +9,20 @@ function requireLogin(req, res, next) {
     next();
 }
 
+// GET /user/profile - for employee profile
+async function getUserProfile(req, res) {
+    const user = req.session.user;
+
+    if (user.role === 'vendor') {
+        return res.status(403).send("Access denied.");
+    }
+
+    res.render('user/profile', {
+        u: user,
+        currentPath: tokenizePath(req.path)
+    });
+}
+
 // GET /user_dashboard - for employees
 async function getUserDashboard(req, res) {
     const user = req.session.user;
@@ -34,5 +48,6 @@ function tokenizePath(path) {
 
 module.exports = {
     requireLogin,
+    getUserProfile,
     getUserDashboard,
 };
