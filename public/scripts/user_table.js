@@ -16,7 +16,6 @@ function openEditModal(userId) {
     document.getElementById('edit-brand_name').value = row.dataset.brand || '';
     document.getElementById('edit-email').value = row.dataset.email;
     document.getElementById('edit-password').value = ''; // Clear password field
-    document.getElementById('edit-user_id_display').value = row.dataset.userIdDisplay || userId; // Display user ID
 
     toggleBrandNameField('edit-role', 'edit-brand-name-container');
     document.getElementById('edit-user-modal').classList.remove('hidden');
@@ -53,7 +52,6 @@ document.getElementById('add-user-form').addEventListener('submit', async functi
     e.preventDefault();
 
     const payload = {
-        user_id: document.getElementById('add-user_id').value,
         full_name: document.getElementById('add-full_name').value,
         email: document.getElementById('add-email').value,
         role: document.getElementById('add-role').value,
@@ -106,8 +104,7 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         full_name: document.getElementById('edit-full_name').value,
         email: document.getElementById('edit-email').value,
         role: document.getElementById('edit-role').value,
-        brand_name: document.getElementById('edit-brand_name').value,
-        user_id: document.getElementById('edit-user_id_display').value
+        brand_name: document.getElementById('edit-brand_name').value
     };
 
     // Add password only if it's not empty
