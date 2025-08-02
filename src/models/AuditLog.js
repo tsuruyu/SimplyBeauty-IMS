@@ -13,7 +13,7 @@ const auditSchema = new Schema({
         enum: ['sale', // implement first
                 'user_add', 'user_update', 'user_remove',
                 'product_add', 'product_update', 'product_remove', // implement this first, most important 
-                'stock_add', 'stock_update', 'stock_remove',
+                'stock_add', 'stock_decrease', 'stock_update', 'stock_remove',
                 'storage_add', 'storage_update', 'storage_remove',
                 'category_add', 'category_update', 'category_remove']
     },

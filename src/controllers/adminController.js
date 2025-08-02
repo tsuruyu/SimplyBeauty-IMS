@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const { getAllProductObjects } = require('./productController');
 const { getCategoryObjects } = require('./categoryController');
+const { getLogs } = require('./auditController');
 const bcrypt = require('bcrypt');
 
 async function getUsers() {
@@ -23,8 +24,11 @@ async function getAdminProfile(req, res) {
 
     res.render('admin/profile', {
         u: user,
+        l: await getLogs(),
         currentPath: tokenizePath(req.path)
     });
+
+    console.log(getLogs());
 }
 
 // GET /admin_dashboard - user view for admin
