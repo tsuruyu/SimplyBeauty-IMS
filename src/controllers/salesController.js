@@ -3,15 +3,14 @@ const Product = require('../models/Product');
 const AuditLogger = require('../services/auditLogger');
 
 async function saleProcess(req, res) {
-    const { product_id, storage_id, quantity } = req.body;
-    const user_id = req.session.user._id; // Assuming user is authenticated
+    const { product_id, storage_id, quantity, username } = req.body;
 
     try {
         // Validate input
-        if (!product_id || !storage_id || !quantity || quantity <= 0) {
+        if (!product_id || !storage_id || !quantity || quantity <= 0 || !username) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid input. Product ID, storage ID, and positive quantity are required.'
+                message: 'Invalid input. Product ID, storage ID, positive quantity, and username are required.'
             });
         }
 
@@ -47,13 +46,13 @@ async function saleProcess(req, res) {
 
         // Log the action
         await AuditLogger.logAction({
-            user_id: user_id,
-            action_type: 'stock_decrease',
+            username: username,
+            action_type: 'sale',
             product_id: product_id,
             storage_id: storage_id,
             old_value: oldQuantity,
             new_value: productStorage.quantity,
-            description: `Decreased quantity by ${quantity} for ${productStorage.product_id.name} (SKU: ${productStorage.product_id.sku}) in storage ${storage_id}`,
+            description: `Sale of ${quantity} units for ${productStorage.product_id.name} (SKU: ${productStorage.product_id.sku}) in storage ${storage_id} by ${username}`,
             status: 'success'
         });
 
@@ -71,18 +70,18 @@ async function saleProcess(req, res) {
         
         // Log failed attempt
         await AuditLogger.logAction({
-            user_id: user_id,
-            action_type: 'stock_decrease',
+            username: username || 'unknown',
+            action_type: 'sale',
             product_id: product_id,
             storage_id: storage_id,
-            description: `Failed to decrease quantity for product ${product_id}`,
+            description: `Failed sale attempt for product ${product_id}`,
             status: 'failed',
             error: error.message
         });
 
         res.status(500).json({
             success: false,
-            message: 'Failed to decrease product quantity',
+            message: 'Failed to process sale',
             error: error.message
         });
     }

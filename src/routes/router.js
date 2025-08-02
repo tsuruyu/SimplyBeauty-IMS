@@ -17,10 +17,6 @@ const { getAllStorages, createStorage, updateStorage,
 const { getLocationDashboard, addProductToStorage, updateProductInStorage, 
         removeProductFromStorage} = require('../controllers/productStorageController');
 
-router.get('/', (req, res) => {
-    res.redirect('/login');
-});
-
 /**
  * API Endpoints
  */
@@ -48,6 +44,10 @@ router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage
 /**
  * Login/Auth Endpoints
  */
+router.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
 router.get('/login', getLoginPage);
 router.post('/login', handleLoginRequest);
 

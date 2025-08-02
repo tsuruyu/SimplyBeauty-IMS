@@ -4,8 +4,16 @@ const Schema = mongoose.Schema;
 const auditSchema = new Schema({
     user_id: { 
         type: Schema.Types.ObjectId, 
-        required: false,
+        required: function() {
+            return this.action_type !== 'sale';
+        },
         ref: 'User' 
+    },
+    username: {
+        type: String,
+        required: function() {
+            return this.action_type === 'sale';
+        }
     },
     action_type: {
         type: String,
@@ -50,11 +58,12 @@ const auditSchema = new Schema({
         default: Date.now 
     }
 }, {
-    timestamps: true // Adds createdAt and updatedAt fields
+    timestamps: true
 });
 
 // Index for faster querying
 auditSchema.index({ user_id: 1, date: -1 });
+auditSchema.index({ username: 1, date: -1 });
 auditSchema.index({ action_type: 1, date: -1 });
 
 module.exports = mongoose.model('AuditLog', auditSchema);
