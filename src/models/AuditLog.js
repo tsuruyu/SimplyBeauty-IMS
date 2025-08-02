@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const auditSchema = new Schema({
     user_id: { 
         type: Schema.Types.ObjectId, 
-        required: true,
+        required: false,
         ref: 'User' 
     },
     action_type: {
@@ -13,6 +13,7 @@ const auditSchema = new Schema({
         enum: ['sale', // implement first
                 'user_add', 'user_update', 'user_remove',
                 'product_add', 'product_update', 'product_remove', // implement this first, most important 
+                'stock_update', 'stock_remove',
                 'storage_add', 'storage_update', 'storage_remove',
                 'category_add', 'category_update', 'category_remove']
     },
@@ -20,13 +21,16 @@ const auditSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: function() {
-            return ['sale', 'inventory_update'].includes(this.action_type);
+            return ['sale',
+                'product_add', 'product_update', 'product_remove', 
+                'stock_add', 'stock_decrease', 'stock_update', 'stock_remove',
+            ].includes(this.action_type);
         }
     },
     quantity: {
         type: Number,
         required: function() {
-            return ['sale', 'inventory_update'].includes(this.action_type);
+            return ['sale', 'stock_add', 'stock_decrease', 'stock_update', 'stock_remove'].includes(this.action_type);
         }
     },
     previous_value: Schema.Types.Mixed,

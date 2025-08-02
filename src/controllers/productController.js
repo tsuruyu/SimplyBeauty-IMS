@@ -87,7 +87,7 @@ async function getTotalStockByBrand(brand_name) {
 
 async function createProduct(req, res) {
     try {
-        const { user_id, product_id, name, sku, category, 
+        const { user_id, name, sku, category, 
                 price, description, image_url, brand_name } = req.body;
 
         // Validate required fields

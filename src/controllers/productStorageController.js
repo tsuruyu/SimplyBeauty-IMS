@@ -1,6 +1,7 @@
 const ProductStorage = require('../models/ProductStorage');
 const Product = require('../models/Product');
 const Storage = require('../models/Storage');
+const AuditLogger = require('../services/auditLogger');
 
 function tokenizePath(path) {
     return path.split('/')[2] || '';
@@ -60,6 +61,15 @@ async function addProductToStorage(req, res) {
         
         const saved = await newProductStorage.save();
         
+        await AuditLogger.logAction({
+            user_id: user_id,
+            action_type: 'product_add',
+            product_id: newProduct._id,
+            new_value: newProduct.toObject(),
+            description: `Product "${newProduct.name}" (SKU: ${newProduct.sku}) created`,
+            status: 'success'
+        });
+
         res.status(201).json({
             success: true,
             data: saved,
