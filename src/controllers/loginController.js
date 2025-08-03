@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const { getVendorProducts } = require('./productController');
 
 async function getLoginPage(req, res) {
     res.render('login', {
@@ -110,7 +109,26 @@ async function handleLoginRequest(req, res) {
     }
 }
 
+async function handleLogoutRequest(req, res) {
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send('Logout failed');
+            }
+            
+            res.clearCookie('connect.sid');
+
+            res.redirect('/login?logout=success');
+        });
+    } catch (error) {
+        console.error('Error during logout:', error);
+        res.status(500).send('An error occurred during logout');
+    }
+}
+
 module.exports = {
     getLoginPage,
-    handleLoginRequest
-};  
+    handleLoginRequest,
+    handleLogoutRequest
+};

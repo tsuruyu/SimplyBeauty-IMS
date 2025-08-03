@@ -10,6 +10,7 @@ npm install bcrypt dotenv ejs express-handlebars express-session express faker h
 ```
 MONGODB_URI=<YOUR_CONNECTION_URI_HERE>
 SERVER_PORT=3000
+SESSION_SECRET=<YOUR_SESSION_SECRET_HERE>
 ```
 3. For Windows, start with
 ```bash

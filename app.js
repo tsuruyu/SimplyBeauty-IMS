@@ -58,7 +58,7 @@ async function main(){
     app.use(express.urlencoded({ extended: true }));
 
     app.use(session({
-        secret: process.env.SESSION_SECRET || 'key',
+        secret: process.env.SESSION_SECRET || 'youshouldhaveasessionsecretkeyvariableinyour.envfilerightnow',
         resave: false,
         saveUninitialized: false,
         cookie: {

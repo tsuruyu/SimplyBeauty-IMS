@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
-const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
+const { getLoginPage, handleLoginRequest, handleLogoutRequest } = require('../controllers/loginController');
 const { requireLogin, getUserDashboard, getUserProfile } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
@@ -55,6 +55,7 @@ router.get('/', (req, res) => {
 
 router.get('/login', getLoginPage);
 router.post('/login', handleLoginRequest);
+router.get('/logout', handleLogoutRequest);
 
 /**
  * Employee Endpoints
