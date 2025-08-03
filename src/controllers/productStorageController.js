@@ -1,7 +1,9 @@
 const ProductStorage = require('../models/ProductStorage');
 const Product = require('../models/Product');
 const Storage = require('../models/Storage');
+const { getProductCount } = require('./productController');
 const AuditLogger = require('../services/auditLogger');
+
 
 function tokenizePath(path) {
     return path.split('/')[2] || '';
@@ -15,15 +17,24 @@ async function getLocationDashboard(req, res) {
         role = 'user';
     }
 
-    res.render(`${role}/storage_management`, {
-        u: user,
-        currentPath: tokenizePath(req.path)
-    });
+    if (role !== 'vendor') {
+        res.render(`${role}/storage_management`, {
+            u: user,
+            currentPath: tokenizePath(req.path)
+        });
+    }
+    else if (role === 'vendor') {
+        res.render(`${role}/storage_management`, {
+            u: user,
+            count: await getProductCount(user.brand_name),
+            currentPath: tokenizePath(req.path)
+        });
+    }
 }
 
 async function addProductToStorage(req, res) {
-    const { product_id, storage_id, quantity } = req.body;
-    const user_id = req.session.user._id; // Get user ID from session
+    const { user_id, product_id, storage_id, quantity } = req.body;
+    // const user_id = req.session.user._id; // Get user ID from session
     
     try {
         // Check if product and storage exist

@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadStorages();
     productSearch();
 
-    // Setup form event listeners
     document.getElementById('add-storage-form').addEventListener('submit', handleAddStorage);
     document.getElementById('edit-storage-form').addEventListener('submit', handleUpdateStorage);
     document.getElementById('add-product-to-storage-form').addEventListener('submit', handleAddProductToStorage);
@@ -17,7 +16,6 @@ if (brandNameElement) {
 }
 
 async function productSearch() {
-    // Fetch all products when modal opens
     async function loadProducts() {
         try {
             let url = '/api/products';
@@ -40,7 +38,6 @@ async function productSearch() {
     
     document.getElementById('product-search').addEventListener('focus', loadProducts);
     
-    // Client-side search functionality
     document.getElementById('product-search').addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase().trim();
         const resultsContainer = document.getElementById('product-search-results');
@@ -90,7 +87,6 @@ async function productSearch() {
         resultsContainer.classList.remove('hidden');
     }
     
-    // Close results when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('#product-search, #product-search-results')) {
             document.getElementById('product-search-results').classList.add('hidden');
@@ -232,7 +228,6 @@ async function viewStorageDetails(storageId) {
     try {
         currentStorageId = storageId;
         
-        // Load storage details
         const response = await fetch(`/api/storages/${storageId}`);
         if (!response.ok) {
             const errorData = await response.json();
@@ -240,22 +235,25 @@ async function viewStorageDetails(storageId) {
         }
         const data = await response.json();
         
-        // Update the modal title
         document.getElementById('storage-details-title').textContent = 
             `Storage: ${data.storage.name} (${data.storage.location || 'No location'})`;
         
-        // Set the current storage ID in the add product form
         document.getElementById('current-storage-id').value = storageId;
         
-        // Populate the products table
         const tableBody = document.getElementById('storage-products-table-body');
         tableBody.innerHTML = '';
         
         // Filter products if role is vendor and brand_name is set
         let filteredProducts = data.products;
         if (role === 'vendor' && brand_name) {
+            // First get all product IDs that belong to this vendor
+            const vendorProductIds = allProducts
+                .filter(p => p.brand_name === brand_name)
+                .map(p => p._id);
+            
+            // Then filter storage products by these IDs
             filteredProducts = data.products.filter(product => 
-                product.product_id?.brand_name === brand_name
+                vendorProductIds.includes(product.product_id?._id || product.product_id)
             );
         }
         
@@ -269,14 +267,19 @@ async function viewStorageDetails(storageId) {
             `;
         } else {
             filteredProducts.forEach(product => {
+                // Find the full product details in allProducts
+                const productDetails = allProducts.find(p => 
+                    p._id === (product.product_id?._id || product.product_id)
+                );
+                
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        ${product.product_id?.name || 'Unknown Product'}
+                        ${productDetails?.name || 'Unknown Product'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        ${product.product_id?.sku || 'N/A'}
+                        ${productDetails?.sku || 'N/A'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         ${product.quantity}
@@ -294,7 +297,6 @@ async function viewStorageDetails(storageId) {
             });
         }
         
-        // Show the modal
         document.getElementById('storage-details-modal').classList.remove('hidden');
     } catch (error) {
         showMessage('Error loading storage details: ' + error.message, 'error');
@@ -336,11 +338,9 @@ async function handleAddProductToStorage(e) {
             throw new Error(errorData.message || 'Failed to add product to storage');
         }
         
-        // Refresh the storage details
         viewStorageDetails(storageId);
         showMessage('Product added to storage successfully', 'success');
         
-        // Reset the form
         document.getElementById('add-product-to-storage-form').reset();
         document.getElementById('selected-product-id').value = '';
     } catch (error) {
@@ -371,7 +371,6 @@ async function updateProductInStorage(productStorageId, currentQuantity) {
             throw new Error(errorData.message || 'Failed to update product quantity');
         }
         
-        // Refresh the storage details
         viewStorageDetails(currentStorageId);
         showMessage('Product quantity updated successfully', 'success');
     } catch (error) {
@@ -394,7 +393,6 @@ async function removeProductFromStorage(productStorageId) {
             throw new Error(errorData.message || 'Failed to remove product from storage');
         }
         
-        // Refresh the storage details
         viewStorageDetails(currentStorageId);
         showMessage('Product removed from storage successfully', 'success');
     } catch (error) {
@@ -478,7 +476,6 @@ function showMessage(message, type) {
     }, 5000);
 }
 
-// Make functions available globally
 window.openAddStorageModal = openAddStorageModal;
 window.closeAddStorageModal = closeAddStorageModal;
 window.openEditStorageModal = openEditStorageModal;

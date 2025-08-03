@@ -71,6 +71,7 @@ async function getSalesReport(req, res) {
 
     res.render('vendor/sales_report', {
         u: user,
+        count: await getProductCount(user.brand_name),
         currentPath: tokenizePath(req.path)
     });
 }
