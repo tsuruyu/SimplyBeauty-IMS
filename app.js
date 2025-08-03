@@ -38,6 +38,12 @@ function initializeHandlebars(){
                 const day = String(date.getDate()).padStart(2, '0');
                 const year = date.getFullYear();
                 return `${month}-${day}-${year}`;
+            },
+            replaceUnderscore: function(str) {
+                if (typeof str === 'string') {
+                    return str.replace(/_/g, ' ');
+                }
+                return str;
             }
         }
     }));

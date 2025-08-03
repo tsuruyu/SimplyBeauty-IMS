@@ -26,8 +26,6 @@ async function getAdminProfile(req, res) {
         l: await getLogs(),
         currentPath: tokenizePath(req.path)
     });
-
-    console.log(getLogs());
 }
 
 async function getAdminUserDashboard(req, res) {

@@ -18,7 +18,7 @@ const auditSchema = new Schema({
     action_type: {
         type: String,
         required: true,
-        enum: ['sale', 'generate_report',
+        enum: ['sale',
             'product_add', 'product_update', 'product_remove', // implement this first, most important 
             'stock_add', 'stock_decrease', 'stock_update', 'stock_remove']
     },
