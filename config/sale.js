@@ -1,70 +1,62 @@
-// TODO: create sale-generating script BY TOMORROW
-// Deadline is in Monday, 9 AM.
-// 
 const mongoose = require('mongoose');
 const AuditLog = require('../src/models/AuditLog');
 const Product = require('../src/models/Product');
+const Storage = require('../src/models/Storage');
 const ProductStorage = require('../src/models/ProductStorage');
 const faker = require('faker');
 
 const database = require('./db');
 
-// Connect to MongoDB
 database.connect();
 generateSaleLogs();
 
+const TRANSACTIONS = 500;
+
 async function generateSaleLogs() {
     try {
-        // Get all products and their storage locations
-        const products = await Product.find().lean();
-        const productStorages = await ProductStorage.find().populate('product_id').lean();
+        // Populate both product_id and storage_id with their names
+        const productStorages = await ProductStorage.find()
+            .populate('product_id', 'name sku')
+            .populate('storage_id', 'name')
+            .lean();
 
-        if (products.length === 0 || productStorages.length === 0) {
-            console.error('No products or storage locations found in the database');
+        if (productStorages.length === 0) {
+            console.error('No product storage records found in the database');
             return;
         }
 
-        // Generate 500 sale transactions
         const transactions = [];
-        const usernames = ['johndoe', 'janedoe', 'alice', 'bob', 'charlie', 'dave', 'eve', 'frank', 'grace', 'heidi'];
+        const usernames = ['Johndoe', 'Janedoe', 'Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Heidi'];
         
-        // Date range - last 3 months
+        // 3 months range
         const endDate = new Date();
         const startDate = new Date();
         startDate.setMonth(endDate.getMonth() - 3);
 
-        for (let i = 0; i < 500; i++) {
-            // Random product storage
+        for (let i = 0; i < TRANSACTIONS; i++) {
             const randomStorage = faker.random.arrayElement(productStorages);
             const product = randomStorage.product_id;
             
-            // Random quantity (1-20% of available stock)
             const maxQuantity = Math.floor(randomStorage.quantity * 0.2) || 1;
             const quantity = faker.datatype.number({ 
                 min: 1, 
                 max: maxQuantity > 0 ? maxQuantity : 1 
             });
             
-            // Random date within the 3 month period
             const randomDate = faker.date.between(startDate, endDate);
-            
-            // Random user
             const username = faker.random.arrayElement(usernames);
             
-            // Create the transaction
             transactions.push({
                 username: username,
                 action_type: 'sale',
                 product_id: product._id,
-                storage_id: randomStorage.storage_id,
+                storage_id: randomStorage.storage_id._id, // Use the storage's ObjectId
                 quantity: quantity,
                 previous_value: randomStorage.quantity,
                 new_value: randomStorage.quantity - quantity,
-                description: `${username} bought ${quantity} units for ${product.name} (SKU: ${product.sku}) in storage ${randomStorage.storage_id}.`,
+                description: `${username} bought ${quantity} units of ${product.name} (SKU: ${product.sku}) from ${randomStorage.storage_id.name}.`, // Use storage name
                 status: 'success',
-                date: randomDate,
-                createdAt: randomDate,
-                updatedAt: randomDate
+                date: randomDate
             });
         }
 
