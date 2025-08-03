@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         filteredRows = allRows.filter(row => {
             const description = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            const rowActionType = row.dataset.actionType; // Get the raw action_type
+            const rowActionType = row.dataset.actionType;
             
             const matchesSearch = description.includes(searchTerm);
             const matchesActionType = actionType === 'all' || rowActionType === actionType;

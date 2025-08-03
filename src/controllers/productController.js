@@ -106,19 +106,19 @@ async function createProduct(req, res) {
         }
 
         // Find category by name and get its ObjectId
-        const categoryDoc = await Category.findOne({ name: category });
-        if (!categoryDoc) {
-            // Log invalid category attempt
-            await AuditLogger.logAction({
-                user_id: user_id,
-                action_type: 'product_add',
-                description: `Failed product creation - invalid category: ${category}`,
-                status: 'fail'
-            });
-            return res.status(400).json({ 
-                message: 'Invalid category' 
-            });
-        }
+        // const categoryDoc = await Category.findOne({ name: category });
+        // if (!categoryDoc) {
+        //     // Log invalid category attempt
+        //     await AuditLogger.logAction({
+        //         user_id: user_id,
+        //         action_type: 'product_add',
+        //         description: `Failed product creation - invalid category: ${category}`,
+        //         status: 'fail'
+        //     });
+        //     return res.status(400).json({ 
+        //         message: 'Invalid category' 
+        //     });
+        // }
 
         // Check if SKU is unique
         const existingProduct = await Product.findOne({ sku: sku });

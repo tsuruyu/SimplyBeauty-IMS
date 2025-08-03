@@ -1,4 +1,5 @@
 const { getCategoryObjects } = require('./categoryController');
+const { getVendorLogs } = require('./auditController')
 const { getVendorProductObjects, 
         getTotalStockByBrand, getProductCount } = require('./productController');
 
@@ -12,6 +13,7 @@ async function getVendorProfile(req, res) {
 
     res.render('vendor/profile', {
         u: user,
+        l: await getVendorLogs(user.brand_name),
         currentPath: tokenizePath(req.path)
     });
 }
