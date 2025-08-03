@@ -14,7 +14,6 @@ async function filterRoles(role) {
     return users;
 }
 
-// GET /admin/profile - for admin profile
 async function getAdminProfile(req, res) {
     const user = req.session.user;
 
@@ -31,7 +30,6 @@ async function getAdminProfile(req, res) {
     console.log(getLogs());
 }
 
-// GET /admin_dashboard - user view for admin
 async function getAdminUserDashboard(req, res) {
     const user = req.session.user;
 
@@ -41,12 +39,9 @@ async function getAdminUserDashboard(req, res) {
 
     try {
         const users = await getUsers();
-        // const products = await getAllProductObjects();
-        // printDebug(user, products);
         res.render('admin/user_table', {
             u: user,
             users: users,
-            // p: products,
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {
@@ -58,6 +53,7 @@ async function getAdminUserDashboard(req, res) {
 async function getAdminProductDashboard(req, res) {
     const user = req.session.user;
     console.log("User accessed dashboard: ", user);
+
     if (user.role !== 'admin') { // this change is so stupid LMAO
         return res.status(403).send("Access denied.");
     }

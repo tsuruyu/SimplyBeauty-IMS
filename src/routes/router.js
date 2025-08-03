@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { getLoginPage, handleLoginRequest } = require('../controllers/loginController');
 const { requireLogin, getUserDashboard, getUserProfile } = require('../controllers/userController');
-const { getVendorDashboard, getVendorTable, getVendorProfile } = require('../controllers/vendorController'); 
+const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
         updateUser, deleteUserById, filterUsersByRole, 
         getAllUsers, createUser } = require('../controllers/adminController'); 
@@ -16,6 +16,8 @@ const { getAllStorages, createStorage, updateStorage,
         deleteStorageById, getStorageDetails } = require('../controllers/storageController');
 const { getLocationDashboard, addProductToStorage, updateProductInStorage, 
         removeProductFromStorage} = require('../controllers/productStorageController');
+const { getSalesData, generateSalesReport, vendorSalesReport } = require('../controllers/reportController');
+
 
 /**
  * API Endpoints
@@ -40,6 +42,9 @@ router.get('/api/storages/:id', requireLogin, getStorageDetails);
 router.post('/api/product-storage', requireLogin, addProductToStorage);
 router.put('/api/product-storage/:id', requireLogin, updateProductInStorage);
 router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage);
+
+router.get('/api/sales', requireLogin, getSalesData);
+router.get('/api/sales/report', requireLogin, generateSalesReport);
 
 /**
  * Login/Auth Endpoints
@@ -66,7 +71,7 @@ router.get('/vendor/profile', requireLogin, getVendorProfile);
 router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
 router.get('/vendor/product_table', requireLogin, getVendorTable);
 router.get('/vendor/manage_locations', requireLogin, getLocationDashboard);
-// router.get('/vendor/sales_reports', requireLogin, getVendorDashboard);
+router.get('/vendor/sales_reports', requireLogin, getSalesReport);
  
 
 /**

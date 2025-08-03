@@ -62,11 +62,26 @@ async function getVendorTable(req, res) {
     }
 }
 
+async function getSalesReport(req, res) {
+    const user = req.session.user;
+
+    if (user.role !== 'vendor') {
+        return res.status(403).send("Access denied.");
+    }
+
+    res.render('vendor/sales_report', {
+        u: user,
+        currentPath: tokenizePath(req.path)
+    });
+}
+
+
 function tokenizePath(path) {
     return path.split('/')[2] || '';
 }
 
 module.exports = {
+    getSalesReport,
     getVendorProfile,
     getVendorDashboard,
     getVendorTable

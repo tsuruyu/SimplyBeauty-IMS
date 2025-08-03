@@ -10,7 +10,7 @@ const database = require('./db');
 database.connect();
 generateSaleLogs();
 
-const TRANSACTIONS = 500;
+const TRANSACTIONS = 1000;
 
 async function generateSaleLogs() {
     try {
@@ -24,7 +24,7 @@ async function generateSaleLogs() {
             console.error('No product storage records found in the database');
             return;
         }
-
+        
         const transactions = [];
         const usernames = ['Johndoe', 'Janedoe', 'Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Heidi'];
         
@@ -34,14 +34,18 @@ async function generateSaleLogs() {
         startDate.setMonth(endDate.getMonth() - 3);
 
         for (let i = 0; i < TRANSACTIONS; i++) {
-            const randomStorage = faker.random.arrayElement(productStorages);
-            const product = randomStorage.product_id;
+            // Pick a random product storage record (regardless of actual quantity)
+            const randomIndex = Math.floor(Math.random() * productStorages.length);
+            const randomStorage = productStorages[randomIndex];
             
-            const maxQuantity = Math.floor(randomStorage.quantity * 0.2) || 1;
-            const quantity = faker.datatype.number({ 
-                min: 1, 
-                max: maxQuantity > 0 ? maxQuantity : 1 
-            });
+            const product = randomStorage.product_id;
+            const storage = randomStorage.storage_id;
+            
+            // Generate a random quantity (1-20 for demo purposes)
+            const quantity = faker.datatype.number({ min: 1, max: 20 });
+            
+            // Generate a fake "previous quantity" (random high number)
+            const previousQuantity = faker.datatype.number({ min: 50, max: 500 });
             
             const randomDate = faker.date.between(startDate, endDate);
             const username = faker.random.arrayElement(usernames);
@@ -50,11 +54,11 @@ async function generateSaleLogs() {
                 username: username,
                 action_type: 'sale',
                 product_id: product._id,
-                storage_id: randomStorage.storage_id._id, // Use the storage's ObjectId
+                storage_id: storage._id,
                 quantity: quantity,
-                previous_value: randomStorage.quantity,
-                new_value: randomStorage.quantity - quantity,
-                description: `${username} bought ${quantity} units of ${product.name} (SKU: ${product.sku}) from ${randomStorage.storage_id.name}.`, // Use storage name
+                previous_value: previousQuantity,  // Fake previous quantity
+                new_value: previousQuantity - quantity,  // Fake new quantity
+                description: `${username} bought ${quantity} units of ${product.name} (SKU: ${product.sku}) from ${storage.name}.`,
                 status: 'success',
                 date: randomDate
             });

@@ -32,12 +32,12 @@ class AuditLogger {
         }
     }
     
-    static async getLogs(filter = {}, limit = 100) {
+    static async getLogs(filter = {}, limit = 100000) {
         return AuditLog.find(filter)
             .sort({ date: -1 })
             .limit(limit)
             .populate('user_id', 'username email')
-            .populate('product_id', 'name price');
+            .populate('product_id', 'name price brand_name');
     }
 }
 

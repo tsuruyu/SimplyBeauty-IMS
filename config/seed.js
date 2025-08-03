@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const faker = require('faker');
 const { Types } = mongoose;
 
 const User = require('../src/models/User');
@@ -81,33 +82,47 @@ async function seedStorage() {
 }
 
 // Seed product-storage relationships
+// Seed product-storage relationships (randomized)
 async function seedProductStorage() {
-    const productStorageData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/product_storage.json'), 'utf-8'));
-    const productMap = await createNameToIdMap(Product);
-    const storageMap = await createNameToIdMap(Storage);
+    // First get all products and storages
+    const products = await Product.find();
+    const storages = await Storage.find();
 
-    const productStorages = productStorageData.map(ps => {
-        const productId = productMap.get(ps.product_name.toLowerCase());
-        const storageId = storageMap.get(ps.storage_name.toLowerCase());
+    if (products.length === 0 || storages.length === 0) {
+        throw new Error('Need at least 1 product and 1 storage location to create relationships');
+    }
 
-        if (!productId) throw new Error(`Product not found: ${ps.product_name}`);
-        if (!storageId) throw new Error(`Storage not found: ${ps.storage_name}`);
+    // Generate 120 random product-storage relationships
+    const productStorages = [];
+    const existingPairs = new Set(); // To avoid duplicates
 
-        return {
-            product_id: productId,
-            storage_id: storageId,
-            quantity: ps.quantity,
-            last_updated: new Date(ps.last_updated)
-        };
-    });
+    while (productStorages.length < 120) {
+        const randomProduct = products[Math.floor(Math.random() * products.length)];
+        const randomStorage = storages[Math.floor(Math.random() * storages.length)];
+        
+        // Create a unique key for this product-storage pair
+        const pairKey = `${randomProduct._id}-${randomStorage._id}`;
+
+        // Only add if this pair doesn't already exist
+        if (!existingPairs.has(pairKey)) {
+            productStorages.push({
+                product_id: randomProduct._id,
+                storage_id: randomStorage._id,
+                quantity: Math.floor(Math.random() * 101), // 0-100
+                last_updated: faker.date.past(1) // Random date in the past year
+            });
+            existingPairs.add(pairKey);
+        }
+    }
 
     await ProductStorage.deleteMany();
     const inserted = await ProductStorage.insertMany(productStorages);
     
+    // Update stock quantities for all affected products
     const productIds = [...new Set(inserted.map(ps => ps.product_id.toString()))];
     await Promise.all(productIds.map(id => updateProductStock(id)));
 
-    console.log(`Seeded ${productStorages.length} product-storage relationships`);
+    console.log(`Seeded ${productStorages.length} randomized product-storage relationships`);
 }
 
 // Reuse the same update function from the model
