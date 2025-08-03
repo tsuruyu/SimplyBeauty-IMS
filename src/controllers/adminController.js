@@ -5,7 +5,7 @@ const { getLogs } = require('./auditController');
 const bcrypt = require('bcrypt');
 
 async function getUsers() {
-    const users = await User.find().lean();
+    const users = await User.find({ role: { $ne: 'admin' } }).lean();
     return users;
 }
 
@@ -73,6 +73,10 @@ async function updateUser(req, res) {
     try {
         const userId = req.params.id;
         const { full_name, email, role, brand_name, password, user_id } = req.body;
+
+        if (role === 'admin') {
+            return res.status(403).json({ message: 'Cannot assign admin role' });
+        }
 
         // Prepare update object dynamically
         const updateData = {
@@ -166,6 +170,10 @@ async function getAllUsers(req, res) {
 async function createUser(req, res) {
     try {
         const { user_id, full_name, email, role, brand_name, password } = req.body;
+
+        if (role === 'admin') {
+            return res.status(403).json({ message: 'Cannot assign admin role' });
+        }
 
         // Validate required fields
         if (!full_name || !email || !role || !password) {
