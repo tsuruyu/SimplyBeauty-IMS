@@ -83,7 +83,6 @@ async function handleLoginRequest(req, res) {
                 try {
                     req.session.user = {
                     id: user._id.toString(),
-                    user_id: user.user_id,
                     full_name: user.full_name,
                     email: user.email,
                     role: user.role,
