@@ -12,8 +12,6 @@ async function getVendorLogs(brandName) {
         .populate('product_id', 'name price brand_name')
         .lean();
 
-    console.log(logs);
-
     return logs.filter(log => 
         log.product_id?.brand_name === brandName
     );

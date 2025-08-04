@@ -26,10 +26,6 @@
                     </svg>
                     ADD PRODUCT
                 </button>
-                <button onclick="openCategoryManagement()" class="bg-purple-600 text-white px-4 py-2 text-sm md:text-base rounded-lg md:rounded-xl font-medium flex items-center justify-center shadow-sm hover:bg-purple-700 transition-colors duration-200">
-                    <i class="fas fa-tags mr-2"></i>
-                    MANAGE CATEGORIES
-                </button>
             </div>
             
         </header>
@@ -136,6 +132,7 @@
             {{!-- THIS IS NOT VERY SECURE, CHANGE LATER --}}
             <input type="hidden" id="brandName" value="{{u.brand_name}}">
             <input type="hidden" id="user-role" value="{{u.role}}">
+            <input type="hidden" id="user-id" value="{{u.id}}">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Add New Product</h3>

@@ -53,8 +53,7 @@ async function handleLoginRequest(req, res) {
             case "employee":
                 try {
                     req.session.user = {
-                    id: user._id,
-                    user_id: user.user_id,
+                    id: user._id.toString(),
                     full_name: user.full_name,
                     email: user.email,
                     role: user.role,
@@ -68,8 +67,7 @@ async function handleLoginRequest(req, res) {
             case "vendor":
                 try {
                     req.session.user = {
-                    id: user._id,
-                    user_id: user.user_id,
+                    id: user._id.toString(),
                     full_name: user.full_name,
                     email: user.email,
                     role: user.role,
@@ -84,7 +82,7 @@ async function handleLoginRequest(req, res) {
             case "admin":
                 try {
                     req.session.user = {
-                    id: user._id,
+                    id: user._id.toString(),
                     user_id: user.user_id,
                     full_name: user.full_name,
                     email: user.email,

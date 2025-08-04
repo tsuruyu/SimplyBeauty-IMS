@@ -26,7 +26,12 @@ const auditSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: function() {
-            return ['sale',
+            if (this.status === 'fail') {
+                return false;
+            }
+
+            return [
+                'sale',
                 'product_add', 'product_update', 'product_remove', 
                 'stock_add', 'stock_decrease', 'stock_update', 'stock_remove',
             ].includes(this.action_type);

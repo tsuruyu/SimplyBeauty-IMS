@@ -75,9 +75,11 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
         image_url: document.getElementById('add-image_url').value || null
     };
 
-    // Only add brand_name if not vendor
     if (getUserRole() !== "vendor") {
         payload.brand_name = document.getElementById('add-brand-name').value;
+    }
+    else {
+        payload.brand_name = document.getElementById('brandName').value;
     }
 
     try {
