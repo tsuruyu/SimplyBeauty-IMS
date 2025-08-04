@@ -1,22 +1,46 @@
 const AuditLogger = require('../services/auditLogger');
 const { Parser } = require('json2csv');
 const PDFDocument = require('pdfkit');
+const { pipeline } = require('stream');
+const { promisify } = require('util');
+const pipelineAsync = promisify(pipeline);
+
+// Helper function to validate and parse dates
+function parseDate(dateString, defaultValue = new Date()) {
+    if (!dateString) return defaultValue;
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? defaultValue : date;
+}
 
 async function generateSalesReport(startDate, endDate, userFilter = {}) {
     const filter = {
         action_type: 'sale',
-        date: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        date: { 
+            $gte: parseDate(startDate, new Date(0)),
+            $lte: parseDate(endDate, new Date())
+        },
         status: 'success',
         ...userFilter
     };
     
-    return AuditLogger.getLogs(filter);
+    // Only fetch necessary fields to reduce data transfer
+    return AuditLogger.getLogs(filter, {
+        date: 1,
+        'user_id.username': 1,
+        'product_id.name': 1,
+        'product_id.price': 1,
+        quantity: 1,
+        status: 1
+    });
 }
 
-// Vendor sales report (only shows their own sales)
 async function vendorSalesReport(req, res) {
     try {
         const { startDate, endDate, format = 'json' } = req.query;
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: 'Start date and end date are required' });
+        }
+        
         const sales = await generateSalesReport(
             startDate, 
             endDate,
@@ -29,12 +53,14 @@ async function vendorSalesReport(req, res) {
     }
 }
 
-// Admin sales report (shows all sales)
 async function adminSalesReport(req, res) {
     try {
         const { startDate, endDate, format = 'json' } = req.query;
-        const sales = await generateSalesReport(startDate, endDate);
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: 'Start date and end date are required' });
+        }
         
+        const sales = await generateSalesReport(startDate, endDate);
         await sendReportResponse(res, sales, format, 'all_sales');
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -42,83 +68,184 @@ async function adminSalesReport(req, res) {
 }
 
 async function sendReportResponse(res, data, format, filenamePrefix) {
-    switch (format) {
-        case 'csv':
-            return sendAsCSV(res, data, filenamePrefix);
-        case 'pdf':
-            return sendAsPDF(res, data, filenamePrefix);
-        default:
-            res.json(data);
+    try {
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `${filenamePrefix}_${timestamp}`;
+
+        switch (format) {
+            case 'csv':
+                return await sendAsCSV(res, data, filename);
+            case 'pdf':
+                return await sendAsPDF(res, data, filename);
+            default:
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Disposition', `attachment; filename="${filename}.json"`);
+                res.send(JSON.stringify(data, null, 2));
+        }
+    } catch (error) {
+        console.error('Error sending report response:', error);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to generate report' });
+        }
     }
 }
 
-function sendAsCSV(res, data, filenamePrefix) {
-    const fields = [
-        'date',
-        'user_id.username',
-        'product_id.name',
-        'quantity',
-        'product_id.price',
-        { label: 'total', value: row => row.quantity * row.product_id.price }
-    ];
-    
-    const json2csv = new Parser({ fields });
-    const csv = json2csv.parse(data);
-    
-    res.header('Content-Type', 'text/csv');
-    res.attachment(`${filenamePrefix}_${new Date().toISOString()}.csv`);
-    res.send(csv);
+async function sendAsCSV(res, data, filename) {
+    try {
+        const fields = [
+            'date',
+            'user_id.username',
+            'product_id.name',
+            'quantity',
+            'product_id.price',
+            { label: 'total', value: row => row.quantity * row.product_id.price }
+        ];
+        
+        const json2csv = new Parser({ fields });
+        
+        // Use streams for large datasets
+        if (data.length > 1000) {
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}.csv"`);
+            
+            // Convert array to readable stream
+            const { Readable } = require('stream');
+            const dataStream = Readable.from(data);
+            
+            // Create transform stream for CSV conversion
+            const csvStream = json2csv.parse(data);
+            
+            await pipelineAsync(
+                dataStream,
+                csvStream,
+                res
+            );
+        } else {
+            // For smaller datasets, use the simpler approach
+            const csv = json2csv.parse(data);
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}.csv"`);
+            res.send(csv);
+        }
+    } catch (error) {
+        console.error('Error generating CSV:', error);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to generate CSV report' });
+        }
+    }
 }
 
-function sendAsPDF(res, data, filenamePrefix) {
-    const doc = new PDFDocument();
-    const filename = `${filenamePrefix}_${new Date().toISOString()}.pdf`;
-    
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-    
-    doc.pipe(res);
-    
-    // PDF Header
-    doc.fontSize(20).text('Sales Report', { align: 'center' });
-    doc.moveDown();
-    
-    // Report details
-    doc.fontSize(12).text(`Generated on: ${new Date().toLocaleString()}`);
-    doc.text(`Total records: ${data.length}`);
-    doc.moveDown();
-    
-    // Table header
-    doc.font('Helvetica-Bold');
-    doc.text('Date', 50, doc.y);
-    doc.text('Product', 150, doc.y);
-    doc.text('Qty', 300, doc.y);
-    doc.text('Price', 350, doc.y);
-    doc.text('Total', 400, doc.y);
-    doc.moveDown();
-    
-    // Table rows
-    doc.font('Helvetica');
-    let totalRevenue = 0;
-    
-    data.forEach(item => {
-        const rowTotal = item.quantity * item.product_id.price;
-        totalRevenue += rowTotal;
+async function sendAsPDF(res, data, filename) {
+    try {
+        const doc = new PDFDocument({
+            size: 'A4',
+            layout: 'landscape',
+            bufferPages: true // Enable buffering for better performance
+        });
         
-        doc.text(item.date.toLocaleDateString(), 50, doc.y);
-        doc.text(item.product_id.name, 150, doc.y);
-        doc.text(item.quantity.toString(), 300, doc.y);
-        doc.text(`$${item.product_id.price.toFixed(2)}`, 350, doc.y);
-        doc.text(`$${rowTotal.toFixed(2)}`, 400, doc.y);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}.pdf"`);
+        
+        // Optimized table rendering
+        const renderTable = (doc, data) => {
+            const startX = 50;
+            let currentY = 100;
+            const columnWidth = 120;
+            const rowHeight = 30;
+            const cellPadding = 10;
+            
+            // Table header
+            doc.font('Helvetica-Bold');
+            doc.rect(startX, currentY, doc.page.width - 100, rowHeight).stroke();
+            
+            let currentX = startX;
+            ['Date', 'Product', 'Qty', 'Price', 'Total'].forEach((header, i) => {
+                doc.text(header, currentX + cellPadding, currentY + cellPadding, {
+                    width: columnWidth,
+                    align: i > 1 ? 'right' : 'left'
+                });
+                if (i < 4) {
+                    doc.moveTo(currentX + columnWidth, currentY)
+                       .lineTo(currentX + columnWidth, currentY + rowHeight)
+                       .stroke();
+                }
+                currentX += columnWidth;
+            });
+            
+            // Table rows
+            doc.font('Helvetica');
+            currentY += rowHeight;
+            let totalRevenue = 0;
+            
+            // Process data in chunks to prevent memory issues
+            const chunkSize = 100;
+            for (let i = 0; i < data.length; i += chunkSize) {
+                const chunk = data.slice(i, i + chunkSize);
+                
+                for (const item of chunk) {
+                    const rowTotal = item.quantity * item.product_id.price;
+                    totalRevenue += rowTotal;
+                    
+                    // Draw row border
+                    doc.rect(startX, currentY, doc.page.width - 100, rowHeight).stroke();
+                    
+                    // Draw cells
+                    currentX = startX;
+                    const rowData = [
+                        item.date.toLocaleDateString(),
+                        item.product_id.name,
+                        item.quantity.toString(),
+                        `$${item.product_id.price.toFixed(2)}`,
+                        `$${rowTotal.toFixed(2)}`
+                    ];
+                    
+                    rowData.forEach((cell, i) => {
+                        doc.text(cell, currentX + cellPadding, currentY + cellPadding, {
+                            width: columnWidth,
+                            align: i > 1 ? 'right' : 'left'
+                        });
+                        if (i < 4) {
+                            doc.moveTo(currentX + columnWidth, currentY)
+                               .lineTo(currentX + columnWidth, currentY + rowHeight)
+                               .stroke();
+                        }
+                        currentX += columnWidth;
+                    });
+                    
+                    currentY += rowHeight;
+                    
+                    // Add new page if we're running out of space
+                    if (currentY > doc.page.height - 100) {
+                        doc.addPage({ size: 'A4', layout: 'landscape' });
+                        currentY = 50;
+                    }
+                }
+            }
+            
+            // Summary
+            doc.moveDown();
+            doc.font('Helvetica-Bold');
+            doc.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, { align: 'right' });
+        };
+        
+        // Pipe the PDF to response
+        doc.pipe(res);
+        
+        // Render the document
+        doc.fontSize(20).text('Sales Report', { align: 'center' });
         doc.moveDown();
-    });
-    
-    // Summary
-    doc.moveDown();
-    doc.font('Helvetica-Bold');
-    doc.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, { align: 'right' });
-    
-    doc.end();
+        doc.fontSize(12).text(`Generated on: ${new Date().toLocaleString()}`);
+        doc.text(`Total records: ${data.length}`);
+        doc.moveDown();
+        
+        renderTable(doc, data);
+        doc.end();
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to generate PDF report' });
+        }
+    }
 }
 
 // API endpoint for getting sales data
@@ -179,7 +306,6 @@ async function getSalesData(req, res) {
     }
 }
 
-// API endpoint for generating reports
 async function generateReport(req, res) {
     try {
         const { startDate, endDate, format = 'json' } = req.query;
@@ -202,7 +328,9 @@ async function generateReport(req, res) {
         }
     } catch (error) {
         console.error('Error generating report:', error);
-        res.status(500).json({ error: 'Failed to generate report' });
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to generate report' });
+        }
     }
 }
 
