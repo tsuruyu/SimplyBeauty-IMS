@@ -15,6 +15,8 @@ async function filterRoles(role) {
 }
 
 async function getAdminProfile(req, res) {
+    const user = req.session.user;
+
     res.render('admin/profile', {
         u: user,
         l: await getLogs(),
@@ -23,6 +25,8 @@ async function getAdminProfile(req, res) {
 }
 
 async function getAdminUserDashboard(req, res) {
+    const user = req.session.user;
+
     try {
         const users = await getUsers();
         res.render('admin/user_table', {
@@ -37,6 +41,7 @@ async function getAdminUserDashboard(req, res) {
 }
 
 async function getAdminProductDashboard(req, res) {
+    const user = req.session.user;
     const products = await getAllProductObjects();
     const categories = await getCategoryObjects();
 

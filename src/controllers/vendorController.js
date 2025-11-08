@@ -7,10 +7,6 @@ const { getVendorProductObjects,
 async function getVendorProfile(req, res) {
     const user = req.session.user;
 
-    if (user.role !== 'vendor') {
-        return res.status(403).send("Access denied.");
-    }
-
     res.render('vendor/profile', {
         u: user,
         l: await getVendorLogs(user.brand_name),
@@ -20,10 +16,6 @@ async function getVendorProfile(req, res) {
 
 async function getVendorDashboard(req, res) {
     const user = req.session.user;
-
-    if (user.role !== 'vendor') {
-        return res.status(403).send("Access denied.");
-    }
 
     try {
         const products = await getVendorProductObjects(user);
@@ -42,10 +34,6 @@ async function getVendorDashboard(req, res) {
 
 async function getVendorTable(req, res) {
     const user = req.session.user;
-
-    if (user.role !== 'vendor') {
-        return res.status(403).send("Access denied.");
-    }
 
     try {
         const products = await getVendorProductObjects(user);
@@ -66,10 +54,6 @@ async function getVendorTable(req, res) {
 
 async function getSalesReport(req, res) {
     const user = req.session.user;
-
-    if (user.role !== 'vendor') {
-        return res.status(403).send("Access denied.");
-    }
 
     res.render('vendor/sales_report', {
         u: user,

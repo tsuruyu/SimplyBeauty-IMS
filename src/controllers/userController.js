@@ -42,10 +42,6 @@ function requireLogin(req, res, next) {
 async function getUserProfile(req, res) {
     const user = req.session.user;
 
-    if (user.role === 'vendor') {
-        return res.status(403).send("Access denied.");
-    }
-
     res.render('user/profile', {
         u: user,
         currentPath: tokenizePath(req.path)
@@ -55,11 +51,6 @@ async function getUserProfile(req, res) {
 // GET /user_dashboard - for employees
 async function getUserDashboard(req, res) {
     const user = req.session.user;
-
-    if (user.role === 'vendor') { // this change is so stupid LMAO
-        return res.status(403).send("Access denied.");
-    }
-
     const products = await getAllProductObjects();
     const categories = await getCategoryObjects();
 
