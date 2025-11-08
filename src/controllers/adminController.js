@@ -15,12 +15,6 @@ async function filterRoles(role) {
 }
 
 async function getAdminProfile(req, res) {
-    const user = req.session.user;
-
-    if (user.role !== 'admin') {
-        return res.status(403).send("Access denied.");
-    }
-
     res.render('admin/profile', {
         u: user,
         l: await getLogs(),
@@ -29,12 +23,6 @@ async function getAdminProfile(req, res) {
 }
 
 async function getAdminUserDashboard(req, res) {
-    const user = req.session.user;
-
-    if (user.role !== 'admin') {
-        return res.status(403).send("Access denied.");
-    }
-
     try {
         const users = await getUsers();
         res.render('admin/user_table', {
@@ -49,13 +37,6 @@ async function getAdminUserDashboard(req, res) {
 }
 
 async function getAdminProductDashboard(req, res) {
-    const user = req.session.user;
-    console.log("User accessed dashboard: ", user);
-
-    if (user.role !== 'admin') { // this change is so stupid LMAO
-        return res.status(403).send("Access denied.");
-    }
-
     const products = await getAllProductObjects();
     const categories = await getCategoryObjects();
 
@@ -67,7 +48,7 @@ async function getAdminProductDashboard(req, res) {
     });
 }
 
-async function updateUser(req, res) {
+async function updateUser(req, res) {    
     try {
         const userId = req.params.id;
         const { full_name, email, role, brand_name, password, user_id } = req.body;
@@ -226,6 +207,13 @@ async function createUser(req, res) {
 function tokenizePath(path) {
     return path.split('/')[2] || '';
 }
+
+// function requireAdmin(user, req, res) {
+//     if (user.role !== 'admin') {
+//         console.log("Access denied for user ", user.id, "with role ", user.role);
+//         return res.status(403).send("Access denied.");
+//     }
+// }
 
 module.exports = {
     getUsers,

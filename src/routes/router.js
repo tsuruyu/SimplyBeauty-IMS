@@ -3,7 +3,8 @@ const path = require('path');
 const router = express.Router();
 
 const { getLoginPage, handleLoginRequest, handleLogoutRequest } = require('../controllers/loginController');
-const { requireLogin, getUserDashboard, getUserProfile } = require('../controllers/userController');
+const { requireLogin, requireAdmin, requireEmployee, requireVendor, 
+        getUserDashboard, getUserProfile } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
         updateUser, deleteUserById, filterUsersByRole, 
@@ -58,35 +59,33 @@ router.post('/login', handleLoginRequest);
 router.get('/logout', handleLogoutRequest);
 
 /**
- * Employee Endpoints
- */
-router.get('/user/profile', requireLogin, getUserProfile);
-router.get('/user/manage_products', requireLogin, getUserDashboard);
-router.get('/user/manage_locations', requireLogin, getLocationDashboard);
-
-
-/**
  * Vendor Endpoints
  */
-router.get('/vendor/profile', requireLogin, getVendorProfile);
-router.get('/vendor/product_dashboard', requireLogin, getVendorDashboard);
-router.get('/vendor/product_table', requireLogin, getVendorTable);
-router.get('/vendor/manage_locations', requireLogin, getLocationDashboard);
-router.get('/vendor/sales_reports', requireLogin, getSalesReport);
- 
+router.get('/vendor/profile', requireVendor, getVendorProfile);
+router.get('/vendor/product_dashboard', requireVendor, getVendorDashboard);
+router.get('/vendor/product_table', requireVendor, getVendorTable);
+router.get('/vendor/manage_locations', requireVendor, getLocationDashboard);
+router.get('/vendor/sales_reports', requireVendor, getSalesReport);
+
+/**
+ * Employee Endpoints
+ */
+router.get('/user/profile', requireEmployee, getUserProfile);
+router.get('/user/manage_products', requireEmployee, getUserDashboard);
+router.get('/user/manage_locations', requireEmployee, getLocationDashboard);
 
 /**
  * Admin Endpoints
  */
-router.get('/admin/profile', requireLogin, getAdminProfile);
-router.get('/admin/manage_users', requireLogin, getAdminUserDashboard);
-router.post('/admin/users', requireLogin, createUser);
-router.put('/admin/users/:id', requireLogin, updateUser);
-router.delete('/admin/users/:id', requireLogin, deleteUserById);
-router.get('/admin/users/filter', requireLogin, filterUsersByRole);
-router.get('/admin/users', requireLogin, getAllUsers); 
-router.get('/admin/manage_products', requireLogin, getAdminProductDashboard);
-router.get('/admin/manage_locations', requireLogin, getLocationDashboard);
+router.get('/admin/profile', requireAdmin, getAdminProfile);
+router.get('/admin/manage_users', requireAdmin, getAdminUserDashboard);
+router.post('/admin/users', requireAdmin, createUser);
+router.put('/admin/users/:id', requireAdmin, updateUser);
+router.delete('/admin/users/:id', requireAdmin, deleteUserById);
+router.get('/admin/users/filter', requireAdmin, filterUsersByRole);
+router.get('/admin/users', requireAdmin, getAllUsers);
+router.get('/admin/manage_products', requireAdmin, getAdminProductDashboard);
+router.get('/admin/manage_locations', requireAdmin, getLocationDashboard);
 
 
 module.exports = router;

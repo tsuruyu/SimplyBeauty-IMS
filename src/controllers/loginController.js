@@ -59,6 +59,7 @@ async function handleLoginRequest(req, res) {
                     role: user.role,
                     created_at: user.created_at
                 };
+                    console.log(req.session.user);
                     return res.redirect("/user/manage_products");
                 } catch (err) {
                     console.error(err);
