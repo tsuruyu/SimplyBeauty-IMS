@@ -33,7 +33,7 @@ async function seedUsers() {
     const users = await Promise.all(usersData.map(async user => {
         return {
             ...user,
-            password_hash: user.password_hash ? await bcrypt.hash(user.password_hash, 10) : undefined,
+            password: user.password ? await bcrypt.hash(user.password, 10) : undefined,
         };
     }));
 

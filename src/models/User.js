@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password_hash: { type: String, required: true },
+    password: { type: String, required: true },
     role: { type: String, required: true, enum: ['admin', 'vendor', 'employee'] },
     full_name: { type: String, required: true },
     brand_name: { type: String, required: function () {

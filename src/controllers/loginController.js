@@ -39,7 +39,7 @@ async function handleLoginRequest(req, res) {
         }
 
         // Check password
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         
         if (!isPasswordValid) {
             return res.render('login', {

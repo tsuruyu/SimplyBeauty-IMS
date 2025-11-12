@@ -1,7 +1,7 @@
 [
   {
     "email": "employee@yahoo.com",
-    "password_hash": "a25406ee2acfc04fa11f21ffdb1fa4dd071ef16ce3e7661d6becca7df6197079",
+    "password": "G7v!rQx9#tLp2s",
     "role": "employee",
     "full_name": "Employee",
     "brand_name": "",
@@ -9,7 +9,7 @@
   },
   {
     "email": "caravan@vendor.com",
-    "password_hash": "17f5d89bd0ee70b879ee129f2cf5a3ebd834c997a092648ea60a9c4b4003a481",
+    "password": "N#4bTz7!kLm9@Qp",
     "role": "vendor",
     "full_name": "Vendori Caravan",
     "brand_name": "Caravan",
@@ -17,7 +17,7 @@
   },
   {
     "email": "admin@gmail.com",
-    "password_hash": "a390c0389ec2f220e35ffc16544249ad2061c9960a34c84d36acedc691e8a2c8",
+    "password": "R8u$Pq3Z!mV6wXs",
     "role": "admin",
     "full_name": "Admin",
     "brand_name": "",
@@ -25,7 +25,7 @@
   },
   {
     "email": "brandiose@vendor.comm",
-    "password_hash": "b7ee70894d70fbf7d762f1f51258392e446318c19f8579a97c9b3e1dcd66000d",
+    "password": "H@5nLr2%Gt9yBk8",
     "role": "vendor",
     "full_name": "Vendora Brandiose",
     "brand_name": "Brandiose",
@@ -33,7 +33,7 @@
   },
   {
     "email": "greeremily@glass.com",
-    "password_hash": "748f32f52bb075ffbd152426b813b6cb7d40045869828d28868062a9411c815e",
+    "password": "S9v&Yp4#Wx1QcRt",
     "role": "admin",
     "full_name": "Ryan Holt",
     "brand_name": "",
@@ -41,7 +41,7 @@
   },
   {
     "email": "adrianrodriguez@black.org",
-    "password_hash": "7d52e7deb3773652e2823ddbdf844645ee792d11eac9c7389ec3f867c0712e55",
+    "password": "M2k!Zt7^Bn5rLpQ",
     "role": "vendor",
     "full_name": "Shelby Hernandez",
     "brand_name": "Trueness",
@@ -49,7 +49,7 @@
   },
   {
     "email": "dwhite@kennedy.info",
-    "password_hash": "c48cb36f3fac7239f99692eb629df752d914dd79b8009d0c2b2ca01d4a8bfd3f",
+    "password": "T6e*Wd3#Fq9JsLp",
     "role": "employee",
     "full_name": "Luis Ramirez",
     "brand_name": "",
@@ -57,7 +57,7 @@
   },
   {
     "email": "julie82@brown-gibson.com",
-    "password_hash": "14aa1ba67f0119289fdcf9944399616487fe62c1c6b6aac60f8e2d2d0d72397f",
+    "password": "V4r$Nc8!Hb2KxZm",
     "role": "admin",
     "full_name": "John Hensley",
     "brand_name": "",
@@ -65,7 +65,7 @@
   },
   {
     "email": "betty80@jordan.com",
-    "password_hash": "8bde307ee9178032c67cc76f455a1862f7f1bb2c9251b5d4420d8447c540e7d5",
+    "password": "C7m@Pr5%Yq2LdVz",
     "role": "employee",
     "full_name": "Monique Rodriguez",
     "brand_name": "",
@@ -73,7 +73,7 @@
   },
   {
     "email": "ian78@gmail.com",
-    "password_hash": "b6eead32be1ca0184f9beb2cf9c53f68109605be2171d10f339d5b18e458464e",
+    "password": "D3s#Qw6!Xp9ZnLb",
     "role": "admin",
     "full_name": "Theresa Cole",
     "brand_name": "",
