@@ -1,68 +1,121 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
-root {
-    font-family: 'Dosis';
+
+body {
+    font-family: 'Dosis', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#content {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#logo img {
+    max-width: 180px;
+    margin-bottom: 20px;
 }
 
 h2 {
     text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
-#content {
-    margin: auto;
-    display: flex;
-    width: 60%;
-    flex-direction: column;
-}
-
-#logo {
-    margin: auto;
-}
-
-#data-pane {
+form {
     width: 100%;
-    max-width: 250px;
-    margin: auto;
-    font-family: 'Dosis';
 }
 
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
 
-#submit {
+input[type="email"],input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Dosis', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus {
+    border-color: #6A5555;
+    outline: none;
+}
+
+button#submit {
     background-color: #6A5555;
     color: white;
-    text-align: center;
-    font-family:'Dosis';
-    border-radius: 0;
+    font-family: 'Dosis', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
     width: 100%;
-    height: 30%;
-    margin: auto;
-    padding: 1%;
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-#username {
-    font-family:'Dosis';
+button#submit:hover {
+    background-color: #5c4747;
 }
 
 .success-message {
-            color: #2e7d32;
-            background-color: #e8f5e8;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            border: 1px solid #a5d6a7;
-        }
+    color: #2e7d32;
+    background-color: #e8f5e8;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #a5d6a7;
+    text-align: center;
+}
+
 .error-message {
     color: #d32f2f;
     background-color: #ffebee;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 6px;
     margin-bottom: 15px;
     border: 1px solid #ffcdd2;
+    text-align: center;
 }
 
-#user-entry input,
-#password-entry input {
-    width: 100%;
-    padding: 2px;
-    box-sizing: border-box;
-    font-family: 'Dosis';
+.security-question {
+    margin-bottom: 10px;
+}
+
+.forgot-password-link {
+    display: block;
+    text-align: center;
+    color: #1976d2;
+    font-size: 0.8rem;
+    font-style: italic;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
 }
