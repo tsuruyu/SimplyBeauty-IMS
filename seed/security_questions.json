@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "question": "What was the name of your first stuffed toy?"
+  },
+  {
+    "id": 2,
+    "question": "What is the name of a teacher who had a strong impact on you?"
+  },
+  {
+    "id": 3,
+    "question": "What is the title of the first book you ever finished reading?"
+  },
+  {
+    "id": 4,
+    "question": "What was the make and model of your first car?"
+  },
+  {
+    "id": 5,
+    "question": "What is the name of the first place you traveled outside your home country?"
+  },
+  {
+    "id": 6,
+    "question": "What is the name of your favorite childhood friend?"
+  },
+  {
+    "id": 7,
+    "question": "What was the name of your first employer?"
+  },
+  {
+    "id": 8,
+    "question": "What city did you go to for your first concert?"
+  },
+  {
+    "id": 9,
+    "question": "What was your favorite subject in high school?"
+  },
+  {
+    "id": 10,
+    "question": "What is the name of the street where your best friend lived?"
+  }
+]

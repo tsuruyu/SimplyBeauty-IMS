@@ -2,7 +2,10 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
-const { getLoginPage, handleLoginRequest, handleLogoutRequest } = require('../controllers/loginController');
+const { 
+    getLoginPage, handleLoginRequest, handleLogoutRequest, getResetPasswordPage,
+    getForgotPasswordPage, handleForgotPasswordRequest, verifySecurityAnswers, handleResetPassword
+} = require('../controllers/loginController');
 const { requireLogin, requireAdmin, requireEmployee, requireVendor, 
         getUserDashboard, getUserProfile } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
@@ -47,6 +50,7 @@ router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage
 router.get('/api/sales', requireLogin, getSalesData);
 router.get('/api/sales/report', requireLogin, generateSalesReport);
 
+
 /**
  * Login/Auth Endpoints
  */
@@ -57,6 +61,11 @@ router.get('/', (req, res) => {
 router.get('/login', getLoginPage);
 router.post('/login', handleLoginRequest);
 router.get('/logout', handleLogoutRequest);
+router.get('/forgot-password', getForgotPasswordPage);
+router.post('/forgot-password', handleForgotPasswordRequest);
+router.post('/verify-security', verifySecurityAnswers);
+router.get('/reset_password', getResetPasswordPage);
+router.post('/reset_password', handleResetPassword);
 
 /**
  * Vendor Endpoints
@@ -67,12 +76,14 @@ router.get('/vendor/product_table', requireVendor, getVendorTable);
 router.get('/vendor/manage_locations', requireVendor, getLocationDashboard);
 router.get('/vendor/sales_reports', requireVendor, getSalesReport);
 
+
 /**
  * Employee Endpoints
  */
 router.get('/user/profile', requireEmployee, getUserProfile);
 router.get('/user/manage_products', requireEmployee, getUserDashboard);
 router.get('/user/manage_locations', requireEmployee, getLocationDashboard);
+
 
 /**
  * Admin Endpoints
@@ -86,6 +97,5 @@ router.get('/admin/users/filter', requireAdmin, filterUsersByRole);
 router.get('/admin/users', requireAdmin, getAllUsers);
 router.get('/admin/manage_products', requireAdmin, getAdminProductDashboard);
 router.get('/admin/manage_locations', requireAdmin, getLocationDashboard);
-
 
 module.exports = router;

@@ -17,7 +17,6 @@ const database = require('./db');
 dotenv.config();
 database.connect();
 
-// Helper function to create case-insensitive name to ID mapping
 async function createNameToIdMap(Model, nameField = 'name') {
     const items = await Model.find({});
     const map = new Map();
@@ -27,13 +26,51 @@ async function createNameToIdMap(Model, nameField = 'name') {
     return map;
 }
 
-// Seed users
 async function seedUsers() {
     const usersData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/user.json'), 'utf-8'));
+    const securityQuestionsData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/security_questions.json'), 'utf-8'));
+
+    // Map question_id → question text
+    const questionMap = new Map(securityQuestionsData.map(q => [q.id, q.question]));
+
     const users = await Promise.all(usersData.map(async user => {
+        const pwd = user.password || {};
+
+        // Hash main password value
+        const passwordValue = typeof pwd.value === 'string'
+            ? await bcrypt.hash(pwd.value, 10)
+            : await bcrypt.hash('defaultPassword123!', 10);
+
+        // Map security_questions array to _1 and _2
+        const sq1 = pwd.security_questions[0] || { question_id: null, answer: '' };
+        const sq2 = pwd.security_questions[1] || { question_id: null, answer: '' };
+
+        const question1Answer = typeof sq1.answer === 'string'
+            ? await bcrypt.hash(sq1.answer, 10)
+            : await bcrypt.hash('', 10);
+
+        const question2Answer = typeof sq2.answer === 'string'
+            ? await bcrypt.hash(sq2.answer, 10)
+            : await bcrypt.hash('', 10);
+
         return {
             ...user,
-            password: user.password ? await bcrypt.hash(user.password, 10) : undefined,
+            password: {
+                value: passwordValue,
+                last_updated: pwd.last_updated || new Date(),
+                security_question_1: [
+                    {
+                        question: sq1.question_id ? questionMap.get(sq1.question_id) || '' : '',
+                        answer: question1Answer
+                    }
+                ],
+                security_question_2: [
+                    {
+                        question: sq2.question_id ? questionMap.get(sq2.question_id) || '' : '',
+                        answer: question2Answer
+                    }
+                ]
+            }
         };
     }));
 
@@ -42,7 +79,6 @@ async function seedUsers() {
     console.log(`Seeded ${users.length} users`);
 }
 
-// Seed categories
 async function seedCategories() {
     const categories = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/category.json'), 'utf-8'));
     await Category.deleteMany();
@@ -50,17 +86,13 @@ async function seedCategories() {
     console.log(`Seeded ${categories.length} categories`);
 }
 
-// Seed products with category references
 async function seedProducts() {
     const productsData = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/product.json'), 'utf-8'));
     const categoryMap = await createNameToIdMap(Category);
 
     const products = productsData.map(product => {
         const categoryId = categoryMap.get(product.category.toLowerCase());
-        if (!categoryId) {
-            throw new Error(`Category not found: ${product.category}`);
-        }
-
+        if (!categoryId) throw new Error(`Category not found: ${product.category}`);
         return {
             ...product,
             category: categoryId,
@@ -73,7 +105,6 @@ async function seedProducts() {
     console.log(`Seeded ${products.length} products`);
 }
 
-// Seed storage locations
 async function seedStorage() {
     const storages = JSON.parse(fs.readFileSync(path.join(__dirname, '../seed/storage.json'), 'utf-8'));
     await Storage.deleteMany();
@@ -81,35 +112,26 @@ async function seedStorage() {
     console.log(`Seeded ${storages.length} storage locations`);
 }
 
-// Seed product-storage relationships
-// Seed product-storage relationships (randomized)
 async function seedProductStorage() {
-    // First get all products and storages
     const products = await Product.find();
     const storages = await Storage.find();
 
-    if (products.length === 0 || storages.length === 0) {
-        throw new Error('Need at least 1 product and 1 storage location to create relationships');
-    }
+    if (products.length === 0 || storages.length === 0)
+        throw new Error('Need at least 1 product and 1 storage location');
 
-    // Generate 120 random product-storage relationships
     const productStorages = [];
-    const existingPairs = new Set(); // To avoid duplicates
+    const existingPairs = new Set();
 
     while (productStorages.length < 120) {
         const randomProduct = products[Math.floor(Math.random() * products.length)];
         const randomStorage = storages[Math.floor(Math.random() * storages.length)];
-        
-        // Create a unique key for this product-storage pair
         const pairKey = `${randomProduct._id}-${randomStorage._id}`;
-
-        // Only add if this pair doesn't already exist
         if (!existingPairs.has(pairKey)) {
             productStorages.push({
                 product_id: randomProduct._id,
                 storage_id: randomStorage._id,
-                quantity: Math.floor(Math.random() * 101), // 0-100
-                last_updated: faker.date.past(1) // Random date in the past year
+                quantity: Math.floor(Math.random() * 101),
+                last_updated: faker.date.past(1)
             });
             existingPairs.add(pairKey);
         }
@@ -117,29 +139,22 @@ async function seedProductStorage() {
 
     await ProductStorage.deleteMany();
     const inserted = await ProductStorage.insertMany(productStorages);
-    
-    // Update stock quantities for all affected products
     const productIds = [...new Set(inserted.map(ps => ps.product_id.toString()))];
     await Promise.all(productIds.map(id => updateProductStock(id)));
 
-    console.log(`Seeded ${productStorages.length} randomized product-storage relationships`);
+    console.log(`Seeded ${productStorages.length} product-storage relationships`);
 }
 
-// Reuse the same update function from the model
 async function updateProductStock(productId) {
     const totalStock = await ProductStorage.aggregate([
         { $match: { product_id: Types.ObjectId.createFromHexString(productId) } },
         { $group: { _id: null, total: { $sum: "$quantity" } } }
     ]);
-    
+
     const newStock = totalStock.length > 0 ? totalStock[0].total : 0;
-    
-    await Product.findByIdAndUpdate(productId, { 
-        stock_qty: newStock 
-    });
+    await Product.findByIdAndUpdate(productId, { stock_qty: newStock });
 }
 
-// Main seeding function
 async function main() {
     try {
         console.time('Seeding completed in');

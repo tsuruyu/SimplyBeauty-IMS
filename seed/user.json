@@ -1,82 +1,68 @@
 [
   {
     "email": "employee@yahoo.com",
-    "password": "G7v!rQx9#tLp2s",
+    "password": {
+      "value": "G7v!rQx9#tLp2s",
+      "last_updated": "2025-11-10T00:00:00Z",
+      "security_questions": [
+        {
+          "question_id": 1,
+          "answer": "Fluffy"
+        },
+        {
+          "question_id": 3,
+          "answer": "The Hobbit"
+        }
+      ]
+    },
     "role": "employee",
     "full_name": "Employee",
     "brand_name": "",
-    "phone": "(439)311-5103"
+    "phone": "(439)311-5103",
+    "created_at": "2025-11-13T00:00:00Z"
   },
   {
     "email": "caravan@vendor.com",
-    "password": "N#4bTz7!kLm9@Qp",
+    "password": {
+      "value": "N#4bTz7!kLm9@Qp",
+      "last_updated": "2025-11-10T00:00:00Z",
+      "security_questions": [
+        {
+          "question_id": 5,
+          "answer": "Japan"
+        },
+        {
+          "question_id": 6,
+          "answer": "Liam"
+        }
+      ]
+    },
     "role": "vendor",
     "full_name": "Vendori Caravan",
     "brand_name": "Caravan",
-    "phone": "147.030.7124"
+    "phone": "147.030.7124",
+    "created_at": "2025-11-10T00:00:00Z"
   },
   {
     "email": "admin@gmail.com",
-    "password": "R8u$Pq3Z!mV6wXs",
+    "password": {
+      "value": "R8u$Pq3Z!mV6wXs",
+      "last_updated": "2025-11-10T00:00:00Z",
+      "security_questions": [
+        {
+          "question_id": 2,
+          "answer": "Mr. Santos"
+        },
+        {
+          "question_id": 8,
+          "answer": "New York"
+        }
+      ]
+    },
     "role": "admin",
     "full_name": "Admin",
     "brand_name": "",
-    "phone": "+1-458-759-9713x707"
-  },
-  {
-    "email": "brandiose@vendor.comm",
-    "password": "H@5nLr2%Gt9yBk8",
-    "role": "vendor",
-    "full_name": "Vendora Brandiose",
-    "brand_name": "Brandiose",
-    "phone": "244-239-6240x967"
-  },
-  {
-    "email": "greeremily@glass.com",
-    "password": "S9v&Yp4#Wx1QcRt",
-    "role": "admin",
-    "full_name": "Ryan Holt",
-    "brand_name": "",
-    "phone": "+1-719-296-3603x41885"
-  },
-  {
-    "email": "adrianrodriguez@black.org",
-    "password": "M2k!Zt7^Bn5rLpQ",
-    "role": "vendor",
-    "full_name": "Shelby Hernandez",
-    "brand_name": "Trueness",
-    "phone": "584.505.7978x8497"
-  },
-  {
-    "email": "dwhite@kennedy.info",
-    "password": "T6e*Wd3#Fq9JsLp",
-    "role": "employee",
-    "full_name": "Luis Ramirez",
-    "brand_name": "",
-    "phone": "+1-024-033-3387x7895"
-  },
-  {
-    "email": "julie82@brown-gibson.com",
-    "password": "V4r$Nc8!Hb2KxZm",
-    "role": "admin",
-    "full_name": "John Hensley",
-    "brand_name": "",
-    "phone": "861.076.0441"
-  },
-  {
-    "email": "betty80@jordan.com",
-    "password": "C7m@Pr5%Yq2LdVz",
-    "role": "employee",
-    "full_name": "Monique Rodriguez",
-    "brand_name": "",
-    "phone": "251-994-6186"
-  },
-  {
-    "email": "ian78@gmail.com",
-    "password": "D3s#Qw6!Xp9ZnLb",
-    "role": "admin",
-    "full_name": "Theresa Cole",
-    "brand_name": "",
-    "phone": "553-645-1943x3842"
+    "phone": "+1-458-759-9713x707",
+    "created_at": "2025-11-13T00:00:00Z"
   }
 ]
