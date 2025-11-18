@@ -128,6 +128,18 @@ async function handleResetPassword(req, res) {
                 security_questions: securityQuestionsData
             });
         }
+        
+        // Enforce minimum password age of 24 hours
+        const ONE_DAY = 24 * 60 * 60 * 1000;
+        const now = Date.now();
+
+        if (now - user.password.last_updated.getTime() < ONE_DAY) {
+            return res.render('reset_password', {
+                email,
+                error: 'Password cannot be changed yet. Minimum password age is 24 hours.',
+                security_questions: securityQuestionsData
+            });
+        }
 
         // Prevent using the old password as the new password
         const isSamePassword = await bcrypt.compare(new_password, user.password.value);
@@ -220,23 +232,74 @@ async function handleLoginRequest(req, res) {
             });
         }
 
-        const valid = await bcrypt.compare(password, user.password.value);
-        if (!valid) {
+        // -----------------------
+        //  ACCOUNT LOCKOUT CHECK
+        // -----------------------
+        const now = new Date();
+        if (user.lock_until && user.lock_until > now) {
+            const minutesLeft = Math.ceil((user.lock_until - now) / 60000);
             return res.render('login', {
                 title: 'Login',
-                error: 'Invalid username or password',
+                error: `Account is locked. Try again in ${minutesLeft} minute(s).`,
                 success: null
             });
         }
 
-        // Store user session
+        // -----------------------
+        //  PASSWORD CHECK
+        // -----------------------
+        const valid = await bcrypt.compare(password, user.password.value);
+        user.last_attempt = now;
+
+        if (!valid) {
+            user.failed_attempts++;
+
+            const attemptsLeft = 5 - user.failed_attempts;
+
+            // Lock after 5 failed attempts
+            if (user.failed_attempts >= 5) {
+                user.lock_until = new Date(Date.now() + 1 * 60 * 1000); // 1 minute
+                user.failed_attempts = 0;
+                await user.save();
+
+                return res.render('login', {
+                    title: 'Login',
+                    error: `Too many failed attempts. Account locked for 1 minute.`,
+                    success: null
+                });
+            }
+
+            await user.save();
+
+            return res.render('login', {
+                title: 'Login',
+                error: `Invalid username or password. Attempts left: ${attemptsLeft}`,
+                success: null
+            });
+        }
+
+
+        // -----------------------
+        //  SUCCESSFUL LOGIN
+        // -----------------------
+        const lastLoginMessage = user.last_login
+            ? `Last login: ${user.last_login.toLocaleString()}`
+            : "This is your first login.";
+
+        user.failed_attempts = 0;
+        user.lock_until = null;
+        user.last_login = now;
+        await user.save();
+
+        // Store session
         req.session.user = {
             id: user._id.toString(),
             full_name: user.full_name,
             email: user.email,
             role: user.role,
             created_at: user.created_at,
-            brand_name: user.brand_name
+            brand_name: user.brand_name,
+            last_login_message: lastLoginMessage
         };
 
         const redirectMap = {

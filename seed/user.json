@@ -3,23 +3,21 @@
     "email": "employee@yahoo.com",
     "password": {
       "value": "G7v!rQx9#tLp2s",
-      "last_updated": "2025-11-10T00:00:00Z",
+      "last_updated": "2025-11-13T00:00:00Z",
       "security_questions": [
-        {
-          "question_id": 1,
-          "answer": "Fluffy"
-        },
-        {
-          "question_id": 3,
-          "answer": "The Hobbit"
-        }
+        { "question_id": 1, "answer": "Fluffy" },
+        { "question_id": 3, "answer": "The Hobbit" }
       ]
     },
     "role": "employee",
     "full_name": "Employee",
     "brand_name": "",
     "phone": "(439)311-5103",
-    "created_at": "2025-11-13T00:00:00Z"
+    "created_at": "2025-11-13T00:00:00Z",
+    "failed_attempts": 0,
+    "lock_until": null,
+    "last_login": null,
+    "last_attempt": null
   },
   {
     "email": "caravan@vendor.com",
@@ -27,42 +25,38 @@
       "value": "N#4bTz7!kLm9@Qp",
       "last_updated": "2025-11-10T00:00:00Z",
       "security_questions": [
-        {
-          "question_id": 5,
-          "answer": "Japan"
-        },
-        {
-          "question_id": 6,
-          "answer": "Liam"
-        }
+        { "question_id": 5, "answer": "Japan" },
+        { "question_id": 6, "answer": "Liam" }
       ]
     },
     "role": "vendor",
     "full_name": "Vendori Caravan",
     "brand_name": "Caravan",
     "phone": "147.030.7124",
-    "created_at": "2025-11-10T00:00:00Z"
+    "created_at": "2025-11-10T00:00:00Z",
+    "failed_attempts": 0,
+    "lock_until": null,
+    "last_login": null,
+    "last_attempt": null
   },
   {
     "email": "admin@gmail.com",
     "password": {
       "value": "R8u$Pq3Z!mV6wXs",
-      "last_updated": "2025-11-10T00:00:00Z",
+      "last_updated": "2025-11-13T00:00:00Z",
       "security_questions": [
-        {
-          "question_id": 2,
-          "answer": "Mr. Santos"
-        },
-        {
-          "question_id": 8,
-          "answer": "New York"
-        }
+        { "question_id": 2, "answer": "Mr. Santos" },
+        { "question_id": 8, "answer": "New York" }
       ]
     },
     "role": "admin",
     "full_name": "Admin",
     "brand_name": "",
     "phone": "+1-458-759-9713x707",
-    "created_at": "2025-11-13T00:00:00Z"
+    "created_at": "2025-11-13T00:00:00Z",
+    "failed_attempts": 0,
+    "lock_until": null,
+    "last_login": null,
+    "last_attempt": null
   }
 ]

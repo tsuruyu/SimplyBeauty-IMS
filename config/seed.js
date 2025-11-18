@@ -36,41 +36,46 @@ async function seedUsers() {
     const users = await Promise.all(usersData.map(async user => {
         const pwd = user.password || {};
 
-        // Hash main password value
-        const passwordValue = typeof pwd.value === 'string'
+        // Ensure password last_updated = created_at
+        const createdAt = user.created_at ? new Date(user.created_at) : new Date();
+        const passwordLastUpdated = pwd.last_updated ? new Date(pwd.last_updated) : createdAt;
+
+        // Hash main password
+        const hashedPasswordValue = typeof pwd.value === 'string'
             ? await bcrypt.hash(pwd.value, 10)
             : await bcrypt.hash('defaultPassword123!', 10);
 
-        // Map security_questions array to _1 and _2
-        const sq1 = pwd.security_questions[0] || { question_id: null, answer: '' };
-        const sq2 = pwd.security_questions[1] || { question_id: null, answer: '' };
+        // Security Q1
+        const sq1 = pwd.security_questions?.[0] || { question_id: null, answer: '' };
+        const hashedAnswer1 = await bcrypt.hash(sq1.answer || '', 10);
 
-        const question1Answer = typeof sq1.answer === 'string'
-            ? await bcrypt.hash(sq1.answer, 10)
-            : await bcrypt.hash('', 10);
-
-        const question2Answer = typeof sq2.answer === 'string'
-            ? await bcrypt.hash(sq2.answer, 10)
-            : await bcrypt.hash('', 10);
+        // Security Q2
+        const sq2 = pwd.security_questions?.[1] || { question_id: null, answer: '' };
+        const hashedAnswer2 = await bcrypt.hash(sq2.answer || '', 10);
 
         return {
             ...user,
             password: {
-                value: passwordValue,
-                last_updated: pwd.last_updated || new Date(),
+                value: hashedPasswordValue,
+                last_updated: passwordLastUpdated,
                 security_question_1: [
                     {
                         question: sq1.question_id ? questionMap.get(sq1.question_id) || '' : '',
-                        answer: question1Answer
+                        answer: hashedAnswer1
                     }
                 ],
                 security_question_2: [
                     {
                         question: sq2.question_id ? questionMap.get(sq2.question_id) || '' : '',
-                        answer: question2Answer
+                        answer: hashedAnswer2
                     }
                 ]
-            }
+            },
+            failed_attempts: 0,
+            lock_until: null,
+            last_login: null,
+            last_attempt: null,
+            created_at: createdAt
         };
     }));
 
