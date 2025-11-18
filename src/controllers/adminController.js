@@ -1,8 +1,14 @@
 const User = require('../models/User');
+const fs = require('fs');
+const path = require('path');
 const { getAllProductObjects } = require('./productController');
 const { getCategoryObjects } = require('./categoryController');
 const { getLogs } = require('./auditController');
 const bcrypt = require('bcrypt');
+
+const securityQuestionsData = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
+);
 
 async function getUsers() {
     const users = await User.find({ role: { $ne: 'admin' } }).lean();
@@ -53,52 +59,38 @@ async function getAdminProductDashboard(req, res) {
     });
 }
 
-async function updateUser(req, res) {    
+async function updateUser(req, res) {
     try {
         const userId = req.params.id;
-        const { full_name, email, role, brand_name, password, user_id } = req.body;
+        const { full_name, email, role, brand_name, password, security_questions } = req.body;
 
-        if (role === 'admin') {
-            return res.status(403).json({ message: 'Cannot assign admin role' });
-        }
+        if (role === 'admin') return res.status(403).json({ message: 'Cannot assign admin role' });
 
-        // Prepare update object dynamically
-        const updateData = {
-            full_name,
-            email,
-            role,
-            user_id,
-        };
+        const updateData = { full_name, email, role };
 
-        // Handle password update if provided
+        // Password update
         if (password && password.trim() !== '') {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            updateData.password_hash = hashedPassword;
+            updateData['password.value'] = await bcrypt.hash(password, 10);
+            updateData['password.last_updated'] = new Date();
         }
 
-        // Check if user_id is unique (excluding current user)
-        if (user_id) {
-            const existingUser = await User.findOne({ user_id: user_id, _id: { $ne: userId } });
-            if (existingUser) {
-                return res.status(400).json({ message: 'Username already exists' });
-            }
-        }
-
-        // Check if email is unique (excluding current user)
-        if (email) {
-            const existingUser = await User.findOne({ email: email.toLowerCase(), _id: { $ne: userId } });
-            if (existingUser) {
-                return res.status(400).json({ message: 'Email is already in use' });
-            }
+        // Security questions update
+        if (security_questions?.length === 2) {
+            updateData['password.security_question_1'] = [{
+                question: security_questions[0].question,
+                answer: await bcrypt.hash(security_questions[0].answer, 10)
+            }];
+            updateData['password.security_question_2'] = [{
+                question: security_questions[1].question,
+                answer: await bcrypt.hash(security_questions[1].answer, 10)
+            }];
         }
 
         if (role === 'vendor') {
-            if (!brand_name || brand_name.trim() === '') {
-                return res.status(400).json({ message: 'Brand name is required for vendors' });
-            }
+            if (!brand_name || brand_name.trim() === '') return res.status(400).json({ message: 'Brand name is required for vendors' });
             updateData.brand_name = brand_name;
         } else {
-            updateData.brand_name = undefined; // Clear it explicitly if not vendor
+            updateData.brand_name = undefined;
         }
 
         await User.findByIdAndUpdate(userId, updateData, { runValidators: true });
@@ -153,51 +145,49 @@ async function getAllUsers(req, res) {
 
 async function createUser(req, res) {
     try {
-        const { user_id, full_name, email, role, brand_name, password } = req.body;
+        const { user_id, full_name, email, role, brand_name, password, security_questions } = req.body;
 
-        if (role === 'admin') {
-            return res.status(403).json({ message: 'Cannot assign admin role' });
-        }
+        if (role === 'admin') return res.status(403).json({ message: 'Cannot assign admin role' });
+        if (!full_name || !email || !role || !password) return res.status(400).json({ message: 'All required fields must be provided' });
 
-        // Validate required fields
-        if (!full_name || !email || !role || !password) {
-            return res.status(400).json({ message: 'All required fields must be provided' });
-        }
-
-        // Check if email is unique
         const existingEmail = await User.findOne({ email: email.toLowerCase() });
-        if (existingEmail) {
-            return res.status(400).json({ message: 'Email is already in use' });
+        if (existingEmail) return res.status(400).json({ message: 'Email is already in use' });
+
+        const validRoles = ['vendor', 'employee'];
+        if (!validRoles.includes(role)) return res.status(400).json({ message: 'Invalid role' });
+
+        if (role === 'vendor' && (!brand_name || brand_name.trim() === '')) {
+            return res.status(400).json({ message: 'Brand name is required for vendors' });
         }
 
-        // Validate role
-        const validRoles = ['admin', 'vendor', 'employee'];
-        if (!validRoles.includes(role)) {
-            return res.status(400).json({ message: 'Invalid role' });
-        }
-
-        // Validate brand_name for vendors
-        if (role === 'vendor') {
-            if (!brand_name || brand_name.trim() === '') {
-                return res.status(400).json({ message: 'Brand name is required for vendors' });
-            }
-        }
-
-        // Hash password
+        // Hash main password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user object
+        // Hash security answers
+        let secQ1 = [], secQ2 = [];
+        if (security_questions?.length === 2) {
+            secQ1 = [{ 
+                question: security_questions[0].question,
+                answer: await bcrypt.hash(security_questions[0].answer, 10)
+            }];
+            secQ2 = [{ 
+                question: security_questions[1].question,
+                answer: await bcrypt.hash(security_questions[1].answer, 10)
+            }];
+        }
+
         const userData = {
+            user_id,
             full_name,
             email: email.toLowerCase(),
-            password_hash: hashedPassword,
-            role
+            role,
+            brand_name: role === 'vendor' ? brand_name : undefined,
+            password: {
+                value: hashedPassword,
+                security_question_1: secQ1,
+                security_question_2: secQ2
+            }
         };
-
-        // Add brand_name only for vendors
-        if (role === 'vendor') {
-            userData.brand_name = brand_name;
-        }
 
         const newUser = new User(userData);
         await newUser.save();
@@ -212,13 +202,6 @@ async function createUser(req, res) {
 function tokenizePath(path) {
     return path.split('/')[2] || '';
 }
-
-// function requireAdmin(user, req, res) {
-//     if (user.role !== 'admin') {
-//         console.log("Access denied for user ", user.id, "with role ", user.role);
-//         return res.status(403).send("Access denied.");
-//     }
-// }
 
 module.exports = {
     getUsers,

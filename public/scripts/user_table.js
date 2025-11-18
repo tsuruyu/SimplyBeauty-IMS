@@ -1,3 +1,61 @@
+const securityQuestions = [
+  { "id": 1, "question": "What was the name of your first stuffed toy?" },
+  { "id": 2, "question": "What is the name of a teacher who had a strong impact on you?" },
+  { "id": 3, "question": "What is the title of the first book you ever finished reading?" },
+  { "id": 4, "question": "What was the make and model of your first car?" },
+  { "id": 5, "question": "What is the name of the first place you traveled outside your home country?" },
+  { "id": 6, "question": "What is the name of your favorite childhood friend?" },
+  { "id": 7, "question": "What was the name of your first employer?" },
+  { "id": 8, "question": "What city did you go to for your first concert?" },
+  { "id": 9, "question": "What was your favorite subject in high school?" },
+  { "id": 10, "question": "What is the name of the street where your best friend lived?" }
+];
+
+function populateSecurityQuestions() {
+    const addQ1 = document.getElementById('add-security-question-1');
+    const addQ2 = document.getElementById('add-security-question-2');
+    const editQ1 = document.getElementById('edit-security-question-1');
+    const editQ2 = document.getElementById('edit-security-question-2');
+
+    [addQ1, addQ2, editQ1, editQ2].forEach(select => {
+        select.innerHTML = '';
+        // Add placeholder
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Select a security question';
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+
+        securityQuestions.forEach(q => {
+            const option = document.createElement('option');
+            option.value = q.question;
+            option.textContent = q.question;
+            select.appendChild(option);
+        });
+    });
+
+    // Add change listeners to prevent duplicate selection
+    addQ1.addEventListener('change', () => updateQuestionOptions(addQ1, addQ2));
+    addQ2.addEventListener('change', () => updateQuestionOptions(addQ1, addQ2));
+    editQ1.addEventListener('change', () => updateQuestionOptions(editQ1, editQ2));
+    editQ2.addEventListener('change', () => updateQuestionOptions(editQ1, editQ2));
+}
+
+function updateQuestionOptions(q1, q2) {
+    const q1Value = q1.value;
+
+    Array.from(q2.options).forEach(option => {
+        if (option.value === q1Value && option.value !== '') {
+            option.disabled = true;
+        } else {
+            option.disabled = false;
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', populateSecurityQuestions);
+
 function openAddModal() {
     document.getElementById('add-user-modal').classList.remove('hidden');
 }
@@ -55,7 +113,17 @@ document.getElementById('add-user-form').addEventListener('submit', async functi
         full_name: document.getElementById('add-full_name').value,
         email: document.getElementById('add-email').value,
         role: document.getElementById('add-role').value,
-        password: document.getElementById('add-password').value
+        password: document.getElementById('add-password').value,
+        security_questions: [
+            {
+                question: document.getElementById('add-security-question-1').value,
+                answer: document.getElementById('add-security-answer-1').value
+            },
+            {
+                question: document.getElementById('add-security-question-2').value,
+                answer: document.getElementById('add-security-answer-2').value
+            }
+        ]
     };
 
     // Add brand_name only if role is vendor
@@ -67,6 +135,16 @@ document.getElementById('add-user-form').addEventListener('submit', async functi
         }
         payload.brand_name = brandName;
     }
+
+    for (let i = 1; i <= 2; i++) {
+        const q = document.getElementById(`add-security-question-${i}`).value;
+        const a = document.getElementById(`add-security-answer-${i}`).value.trim();
+        if (!q || !a) {
+            showInfoMessage(`Please select and answer Security Question ${i}`, 'error');
+            return;
+        }
+    }
+
 
     try {
         const response = await fetch('/admin/users', {
@@ -113,9 +191,30 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         payload.password = password;
     }
 
-    // Optional: remove brand_name if not vendor
+    // Add security questions and answers
+    payload.security_questions = [
+        {
+            question: document.getElementById('edit-security-question-1').value,
+            answer: document.getElementById('edit-security-answer-1').value
+        },
+        {
+            question: document.getElementById('edit-security-question-2').value,
+            answer: document.getElementById('edit-security-answer-2').value
+        }
+    ];
+
+    // Remove brand_name if not vendor
     if (payload.role !== 'vendor') {
         delete payload.brand_name;
+    }
+
+    for (let i = 1; i <= 2; i++) {
+        const q = document.getElementById(`edit-security-question-${i}`).value;
+        const a = document.getElementById(`edit-security-answer-${i}`).value.trim();
+        if (!q || !a) {
+            showInfoMessage(`Please select and answer Security Question ${i}`, 'error');
+            return;
+        }
     }
 
     try {
