@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const fs = require('fs');
 const User = require('../models/User');
+const { validatePasswordStrength } = require("../../public/scripts/passwordPolicy.js");
 
 const securityQuestionsData = JSON.parse(
     fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
@@ -124,6 +125,28 @@ async function handleResetPassword(req, res) {
             return res.render('reset_password', {
                 email,
                 error: 'Invalid request.',
+                security_questions: securityQuestionsData
+            });
+        }
+
+        // Prevent using the old password as the new password
+        const isSamePassword = await bcrypt.compare(new_password, user.password.value);
+
+        if (isSamePassword) {
+            return res.render('reset_password', {
+                email,
+                error: 'New password cannot be the same as your old password.',
+                security_questions: securityQuestionsData
+            });
+        }
+
+        // Validate password strength
+        const pwCheck = validatePasswordStrength(new_password);
+        
+        if (!pwCheck.valid) {
+            return res.render('reset_password', {
+                email,
+                error: pwCheck.errors.join(" "),
                 security_questions: securityQuestionsData
             });
         }
