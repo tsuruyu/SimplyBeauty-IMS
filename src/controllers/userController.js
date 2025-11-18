@@ -10,19 +10,20 @@ function requireLogin(req, res, next) {
 }
 
 // Middleware to ensure user has a specific role
-function requireRole(role) {
+function requireRoles(roles = []) {
     return function (req, res, next) {
         if (!req.session || !req.session.user) {
             return res.redirect('/login');
         }
 
         const user = req.session.user;
+
         if (!user.role) {
             console.log("User role is undefined for user", user.id);
             return res.status(403).send("Access denied.");
         }
 
-        if (user.role !== role) {
+        if (!roles.includes(user.role)) {
             console.log("Access denied for user", user.id, "with role", user.role);
             return res.status(403).send("Access denied.");
         }
@@ -66,15 +67,10 @@ function tokenizePath(path) {
     return path.split('/')[2] || '';
 }
 
-const requireAdmin = requireRole('admin');
-const requireEmployee = requireRole('employee');
-const requireVendor = requireRole('vendor');
 
 module.exports = {
     requireLogin,
-    requireAdmin,
-    requireEmployee,
-    requireVendor,
+    requireRoles,
     getUserProfile,
     getUserDashboard,
 };

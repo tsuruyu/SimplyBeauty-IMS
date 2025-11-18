@@ -6,7 +6,7 @@ const {
     getLoginPage, handleLoginRequest, handleLogoutRequest, getResetPasswordPage,
     getForgotPasswordPage, handleForgotPasswordRequest, verifySecurityAnswers, handleResetPassword
 } = require('../controllers/loginController');
-const { requireLogin, requireAdmin, requireEmployee, requireVendor, 
+const { requireLogin, requireRoles,
         getUserDashboard, getUserProfile } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
@@ -27,28 +27,28 @@ const { getSalesData, generateSalesReport, vendorSalesReport } = require('../con
  * API Endpoints
  */
 // These endpoints are currently not secure, guarded by requireLogin which only checks for unencrypted user session role.
-router.get('/api/products', requireLogin, getAllProducts);
-router.post('/api/products', requireLogin, createProduct);
-router.put('/api/products/:id', requireLogin, updateProduct);
-router.delete('/api/products/:id', requireLogin, deleteProductById);
+router.get('/api/products', requireRoles(['admin', 'vendor']), getAllProducts);
+router.post('/api/products', requireRoles(['admin', 'vendor']), createProduct);
+router.put('/api/products/:id', requireRoles(['admin', 'vendor']), updateProduct);
+router.delete('/api/products/:id', requireRoles(['admin', 'vendor']), deleteProductById);
 
-router.get('/api/categories', requireLogin, getCategory);
-router.post('/api/categories', requireLogin, createCategory);
-router.put('/api/categories/:id', requireLogin, updateCategory);
-router.delete('/api/categories/:id', requireLogin, deleteCategoryById);
+router.get('/api/categories', requireRoles(['admin', 'vendor']), getCategory);
+router.post('/api/categories', requireRoles(['admin', 'vendor']), createCategory);
+router.put('/api/categories/:id', requireRoles(['admin', 'vendor']), updateCategory);
+router.delete('/api/categories/:id', requireRoles(['admin', 'vendor']), deleteCategoryById);
 
-router.get('/api/storages', requireLogin, getAllStorages);
-router.post('/api/storages', requireLogin, createStorage);
-router.put('/api/storages/:id', requireLogin, updateStorage);
-router.delete('/api/storages/:id', requireLogin, deleteStorageById);
-router.get('/api/storages/:id', requireLogin, getStorageDetails);
+router.get('/api/storages', requireRoles(['admin', 'vendor']), getAllStorages);
+router.post('/api/storages', requireRoles(['admin', 'vendor']), createStorage);
+router.put('/api/storages/:id', requireRoles(['admin', 'vendor']), updateStorage);
+router.delete('/api/storages/:id', requireRoles(['admin', 'vendor']), deleteStorageById);
+router.get('/api/storages/:id', requireRoles(['admin', 'vendor']), getStorageDetails);
 
-router.post('/api/product-storage', requireLogin, addProductToStorage);
-router.put('/api/product-storage/:id', requireLogin, updateProductInStorage);
-router.delete('/api/product-storage/:id', requireLogin, removeProductFromStorage);
+router.post('/api/product-storage', requireRoles(['admin', 'vendor']), addProductToStorage);
+router.put('/api/product-storage/:id', requireRoles(['admin', 'vendor']), updateProductInStorage);
+router.delete('/api/product-storage/:id', requireRoles(['admin', 'vendor']), removeProductFromStorage);
 
-router.get('/api/sales', requireLogin, getSalesData);
-router.get('/api/sales/report', requireLogin, generateSalesReport);
+router.get('/api/sales', requireRoles(['admin']), getSalesData);
+router.get('/api/sales/report', requireRoles(['admin']), generateSalesReport);
 
 
 /**
@@ -70,32 +70,32 @@ router.post('/reset_password', handleResetPassword);
 /**
  * Vendor Endpoints
  */
-router.get('/vendor/profile', requireVendor, getVendorProfile);
-router.get('/vendor/product_dashboard', requireVendor, getVendorDashboard);
-router.get('/vendor/product_table', requireVendor, getVendorTable);
-router.get('/vendor/manage_locations', requireVendor, getLocationDashboard);
-router.get('/vendor/sales_reports', requireVendor, getSalesReport);
+router.get('/vendor/profile', requireRoles(['vendor']), getVendorProfile);
+router.get('/vendor/product_dashboard', requireRoles(['vendor']), getVendorDashboard);
+router.get('/vendor/product_table', requireRoles(['vendor']), getVendorTable);
+router.get('/vendor/manage_locations', requireRoles(['vendor']), getLocationDashboard);
+router.get('/vendor/sales_reports', requireRoles(['vendor']), getSalesReport);
 
 
 /**
  * Employee Endpoints
  */
-router.get('/user/profile', requireEmployee, getUserProfile);
-router.get('/user/manage_products', requireEmployee, getUserDashboard);
-router.get('/user/manage_locations', requireEmployee, getLocationDashboard);
+router.get('/user/profile', requireRoles(['employee']), getUserProfile);
+router.get('/user/manage_products', requireRoles(['employee']), getUserDashboard);
+router.get('/user/manage_locations', requireRoles(['employee']), getLocationDashboard);
 
 
 /**
  * Admin Endpoints
  */
-router.get('/admin/profile', requireAdmin, getAdminProfile);
-router.get('/admin/manage_users', requireAdmin, getAdminUserDashboard);
-router.post('/admin/users', requireAdmin, createUser);
-router.put('/admin/users/:id', requireAdmin, updateUser);
-router.delete('/admin/users/:id', requireAdmin, deleteUserById);
-router.get('/admin/users/filter', requireAdmin, filterUsersByRole);
-router.get('/admin/users', requireAdmin, getAllUsers);
-router.get('/admin/manage_products', requireAdmin, getAdminProductDashboard);
-router.get('/admin/manage_locations', requireAdmin, getLocationDashboard);
+router.get('/admin/profile', requireRoles(['admin']), getAdminProfile);
+router.get('/admin/manage_users', requireRoles(['admin']), getAdminUserDashboard);
+router.post('/admin/users', requireRoles(['admin']), createUser);
+router.put('/admin/users/:id', requireRoles(['admin']), updateUser);
+router.delete('/admin/users/:id', requireRoles(['admin']), deleteUserById);
+router.get('/admin/users/filter', requireRoles(['admin']), filterUsersByRole);
+router.get('/admin/users', requireRoles(['admin']), getAllUsers);
+router.get('/admin/manage_products', requireRoles(['admin']), getAdminProductDashboard);
+router.get('/admin/manage_locations', requireRoles(['admin']), getLocationDashboard);
 
 module.exports = router;
