@@ -1,5 +1,5 @@
 # SimplyBeauty - Inventory Management System (IMS)
-For partial requirement of CSSWENG.
+For partial requirement of CSSWENG and CSSECDV. This website source is not deployed and should not be deployed anywhere outside of academic requirement.
 
 # How To Run:
 1. Setup all dependencies. Ensure that you have node.js and npm installed in your device.
