@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const User = require('../models/User');
 const { validatePasswordStrength } = require("../../public/scripts/passwordPolicy.js");
+const AuditLogger = require('../services/auditLogger');
 
 const securityQuestionsData = JSON.parse(
     fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
@@ -208,8 +209,20 @@ async function handleResetPassword(req, res) {
 async function handleLoginRequest(req, res) {
     try {
         const { username, password } = req.body;
+        const ipAddress = req.ip;
 
+        // -----------------------
+        //  INPUT VALIDATION
+        // -----------------------
         if (!username || !password) {
+            await AuditLogger.logAction({
+                username: username || 'unknown',
+                action_type: 'validation_fail',
+                description: `Login attempt with missing username or password from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.render('login', {
                 title: 'Login',
                 error: 'Please enter both username and password',
@@ -224,7 +237,18 @@ async function handleLoginRequest(req, res) {
             ]
         });
 
+        // -----------------------
+        //  INVALID USER
+        // -----------------------
         if (!user) {
+            await AuditLogger.logAction({
+                username,
+                action_type: 'login_failure',
+                description: `Login attempt with invalid username ${username} from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.render('login', {
                 title: 'Login',
                 error: 'Invalid username or password',
@@ -238,6 +262,16 @@ async function handleLoginRequest(req, res) {
         const now = new Date();
         if (user.lock_until && user.lock_until > now) {
             const minutesLeft = Math.ceil((user.lock_until - now) / 60000);
+
+            await AuditLogger.logAction({
+                user_id: user._id,
+                username: user.email,
+                action_type: 'access_denied',
+                description: `Login attempt while account locked for ${minutesLeft} minute(s) from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.render('login', {
                 title: 'Login',
                 error: `Account is locked. Try again in ${minutesLeft} minute(s).`,
@@ -253,14 +287,21 @@ async function handleLoginRequest(req, res) {
 
         if (!valid) {
             user.failed_attempts++;
-
             const attemptsLeft = 5 - user.failed_attempts;
 
-            // Lock after 5 failed attempts
             if (user.failed_attempts >= 5) {
-                user.lock_until = new Date(Date.now() + 1 * 60 * 1000); // 1 minute
+                user.lock_until = new Date(Date.now() + 1 * 60 * 1000); // 1 minute lock
                 user.failed_attempts = 0;
                 await user.save();
+
+                await AuditLogger.logAction({
+                    user_id: user._id,
+                    username: user.email,
+                    action_type: 'login_failure',
+                    description: `Account locked after too many failed login attempts from IP ${ipAddress}`,
+                    status: 'fail',
+                    ip_address: ipAddress
+                });
 
                 return res.render('login', {
                     title: 'Login',
@@ -271,13 +312,21 @@ async function handleLoginRequest(req, res) {
 
             await user.save();
 
+            await AuditLogger.logAction({
+                user_id: user._id,
+                username: user.email,
+                action_type: 'login_failure',
+                description: `Invalid password attempt for ${user.email} from IP ${ipAddress}. Attempts left: ${attemptsLeft}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.render('login', {
                 title: 'Login',
                 error: `Invalid username or password. Attempts left: ${attemptsLeft}`,
                 success: null
             });
         }
-
 
         // -----------------------
         //  SUCCESSFUL LOGIN
@@ -291,7 +340,18 @@ async function handleLoginRequest(req, res) {
         user.last_login = now;
         await user.save();
 
-        // Store session
+        await AuditLogger.logAction({
+            user_id: user._id,
+            username: user.email,
+            action_type: 'login',
+            description: `User ${user.email} logged in successfully from IP ${ipAddress}`,
+            status: 'success',
+            ip_address: ipAddress
+        });
+
+        // -----------------------
+        //  SESSION SETUP
+        // -----------------------
         req.session.user = {
             id: user._id.toString(),
             full_name: user.full_name,
@@ -311,6 +371,7 @@ async function handleLoginRequest(req, res) {
         return res.redirect(redirectMap[user.role] || '/login');
 
     } catch (error) {
+        console.error('Login error:', error);
         return res.render('login', {
             title: 'Login',
             error: 'An error occurred during login. Please try again.',

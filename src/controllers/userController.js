@@ -1,5 +1,6 @@
 const { getCategoryObjects } = require('./categoryController')
 const { getAllProductObjects } = require('./productController');
+const AuditLogger = require('../services/auditLogger');
 
 // Middleware: require user to be logged in
 function requireLogin(req, res, next) {
@@ -11,25 +12,55 @@ function requireLogin(req, res, next) {
 
 // Middleware to ensure user has a specific role
 function requireRoles(roles = []) {
-    return function (req, res, next) {
-        if (!req.session || !req.session.user) {
+    return async function (req, res, next) {
+        const ipAddress = req.ip;
+        const sessionUser = req.session?.user;
+
+        // Not logged in
+        if (!sessionUser) {
+            await AuditLogger.logAction({
+                username: 'guest',
+                action_type: 'access_denied',
+                description: `Unauthorized access attempt to ${req.originalUrl} from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.redirect('/login');
         }
 
-        const user = req.session.user;
+        const { id, email, role } = sessionUser;
 
-        if (!user.role) {
-            console.log("User role is undefined for user", user.id);
+        // Role undefined
+        if (!role) {
+            await AuditLogger.logAction({
+                user_id: id,
+                username: email || 'unknown',
+                action_type: 'access_denied',
+                description: `Access attempt with undefined role to ${req.originalUrl} from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.status(403).send("Access denied.");
         }
 
-        if (!roles.includes(user.role)) {
-            console.log("Access denied for user", user.id, "with role", user.role);
+        // Role not allowed
+        if (!roles.includes(role)) {
+            await AuditLogger.logAction({
+                user_id: id,
+                username: email,
+                action_type: 'access_denied',
+                description: `Unauthorized access attempt by ${email} (role: ${role}) to ${req.originalUrl} from IP ${ipAddress}`,
+                status: 'fail',
+                ip_address: ipAddress
+            });
+
             return res.status(403).send("Access denied.");
         }
 
         next();
-    }
+    };
 }
 
 function requireLogin(req, res, next) {
