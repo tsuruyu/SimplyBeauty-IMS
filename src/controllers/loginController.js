@@ -33,6 +33,15 @@ async function handleForgotPasswordRequest(req, res) {
         const user = await User.findOne({ email });
 
         if (!user) {
+            await AuditLogger.logAction({
+                user_id: user._id,
+                username: user.email,
+                action_type: 'validation_fail',
+                description: `Attempted non-existent ${email} reset from IP ${req.ip}`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+
             return res.render('forgot_password', {
                 title: 'Forgot Password',
                 error: 'Email not found',
@@ -81,6 +90,15 @@ async function verifySecurityAnswers(req, res) {
         ]);
 
         if (!isValid.every(Boolean)) {
+            await AuditLogger.logAction({
+                user_id: user._id,
+                username: user.email,
+                action_type: 'validation_fail',
+                description: `Failed security question verification for ${user.email} from IP ${req.ip}`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+
             return res.render('forgot_password', {
                 email,
                 questions: [

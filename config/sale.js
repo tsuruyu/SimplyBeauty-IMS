@@ -10,7 +10,7 @@ const database = require('./db');
 database.connect();
 generateSaleLogs();
 
-const TRANSACTIONS = 1000;
+const TRANSACTIONS = 333;
 
 async function generateSaleLogs() {
     try {

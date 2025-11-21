@@ -6,7 +6,8 @@ const {
     getLoginPage, handleLoginRequest, handleLogoutRequest, getResetPasswordPage,
     getForgotPasswordPage, handleForgotPasswordRequest, verifySecurityAnswers, handleResetPassword
 } = require('../controllers/loginController');
-const { requireRoles, getUserDashboard, getUserProfile } = require('../controllers/userController');
+const { requireRoles, getUserDashboard, getUserProfile,
+        getChangePasswordPage, handleChangePassword } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
         updateUser, deleteUserById, filterUsersByRole, 
@@ -26,15 +27,15 @@ const { getSalesData, generateSalesReport, vendorSalesReport } = require('../con
  * API Endpoints
  */
 // These endpoints are currently not secure, guarded by requireLogin which only checks for unencrypted user session role.
-router.get('/api/products', requireRoles(['admin', 'employee']), getAllProducts);
-router.post('/api/products', requireRoles(['admin', 'employee']), createProduct);
-router.put('/api/products/:id', requireRoles(['admin', 'employee']), updateProduct);
-router.delete('/api/products/:id', requireRoles(['admin', 'employee']), deleteProductById);
+router.get('/api/products', requireRoles(['admin', 'employee', 'vendor']), getAllProducts);
+router.post('/api/products', requireRoles(['admin', 'employee', 'vendor']), createProduct);
+router.put('/api/products/:id', requireRoles(['admin', 'employee', 'vendor']), updateProduct);
+router.delete('/api/products/:id', requireRoles(['admin', 'employee', 'vendor']), deleteProductById);
 
-router.get('/api/categories', requireRoles(['admin', 'employee']), getCategory);
-router.post('/api/categories', requireRoles(['admin', 'employee']), createCategory);
-router.put('/api/categories/:id', requireRoles(['admin', 'employee']), updateCategory);
-router.delete('/api/categories/:id', requireRoles(['admin', 'employee']), deleteCategoryById);
+router.get('/api/categories', requireRoles(['admin', 'employee', 'vendor']), getCategory);
+router.post('/api/categories', requireRoles(['admin', 'employee', 'vendor']), createCategory);
+router.put('/api/categories/:id', requireRoles(['admin', 'employee', 'vendor']), updateCategory);
+router.delete('/api/categories/:id', requireRoles(['admin', 'employee', 'vendor']), deleteCategoryById);
 
 router.get('/api/storages', requireRoles(['admin', 'employee']), getAllStorages);
 router.post('/api/storages', requireRoles(['admin', 'employee']), createStorage);
@@ -74,6 +75,8 @@ router.get('/vendor/product_dashboard', requireRoles(['vendor']), getVendorDashb
 router.get('/vendor/product_table', requireRoles(['vendor']), getVendorTable);
 router.get('/vendor/manage_locations', requireRoles(['vendor']), getLocationDashboard);
 router.get('/vendor/sales_reports', requireRoles(['vendor']), getSalesReport);
+router.get('/vendor/profile/change_password', requireRoles(['vendor']), getChangePasswordPage);
+router.post('/vendor/profile/change_password', requireRoles(['vendor']), handleChangePassword)
 
 
 /**
@@ -82,7 +85,8 @@ router.get('/vendor/sales_reports', requireRoles(['vendor']), getSalesReport);
 router.get('/user/profile', requireRoles(['employee']), getUserProfile);
 router.get('/user/manage_products', requireRoles(['employee']), getUserDashboard);
 router.get('/user/manage_locations', requireRoles(['employee']), getLocationDashboard);
-
+router.get('/user/profile/change_password', requireRoles(['employee']), getChangePasswordPage);
+router.post('/user/profile/change_password', requireRoles(['employee']), handleChangePassword)
 
 /**
  * Admin Endpoints
@@ -96,5 +100,7 @@ router.get('/admin/users/filter', requireRoles(['admin']), filterUsersByRole);
 router.get('/admin/users', requireRoles(['admin']), getAllUsers);
 router.get('/admin/manage_products', requireRoles(['admin']), getAdminProductDashboard);
 router.get('/admin/manage_locations', requireRoles(['admin']), getLocationDashboard);
+router.get('/admin/profile/change_password', requireRoles(['admin']), getChangePasswordPage);
+router.post('/admin/profile/change_password', requireRoles(['admin']), handleChangePassword)
 
 module.exports = router;

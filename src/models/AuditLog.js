@@ -7,7 +7,7 @@ const auditSchema = new Schema({
         ref: 'User',
         required: function() {
             // Required for all actions except generic 'guest' actions
-            return !['validation_fail', 'access_denied'].includes(this.action_type);
+            return !['sale', 'validation_fail', 'access_denied'].includes(this.action_type);
         }
     },
     username: {
@@ -24,7 +24,7 @@ const auditSchema = new Schema({
             'sale',
             'product_add', 'product_update', 'product_remove',
             'stock_add', 'stock_decrease', 'stock_update', 'stock_remove',
-            'login', 'login_failure', 'validation_fail', 'access_denied'
+            'login', 'login_failure', 'validation_fail', 'access_denied', 'change_password'
         ]
     },
     product_id: {

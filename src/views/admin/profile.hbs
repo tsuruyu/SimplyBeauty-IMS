@@ -34,12 +34,22 @@
                         <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-gray-800">{{u.email}}</div>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-gray-600 text-sm font-medium mb-1">Password</label>
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-gray-800">********</div>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-gray-600 text-sm font-medium mb-1">Role</label>
                         <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-gray-800 capitalize">{{u.role}}</div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-600 text-sm font-medium mb-1">Account Created</label>
                         <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-gray-800">{{formatDate u.created_at}}</div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <a href="/admin/profile/change_password" 
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            Change Password
+                        </a>
                     </div>
                 </div>
             </div>
