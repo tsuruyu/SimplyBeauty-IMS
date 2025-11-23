@@ -17,6 +17,9 @@ const database = require('./db');
 dotenv.config();
 database.connect();
 
+const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
+
+
 async function createNameToIdMap(Model, nameField = 'name') {
     const items = await Model.find({});
     const map = new Map();
@@ -42,16 +45,16 @@ async function seedUsers() {
 
         // Hash main password
         const hashedPasswordValue = typeof pwd.value === 'string'
-            ? await bcrypt.hash(pwd.value, 10)
-            : await bcrypt.hash('defaultPassword123!', 10);
+            ? await bcrypt.hash(pwd.value, SALT_ROUNDS)
+            : await bcrypt.hash('defaultPassword123!', 10); // Default password if none provided
 
         // Security Q1
         const sq1 = pwd.security_questions?.[0] || { question_id: null, answer: '' };
-        const hashedAnswer1 = await bcrypt.hash(sq1.answer || '', 10);
+        const hashedAnswer1 = await bcrypt.hash(sq1.answer || '', SALT_ROUNDS);
 
         // Security Q2
         const sq2 = pwd.security_questions?.[1] || { question_id: null, answer: '' };
-        const hashedAnswer2 = await bcrypt.hash(sq2.answer || '', 10);
+        const hashedAnswer2 = await bcrypt.hash(sq2.answer || '', SALT_ROUNDS);
 
         return {
             ...user,

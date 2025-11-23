@@ -4,13 +4,16 @@ const fs = require('fs');
 const User = require('../models/User');
 const { validatePasswordStrength } = require("../../public/scripts/passwordPolicy.js");
 const AuditLogger = require('../services/auditLogger');
+require('dotenv').config();
 
+const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
+const ALLOWED_ATTEMPTS = 5; // password attempts before lockout
 const securityQuestionsData = JSON.parse(
     fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
 );
 
 // ------------------------
-// LOGIN PAGES
+// LOGIN PAGE
 // ------------------------
 async function getLoginPage(req, res) {
     res.render('login', { title: 'Login', error: null, success: null });
@@ -171,6 +174,24 @@ async function handleResetPassword(req, res) {
             });
         }
 
+        // Prevent using any previous password from history
+        if (user.password.prev_value) {
+            const previousPasswords = Array.isArray(user.password.prev_value)
+                ? user.password.prev_value
+                : [user.password.prev_value];
+
+            for (const oldPw of previousPasswords) {
+                const reused = await bcrypt.compare(new_password, oldPw);
+                if (reused) {
+                    return res.render('reset_password', {
+                        email,
+                        error: "New password cannot match any of your previously used passwords.",
+                        security_questions: securityQuestionsData
+                    });
+                }
+            }
+        }
+
         // Validate password strength
         const pwCheck = validatePasswordStrength(new_password);
         
@@ -183,8 +204,19 @@ async function handleResetPassword(req, res) {
         }
 
         // Update password
-        user.password.value = await bcrypt.hash(new_password, 10);
+        user.password.value = await bcrypt.hash(new_password, SALT_ROUNDS);
         user.password.last_updated = new Date();
+
+        // Keep password history (up to last 5)
+        if (!Array.isArray(user.password.prev_value)) {
+            user.password.prev_value = [];
+        }
+
+        user.password.prev_value.unshift(user.password.value); // push recent old PW to history
+
+        // limit history to last 5
+        user.password.prev_value = user.password.prev_value.slice(0, 5);
+
 
         // Update security questions
         const updated = [];
@@ -195,7 +227,7 @@ async function handleResetPassword(req, res) {
             const rawAnswer = (q.answer ?? "").trim();
 
             const answer = rawAnswer
-                ? await bcrypt.hash(rawAnswer, 10)
+                ? await bcrypt.hash(rawAnswer, SALT_ROUNDS)
                 : user.password[`security_question_${i + 1}`][0].answer;
 
             updated.push({ question: q.question, answer });
@@ -285,7 +317,7 @@ async function handleLoginRequest(req, res) {
                 user_id: user._id,
                 username: user.email,
                 action_type: 'access_denied',
-                description: `Login attempt while account locked for ${minutesLeft} minute(s) from IP ${ipAddress}`,
+                description: `Login attempt for ${user.email} while account locked for ${minutesLeft} minute(s) from IP ${ipAddress}`,
                 status: 'fail',
                 ip_address: ipAddress
             });
@@ -305,9 +337,9 @@ async function handleLoginRequest(req, res) {
 
         if (!valid) {
             user.failed_attempts++;
-            const attemptsLeft = 5 - user.failed_attempts;
+            const attemptsLeft = ALLOWED_ATTEMPTS - user.failed_attempts;
 
-            if (user.failed_attempts >= 5) {
+            if (user.failed_attempts >= ALLOWED_ATTEMPTS) {
                 user.lock_until = new Date(Date.now() + 1 * 60 * 1000); // 1 minute lock
                 user.failed_attempts = 0;
                 await user.save();
@@ -316,7 +348,7 @@ async function handleLoginRequest(req, res) {
                     user_id: user._id,
                     username: user.email,
                     action_type: 'login_failure',
-                    description: `Account locked after too many failed login attempts from IP ${ipAddress}`,
+                    description: `Account locked after too many failed login attempts for ${user.email} from IP ${ipAddress}`,
                     status: 'fail',
                     ip_address: ipAddress
                 });
@@ -341,7 +373,7 @@ async function handleLoginRequest(req, res) {
 
             return res.render('login', {
                 title: 'Login',
-                error: `Invalid username or password. Attempts left: ${attemptsLeft}`,
+                error: `Invalid username or password.`,
                 success: null
             });
         }
@@ -389,7 +421,6 @@ async function handleLoginRequest(req, res) {
         return res.redirect(redirectMap[user.role] || '/login');
 
     } catch (error) {
-        console.error('Login error:', error);
         return res.render('login', {
             title: 'Login',
             error: 'An error occurred during login. Please try again.',

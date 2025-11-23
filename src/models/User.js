@@ -5,6 +5,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: {
         value: { type: String, required: true },
+        prev_value: [{ type: String }],
         last_updated: { type: Date, default: Date.now },
         security_question_1: [{
             question: { type: String, required: true },

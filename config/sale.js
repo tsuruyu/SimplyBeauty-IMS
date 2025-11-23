@@ -26,7 +26,7 @@ async function generateSaleLogs() {
         }
         
         const transactions = [];
-        const usernames = ['Johndoe', 'Janedoe', 'Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Heidi'];
+        const usernames = ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Frank', 'Grace', 'Heidi'];
         
         // 3 months range
         const endDate = new Date();
@@ -56,15 +56,15 @@ async function generateSaleLogs() {
                 product_id: product._id,
                 storage_id: storage._id,
                 quantity: quantity,
-                previous_value: previousQuantity,  // Fake previous quantity
-                new_value: previousQuantity - quantity,  // Fake new quantity
+                previous_value: previousQuantity,
+                new_value: previousQuantity - quantity,
                 description: `${username} bought ${quantity} units of ${product.name} (SKU: ${product.sku}) from ${storage.name}.`,
                 status: 'success',
                 date: randomDate
             });
         }
 
-        await AuditLog.deleteMany({ action_type: 'sale' });
+        await AuditLog.deleteMany();
         await AuditLog.insertMany(transactions);
         console.log(`Successfully generated ${transactions.length} sales`);
 
