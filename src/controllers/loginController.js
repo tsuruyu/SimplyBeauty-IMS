@@ -16,8 +16,17 @@ const securityQuestionsData = JSON.parse(
 // LOGIN PAGE
 // ------------------------
 async function getLoginPage(req, res) {
-    res.render('login', { title: 'Login', error: null, success: null });
+    const success =
+        req.query.reset === 'success' ? 'Password and security questions updated successfully!' : null;
+        req.query.logout === 'success' ? 'You have logged out.' : null;
+
+    res.render('login', {
+        title: 'Login',
+        error: null,
+        success
+    });
 }
+
 
 // ------------------------
 // FORGOT PASSWORD START
@@ -113,7 +122,9 @@ async function verifySecurityAnswers(req, res) {
         }
 
         // Proceed to password reset
-        return res.redirect(`/reset_password?email=${email}`);
+        req.session.password_reset_email = email;
+        return res.redirect('/reset_password');
+
 
     } catch (err) {
         return res.render('forgot_password', {
@@ -127,7 +138,15 @@ async function verifySecurityAnswers(req, res) {
 // STEP 3: SHOW RESET PASSWORD PAGE
 // ------------------------
 async function getResetPasswordPage(req, res) {
-    const { email } = req.query;
+    const email = req.session.password_reset_email;
+
+    if (!email) {
+        return res.render('login', {
+            title: 'Login',
+            error: 'Unauthorized request. Please restart password reset.',
+            success: null
+        });
+    }
 
     return res.render('reset_password', {
         email,
@@ -135,12 +154,23 @@ async function getResetPasswordPage(req, res) {
     });
 }
 
+
 // ------------------------
 // STEP 4: RESET PASSWORD + QUESTIONS
 // ------------------------
 async function handleResetPassword(req, res) {
     try {
-        const { email, new_password, new_questions } = req.body;
+        const email = req.session.password_reset_email;
+        const { new_password, new_questions } = req.body;
+
+        if (!email) {
+            return res.render('login', {
+                title: 'Login',
+                error: 'Unauthorized reset attempt.',
+                success: null
+            });
+        }
+
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -238,11 +268,10 @@ async function handleResetPassword(req, res) {
 
         await user.save();
 
-        return res.render('login', {
-            email,
-            success: 'Password and security questions updated successfully!',
-            security_questions: securityQuestionsData
-        });
+        req.session.password_reset_email = null;
+
+        return res.redirect('/login?reset=success');
+
 
     } catch (err) {
         return res.render('reset_password', {

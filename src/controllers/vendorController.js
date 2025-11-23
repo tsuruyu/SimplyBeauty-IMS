@@ -27,7 +27,6 @@ async function getVendorDashboard(req, res) {
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {
-        console.error("Failed to load vendor dashboard:", error);
         res.status(500).send("Server error loading vendor dashboard.");
     }
 }
@@ -47,7 +46,6 @@ async function getVendorTable(req, res) {
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {
-        console.error("Failed to load vendor table:", error);
         res.status(500).send("Server error loading vendor table.");
     }
 }

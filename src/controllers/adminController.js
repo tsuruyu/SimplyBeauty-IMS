@@ -1,14 +1,18 @@
 const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const { getAllProductObjects } = require('./productController');
 const { getCategoryObjects } = require('./categoryController');
 const { getLogs } = require('./auditController');
-const bcrypt = require('bcrypt');
+const { validatePasswordStrength } = require("../../public/scripts/passwordPolicy.js");
+require('dotenv').config();
 
-const securityQuestionsData = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
-);
+const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 10;
+
+// const securityQuestionsData = JSON.parse(
+//     fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
+// );
 
 async function getUsers() {
     const users = await User.find({ role: { $ne: 'admin' } }).lean();
@@ -41,7 +45,6 @@ async function getAdminUserDashboard(req, res) {
             currentPath: tokenizePath(req.path)
         });
     } catch (error) {
-        console.error("Failed to load admin user dashboard:", error);
         res.status(500).send("Server error loading admin user dashboard.");
     }
 }
@@ -64,30 +67,81 @@ async function updateUser(req, res) {
         const userId = req.params.id;
         const { full_name, email, role, brand_name, password, security_questions } = req.body;
 
-        if (role === 'admin') return res.status(403).json({ message: 'Cannot assign admin role' });
+        if (role === 'admin') 
+            return res.status(403).json({ message: 'Cannot assign admin role' });
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
         const updateData = { full_name, email, role };
 
-        // Password update
-        if (password && password.trim() !== '') {
-            updateData['password.value'] = await bcrypt.hash(password, 10);
-            updateData['password.last_updated'] = new Date();
+        // -------------------------------
+        // PASSWORD UPDATE LOGIC
+        // -------------------------------
+        if (password && password.trim() !== "") {
+
+            // 1. Validate password strength
+            const pwCheck = validatePasswordStrength(password);
+            if (!pwCheck.valid) {
+                return res.status(400).json({ message: pwCheck.errors.join(" ") });
+            }
+
+            // 2. Check against current password
+            const isSame = await bcrypt.compare(password, user.password.value);
+            if (isSame) {
+                return res.status(400).json({ message: "New password cannot be the same as old password." });
+            }
+
+            // 3. Check against password history
+            if (user.password.prev_value) {
+                const previous = Array.isArray(user.password.prev_value)
+                    ? user.password.prev_value
+                    : [user.password.prev_value];
+
+                for (const old of previous) {
+                    const reused = await bcrypt.compare(password, old);
+                    if (reused) {
+                        return res.status(400).json({ message: "New password cannot match any previously used password." });
+                    }
+                }
+            }
+
+            // 4. Hash new password
+            const hashed = await bcrypt.hash(password, SALT_ROUNDS);
+
+            // 5. Update password history (max 5)
+            if (!Array.isArray(user.password.prev_value)) {
+                user.password.prev_value = [];
+            }
+            user.password.prev_value.unshift(user.password.value);
+            user.password.prev_value = user.password.prev_value.slice(0, 5);
+
+            // 6. Assign new password
+            updateData["password.value"] = hashed;
+            updateData["password.last_updated"] = new Date();
         }
 
-        // Security questions update
+        // -------------------------------
+        // SECURITY QUESTIONS UPDATE
+        // -------------------------------
         if (security_questions?.length === 2) {
-            updateData['password.security_question_1'] = [{
+            updateData["password.security_question_1"] = [{
                 question: security_questions[0].question,
-                answer: await bcrypt.hash(security_questions[0].answer, 10)
+                answer: await bcrypt.hash(security_questions[0].answer, SALT_ROUNDS)
             }];
-            updateData['password.security_question_2'] = [{
+            updateData["password.security_question_2"] = [{
                 question: security_questions[1].question,
-                answer: await bcrypt.hash(security_questions[1].answer, 10)
+                answer: await bcrypt.hash(security_questions[1].answer, SALT_ROUNDS)
             }];
         }
 
+        // -------------------------------
+        // VENDOR BRAND NAME RULE
+        // -------------------------------
         if (role === 'vendor') {
-            if (!brand_name || brand_name.trim() === '') return res.status(400).json({ message: 'Brand name is required for vendors' });
+            if (!brand_name || brand_name.trim() === "") {
+                return res.status(400).json({ message: "Brand name is required for vendors." });
+            }
             updateData.brand_name = brand_name;
         } else {
             updateData.brand_name = undefined;
@@ -96,11 +150,12 @@ async function updateUser(req, res) {
         await User.findByIdAndUpdate(userId, updateData, { runValidators: true });
 
         res.status(200).json({ message: 'User updated successfully' });
+
     } catch (error) {
-        console.error('Update error:', error);
         res.status(500).json({ message: 'Failed to update user' });
     }
 }
+
 
 async function deleteUserById(req, res) {
     try {
@@ -114,7 +169,6 @@ async function deleteUserById(req, res) {
         await User.findByIdAndDelete(userId);
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
-        console.error('Delete error:', error);
         res.status(500).json({ message: 'Failed to delete user' });
     }
 }
@@ -128,7 +182,6 @@ async function filterUsersByRole(req, res) {
         const users = await filterRoles(role);
         res.status(200).json(users);
     } catch (error) {
-        console.error('Filter users by role error:', error);
         res.status(500).json({ message: 'Failed to filter users by role' });
     }
 }
@@ -138,7 +191,6 @@ async function getAllUsers(req, res) {
         const users = await getUsers();
         res.status(200).json(users);
     } catch (error) {
-        console.error('Get all users error:', error);
         res.status(500).json({ message: 'Failed to get users' });
     }
 }
@@ -148,7 +200,8 @@ async function createUser(req, res) {
         const { user_id, full_name, email, role, brand_name, password, security_questions } = req.body;
 
         if (role === 'admin') return res.status(403).json({ message: 'Cannot assign admin role' });
-        if (!full_name || !email || !role || !password) return res.status(400).json({ message: 'All required fields must be provided' });
+        if (!full_name || !email || !role || !password)
+            return res.status(400).json({ message: 'All required fields must be provided' });
 
         const existingEmail = await User.findOne({ email: email.toLowerCase() });
         if (existingEmail) return res.status(400).json({ message: 'Email is already in use' });
@@ -156,27 +209,38 @@ async function createUser(req, res) {
         const validRoles = ['vendor', 'employee'];
         if (!validRoles.includes(role)) return res.status(400).json({ message: 'Invalid role' });
 
-        if (role === 'vendor' && (!brand_name || brand_name.trim() === '')) {
+        if (role === 'vendor' && (!brand_name || brand_name.trim() === ''))
             return res.status(400).json({ message: 'Brand name is required for vendors' });
+
+        // ------------------------------------
+        // PASSWORD POLICY CHECK
+        // ------------------------------------
+        const pwCheck = validatePasswordStrength(password);
+        if (!pwCheck.valid) {
+            return res.status(400).json({ message: pwCheck.errors.join(" ") });
         }
 
-        // Hash main password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // ------------------------------------
+        // HASH PASSWORD
+        // ------------------------------------
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-        // Hash security answers
+        // ------------------------------------
+        // SECURITY QUESTIONS
+        // ------------------------------------
         let secQ1 = [], secQ2 = [];
         if (security_questions?.length === 2) {
-            secQ1 = [{ 
+            secQ1 = [{
                 question: security_questions[0].question,
-                answer: await bcrypt.hash(security_questions[0].answer, 10)
+                answer: await bcrypt.hash(security_questions[0].answer, SALT_ROUNDS)
             }];
-            secQ2 = [{ 
+            secQ2 = [{
                 question: security_questions[1].question,
-                answer: await bcrypt.hash(security_questions[1].answer, 10)
+                answer: await bcrypt.hash(security_questions[1].answer, SALT_ROUNDS)
             }];
         }
 
-        const userData = {
+        const newUser = new User({
             user_id,
             full_name,
             email: email.toLowerCase(),
@@ -184,20 +248,22 @@ async function createUser(req, res) {
             brand_name: role === 'vendor' ? brand_name : undefined,
             password: {
                 value: hashedPassword,
+                prev_value: [],          // initialize password history
+                last_updated: new Date(),
                 security_question_1: secQ1,
                 security_question_2: secQ2
             }
-        };
+        });
 
-        const newUser = new User(userData);
         await newUser.save();
 
         res.status(201).json({ message: 'User created successfully' });
+
     } catch (error) {
-        console.error('Create user error:', error);
         res.status(500).json({ message: 'Failed to create user' });
     }
 }
+
 
 function tokenizePath(path) {
     return path.split('/')[2] || '';
