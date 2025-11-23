@@ -2,6 +2,7 @@ const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const AuditLogger = require('../services/auditLogger');
 const { getAllProductObjects } = require('./productController');
 const { getCategoryObjects } = require('./categoryController');
 const { getLogs } = require('./auditController');
@@ -10,9 +11,15 @@ require('dotenv').config();
 
 const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 10;
 
-// const securityQuestionsData = JSON.parse(
-//     fs.readFileSync(path.join(__dirname, '../../seed/security_questions.json'), 'utf-8')
-// );
+function validateAlphanumericMax50(fields) {
+    const alphanumericRegex = /^[a-zA-Z0-9\s@._-]{1,50}$/;
+    for (const [key, value] of Object.entries(fields)) {
+        if (value && !alphanumericRegex.test(value)) {
+            return `Invalid input for ${key}. Only alphanumeric characters and @ . _ - are allowed (max 50 chars).`;
+        }
+    }
+    return null;
+}
 
 async function getUsers() {
     const users = await User.find({ role: { $ne: 'admin' } }).lean();
@@ -147,6 +154,24 @@ async function updateUser(req, res) {
             updateData.brand_name = undefined;
         }
 
+        // Validate max char
+        const validationError = validateAlphanumericMax50({
+            full_name,
+            email,
+            brand_name
+        });
+        if (validationError) {
+            await AuditLogger.logAction({
+                user_id: req.session.user?.id,
+                username: req.session.user?.email,
+                action_type: 'validation_fail',
+                description: `Failed user update: ${validationError}`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+            return res.status(400).json({ message: validationError });
+        }
+
         await User.findByIdAndUpdate(userId, updateData, { runValidators: true });
 
         res.status(200).json({ message: 'User updated successfully' });
@@ -254,6 +279,24 @@ async function createUser(req, res) {
                 security_question_2: secQ2
             }
         });
+
+        // Validate alphanumeric max 50
+        const validationError = validateAlphanumericMax50({
+            full_name,
+            email,
+            brand_name
+        });
+        if (validationError) {
+            await AuditLogger.logAction({
+                user_id: req.session.user?.id,
+                username: req.session.user?.email,
+                action_type: 'validation_fail',
+                description: `Failed user creation: ${validationError}`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+            return res.status(400).json({ message: validationError });
+        }
 
         await newUser.save();
 

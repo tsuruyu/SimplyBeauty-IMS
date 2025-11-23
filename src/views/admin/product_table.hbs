@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="relative mt-2 sm:mt-0 w-full sm:w-48 md:w-64">
-                    <input type="text" id="search-input" placeholder="Search products..." class="bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-8 pr-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">
+                    <input type="text" id="search-input" placeholder="Search products..."  maxlength="50" class="bg-gray-100 border border-gray-300 rounded-lg md:rounded-xl pl-8 pr-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full">
                     <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                         <i class="fas fa-search text-gray-400 text-sm md:text-base"></i>
                     </div>
@@ -141,15 +141,15 @@
                     <form id="add-product-form" class="mt-2 px-7 py-3">
                         <div class="mb-4">
                             <label for="add-name" class="block text-sm font-medium text-gray-700 text-left">Name</label>
-                            <input type="text" id="add-name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="add-name" name="name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="add-sku" class="block text-sm font-medium text-gray-700 text-left">SKU</label>
-                            <input type="text" id="add-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="add-sku" name="sku" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="add-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
-                            <input type="text" id="add-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="add-brand-name" name="brand-name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="add-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
@@ -161,7 +161,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="add-price" class="block text-sm font-medium text-gray-700 text-left">Price</label>
-                            <input type="number" step="0.01" id="add-price" name="price" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="number" step="0.01" id="add-price" name="price" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="add-description" class="block text-sm font-medium text-gray-700 text-left">Description</label>
@@ -169,7 +169,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="add-image_url" class="block text-sm font-medium text-gray-700 text-left">Image URL</label>
-                            <input type="url" id="add-image_url" name="image_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="url" id="add-image_url" name="image_url" maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="items-center px-4 py-3">
                             <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -193,15 +193,15 @@
                         <input type="hidden" id="edit-product_id" name="_id">
                         <div class="mb-4">
                             <label for="edit-name" class="block text-sm font-medium text-gray-700 text-left">Name</label>
-                            <input type="text" id="edit-name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="edit-name" name="name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-sku" class="block text-sm font-medium text-gray-700 text-left">SKU</label>
-                            <input type="text" id="edit-sku" name="sku" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="edit-sku" name="sku" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-brand-name" class="block text-sm font-medium text-gray-700 text-left">Brand Name</label>
-                            <input type="text" id="edit-brand-name" name="brand-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="edit-brand-name" name="brand-name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-category" class="block text-sm font-medium text-gray-700 text-left">Category</label>
@@ -213,7 +213,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="edit-price" class="block text-sm font-medium text-gray-700 text-left">Price</label>
-                            <input type="number" step="0.01" id="edit-price" name="price" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="number" step="0.01" id="edit-price" name="price" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-description" class="block text-sm font-medium text-gray-700 text-left">Description</label>
@@ -221,7 +221,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="edit-image_url" class="block text-sm font-medium text-gray-700 text-left">Image URL</label>
-                            <input type="url" id="edit-image_url" name="image_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="url" id="edit-image_url" name="image_url" maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="items-center px-4 py-3">
                             <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -276,7 +276,7 @@
                         <form id="add-category-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div>
                                 <label for="new-category-name" class="block text-sm font-medium text-gray-700">Name</label>
-                                <input type="text" id="new-category-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                                <input type="text" id="new-category-name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                             </div>
                             <div>
                                 <label for="new-category-bg" class="block text-sm font-medium text-gray-700">Background Color</label>
@@ -337,7 +337,7 @@
                         <input type="hidden" id="edit-category-id">
                         <div class="mb-4">
                             <label for="edit-cat-name" class="block text-sm font-medium text-gray-700 text-left">Name</label>
-                            <input type="text" id="edit-cat-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <input type="text" id="edit-cat-name" required maxlength="50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                         </div>
                         <div class="mb-4">
                             <label for="edit-cat-bg" class="block text-sm font-medium text-gray-700 text-left">Background Color</label>

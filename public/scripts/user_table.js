@@ -168,7 +168,7 @@ document.getElementById('add-user-form').addEventListener('submit', async functi
             showInfoMessage(error.message || 'Failed to add user.', 'error');
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('An error occurred while adding user.', 'error');
     }
 });
@@ -235,7 +235,7 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
             showInfoMessage(error.message || 'Failed to update user.', 'error');
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('An error occurred while updating user.', 'error');
     }
 });
@@ -258,7 +258,7 @@ async function deleteUser() {
             showInfoMessage(error.message || 'Failed to delete user.', 'error');
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('An error occurred while deleting user.', 'error');
     }
 }
@@ -319,7 +319,7 @@ document.getElementById('filter-btn').addEventListener('click', async function()
 
         updateUserTable(users);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('Failed to filter users.', 'error');
     }
 });
@@ -396,7 +396,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 
             updateUserTable(users);
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             showInfoMessage('Failed to search users.', 'error');
         }
     }, 300); // 300ms delay for better performance

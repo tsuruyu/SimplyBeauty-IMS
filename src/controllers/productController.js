@@ -173,6 +173,19 @@ async function createProduct(req, res) {
             brand_name
         });
 
+        const parsedPrice = parseFloat(price);
+        if (isNaN(parsedPrice) || parsedPrice <= 0 || parsedPrice > 4294967296) {
+            await AuditLogger.logAction({
+                user_id,
+                username: req.session.user?.email,
+                action_type: 'validation_fail',
+                description: `Failed product creation: Price "${price}" invalid.`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+            return res.status(400).json({ message: 'Invalid price.' });
+        }
+
         await newProduct.save();
 
         await AuditLogger.logAction({
@@ -252,6 +265,20 @@ async function updateProduct(req, res) {
             { name, sku, category: categoryDoc._id, price: parseFloat(price), description, image_url, brand_name },
             { new: true, runValidators: true }
         );
+
+        const parsedPrice = parseFloat(price);
+        if (isNaN(parsedPrice) || parsedPrice <= 0 || parsedPrice > 4294967296) {
+            await AuditLogger.logAction({
+                user_id,
+                username: req.session.user?.email,
+                action_type: 'validation_fail',
+                description: `Failed product update: Price "${price}" invalid`,
+                status: 'fail',
+                ip_address: req.ip
+            });
+            return res.status(400).json({ message: 'Invalid price.' });
+        }
+
 
         await AuditLogger.logAction({
             user_id,

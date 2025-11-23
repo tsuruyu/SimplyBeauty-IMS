@@ -6,7 +6,7 @@ const {
     getLoginPage, handleLoginRequest, handleLogoutRequest, getResetPasswordPage,
     getForgotPasswordPage, handleForgotPasswordRequest, verifySecurityAnswers, handleResetPassword
 } = require('../controllers/loginController');
-const { requireRoles, getUserDashboard, getUserProfile,
+const { requireLogin, requireRoles, getUserDashboard, getUserProfile,
         getChangePasswordPage, handleChangePassword } = require('../controllers/userController');
 const { getVendorDashboard, getVendorTable, getVendorProfile, getSalesReport } = require('../controllers/vendorController'); 
 const { getAdminUserDashboard, getAdminProductDashboard, getAdminProfile,
@@ -33,22 +33,22 @@ router.put('/api/products/:id', requireRoles(['admin', 'employee', 'vendor']), u
 router.delete('/api/products/:id', requireRoles(['admin', 'employee', 'vendor']), deleteProductById);
 
 router.get('/api/categories', requireRoles(['admin', 'employee', 'vendor']), getCategory);
-router.post('/api/categories', requireRoles(['admin', 'employee', 'vendor']), createCategory);
-router.put('/api/categories/:id', requireRoles(['admin', 'employee', 'vendor']), updateCategory);
-router.delete('/api/categories/:id', requireRoles(['admin', 'employee', 'vendor']), deleteCategoryById);
+router.post('/api/categories', requireRoles(['admin']), createCategory);
+router.put('/api/categories/:id', requireRoles(['admin']), updateCategory);
+router.delete('/api/categories/:id', requireRoles(['admin']), deleteCategoryById);
 
-router.get('/api/storages', requireRoles(['admin', 'employee']), getAllStorages);
-router.post('/api/storages', requireRoles(['admin', 'employee']), createStorage);
-router.put('/api/storages/:id', requireRoles(['admin', 'employee']), updateStorage);
-router.delete('/api/storages/:id', requireRoles(['admin', 'employee']), deleteStorageById);
-router.get('/api/storages/:id', requireRoles(['admin', 'employee']), getStorageDetails);
+router.get('/api/storages', requireRoles(['admin', 'employee', 'vendor']), getAllStorages);
+router.post('/api/storages', requireRoles(['admin', 'employee', 'vendor']), createStorage);
+router.put('/api/storages/:id', requireRoles(['admin', 'employee', 'vendor']), updateStorage);
+router.delete('/api/storages/:id', requireRoles(['admin', 'employee', 'vendor']), deleteStorageById);
+router.get('/api/storages/:id', requireRoles(['admin', 'employee', 'vendor']), getStorageDetails);
 
-router.post('/api/product-storage', requireRoles(['admin', 'employee']), addProductToStorage);
-router.put('/api/product-storage/:id', requireRoles(['admin', 'employee']), updateProductInStorage);
-router.delete('/api/product-storage/:id', requireRoles(['admin', 'employee']), removeProductFromStorage);
+router.post('/api/product-storage', requireRoles(['admin', 'employee', 'vendor']), addProductToStorage);
+router.put('/api/product-storage/:id', requireRoles(['admin', 'employee', 'vendor']), updateProductInStorage);
+router.delete('/api/product-storage/:id', requireRoles(['admin', 'employee', 'vendor']), removeProductFromStorage);
 
-router.get('/api/sales', requireRoles(['admin']), getSalesData);
-router.get('/api/sales/report', requireRoles(['admin']), generateSalesReport);
+router.get('/api/sales', requireRoles(['admin', 'vendor']), getSalesData);
+router.get('/api/sales/report', requireRoles(['admin', 'vendor']), generateSalesReport);
 
 
 /**

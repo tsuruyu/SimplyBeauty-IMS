@@ -162,7 +162,7 @@ document.getElementById('add-product-form').addEventListener('submit', async fun
             showInfoMessage(error.message || 'Failed to add product.', 'error');
         }
     } catch (err) {
-        console.error('Submission error:', err);
+        // console.error('Submission error:', err);
         showInfoMessage('An error occurred while adding product.', 'error');
         closeAddModal();
     }
@@ -210,7 +210,7 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
             showInfoMessage(error.message || 'Failed to update product.', 'error');
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('An error occurred while updating product.', 'error');
     }
 });
@@ -237,7 +237,7 @@ async function deleteProduct() {
             showInfoMessage(error.message || 'Failed to delete product.', 'error');
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         showInfoMessage('An error occurred while deleting product.', 'error');
     }
 }
@@ -296,7 +296,7 @@ if (getUserRole() !== 'vendor') {
                 });
             })
             .catch(err => {
-                console.error('Error loading categories:', err);
+                // console.error('Error loading categories:', err);
                 showInfoMessage('Failed to load categories', 'error');
             });
     }
