@@ -50,7 +50,6 @@ router.delete('/api/product-storage/:id', requireRoles(['admin', 'employee', 've
 router.get('/api/sales', requireRoles(['admin', 'vendor']), getSalesData);
 router.get('/api/sales/report', requireRoles(['admin', 'vendor']), generateSalesReport);
 
-
 /**
  * Login/Auth Endpoints
  */
@@ -102,5 +101,9 @@ router.get('/admin/manage_products', requireRoles(['admin']), getAdminProductDas
 router.get('/admin/manage_locations', requireRoles(['admin']), getLocationDashboard);
 router.get('/admin/profile/change_password', requireRoles(['admin']), getChangePasswordPage);
 router.post('/admin/profile/change_password', requireRoles(['admin']), handleChangePassword)
+
+router.use((req, res) => {
+    res.status(404).render('404');
+});
 
 module.exports = router;
