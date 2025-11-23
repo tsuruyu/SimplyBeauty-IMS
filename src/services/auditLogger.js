@@ -33,7 +33,7 @@ class AuditLogger {
             await logEntry.save();
             return logEntry;
         } catch (error) {
-            console.error('Audit logging failed:', error);
+            // console.error('Audit logging failed:', error);
         }
     }
 
