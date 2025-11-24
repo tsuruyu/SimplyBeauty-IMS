@@ -6,6 +6,11 @@ async function getLogs() {
     return logs;
 }
 
+async function getSales() {
+    const logs = await Audit.find({action_type: 'sale'}).sort({ date: -1 }).lean();
+    return logs;
+}
+
 async function getVendorLogs(brandName) {
     const logs = await Audit.find()
         .sort({ date: -1 })
@@ -19,5 +24,6 @@ async function getVendorLogs(brandName) {
 
 module.exports = {
     getLogs,
+    getSales,
     getVendorLogs
 }

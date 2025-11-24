@@ -1,6 +1,7 @@
 const { getCategoryObjects } = require('./categoryController');
 const { getAllProductObjects } = require('./productController');
 const { validatePasswordStrength } = require("../../public/scripts/passwordPolicy.js");
+const { getSales } = require('./auditController')
 const AuditLogger = require('../services/auditLogger');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
@@ -70,6 +71,7 @@ function requireRoles(roles = []) {
 async function getUserProfile(req, res) {
     res.render('user/profile', {
         u: req.session.user,
+        l: await getSales(),
         currentPath: tokenizePath(req.path)
     });
 }
